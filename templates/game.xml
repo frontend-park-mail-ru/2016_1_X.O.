@@ -1,2 +1,11 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div id="game" class="container">
+        <div class="container center" id="header">
+            <h2>Tic tac toe</h2>
+        </div>
+        <div class="container collection center">
+            <a class="collection-item btn center" id="win">Press to win</a>
+            <a class="collection-item btn center" id="main">Main menu</a>
+        </div>
+    </div>
 </fest:template>

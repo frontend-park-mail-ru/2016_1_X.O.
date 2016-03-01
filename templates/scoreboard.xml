@@ -1,2 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div id="scoreboard" class="container">
+        <div class="container center" id="header">
+            <h2>Scoreboard</h2>
+        </div>
+    </div>
 </fest:template>

@@ -1,2 +1,30 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
+    <div id="login" class="container">
+        <div class="container center" id="header">
+            <h2>Login</h2>
+        </div>
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email-input" type="email" class="validate"/>
+                    <label for="email-input">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password-input" type="password" class="validate"/>
+                    <label for="password-input">Password</label>
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn waves-effect waves-light" type="submit" id="login-input">
+                    Login
+                </button>
+            </div>
+            <div class="row">
+                <a class="btn left" id="register">Register</a>
+                <a class="btn right" id="main">Main menu</a>
+            </div>
+        </form>
+    </div>
 </fest:template>
