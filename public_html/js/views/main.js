@@ -7,16 +7,18 @@ define(function (require) {
             template: tmpl,
 
             initialize: function () {
-
+                this.render();
             },
             render: function () {
-
+                this.$el.html(this.template());
+                return this;
             },
             show: function () {
-
+                $('#page').html(this.el);
+                this.$el.show();
             },
             hide: function () {
-
+                this.$el.hide();
             }
         });
 
