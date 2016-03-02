@@ -3,5 +3,8 @@
         <div class="container center" id="header">
             <h2>Scoreboard</h2>
         </div>
+        <div class="row center">
+            <a class="btn" id="main" href="#">Main menu</a>
+        </div>
     </div>
 </fest:template>

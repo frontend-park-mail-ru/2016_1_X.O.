@@ -1,26 +1,12 @@
 define(function (require) {
 
-        var Backbone = require('backbone'),
+        var BaseView = require('views/base'),
             tmpl = require('tmpl/login');
 
-        var loginView = Backbone.View.extend({
-            template: tmpl,
-
-            initialize: function () {
-
-            },
-            render: function () {
-
-            },
-            show: function () {
-
-            },
-            hide: function () {
-
-            }
-
+        var View = BaseView.extend({
+            template: tmpl
         });
 
-        return new loginView();
+        return new View();
     }
 );

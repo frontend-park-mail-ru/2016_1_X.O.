@@ -1,7 +1,3 @@
-define(function (require) {
-        var Backbone = require('backbone');
-        var Router = require('router');
-
-        Backbone.history.start();
-    }
-);
+define(['backbone', 'router', 'materialize'], function (Backbone) {
+    Backbone.history.start();
+});
