@@ -22,8 +22,8 @@
                 </button>
             </div>
             <div class="row">
-                <a class="btn left" id="register">Register</a>
-                <a class="btn right" id="main">Main menu</a>
+                <a class="btn left" id="register" href="#register">Register</a>
+                <a class="btn right" id="main" href="#">Main menu</a>
             </div>
         </form>
     </div>

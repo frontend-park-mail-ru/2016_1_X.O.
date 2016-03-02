@@ -1,28 +1,27 @@
-define([
-    'backbone',
-    'tmpl/scoreboard'
-], function(
-    Backbone,
-    tmpl
-){
+define(function (require) {
 
-    var View = Backbone.View.extend({
+        var Backbone = require('backbone'),
+            tmpl = require('tmpl/scoreboard');
 
-        template: tmpl,
-        initialize: function () {
-            // TODO
-        },
-        render: function () {
-            // TODO
-        },
-        show: function () {
-            // TODO
-        },
-        hide: function () {
-            // TODO
-        }
+        var scoreboardView = Backbone.View.extend({
+            template: tmpl,
 
-    });
+            initialize: function () {
+                //TODO
+            },
 
-    return new View();
-});
+            render: function () {
+            },
+
+            show: function () {
+
+            },
+
+            hide: function () {
+
+            }
+        });
+
+        return new scoreboardView();
+    }
+);

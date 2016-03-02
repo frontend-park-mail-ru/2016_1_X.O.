@@ -1,19 +1,18 @@
-require.config({
+var require = {
     urlArgs: "_=" + (new Date()).getTime(),
     baseUrl: "js",
     paths: {
-        jQuery: "lib/jquery",
+        jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone",
-        materialize: 'lib/materialize'
+        backbone: "lib/backbone"
     },
     shim: {
         'backbone': {
-            deps: ['underscore', 'jquery', 'materialize'],
+            deps: ['underscore', 'jquery'],
             exports: 'Backbone'
         },
         'underscore': {
             exports: '_'
         }
     }
-});
+};

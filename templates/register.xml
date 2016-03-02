@@ -26,7 +26,7 @@
             <button class="btn waves-effect waves-light left" type="submit" id="register-input">
                 Register
             </button>
-            <a class="btn right" id="main">Main menu</a>
+            <a class="btn right" id="main" href="#">Main menu</a>
         </div>
         </form>
     </div>

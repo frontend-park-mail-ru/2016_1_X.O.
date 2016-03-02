@@ -1,9 +1,7 @@
-define([
-    'backbone',
-    'router'
-], function(
-    Backbone,
-    router
-){
-    Backbone.history.start();
-});
+define(function (require) {
+        var Backbone = require('backbone');
+        var Router = require('router');
+
+        Backbone.history.start();
+    }
+);

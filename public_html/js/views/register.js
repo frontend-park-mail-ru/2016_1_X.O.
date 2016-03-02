@@ -1,26 +1,27 @@
 define(function (require) {
 
         var Backbone = require('backbone'),
-            tmpl = require('tmpl/game');
+            tmpl = require('tmpl/register');
 
-        var gameView = Backbone.View.extend({
+        var registerView = Backbone.View.extend({
             template: tmpl,
 
             initialize: function () {
-                // TODO
+                //TODO
             },
-            render: function () {
-                // TODO
-            },
-            show: function () {
-                // TODO
-            },
-            hide: function () {
-                // TODO
-            }
 
+            render: function () {
+            },
+
+            show: function () {
+
+            },
+
+            hide: function () {
+
+            }
         });
 
-        return new gameView();
+        return new registerView();
     }
 );

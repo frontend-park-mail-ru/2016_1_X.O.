@@ -1,26 +1,46 @@
-define(
-    ['backbone', 'views/main', 'views/scoreboard', 'views/game', 'views/login', 'views/register'],
-    function (Backbone) {
+define(function (require) {
+        var Backbone = require('backbone'),
+            mainView = require('views/main'),
+            gameView = require('views/game'),
+            loginView = require('views/login'),
+            scoreboardView = require('views/scoreboard'),
+            registerView = require('views/register');
+
         var Router = Backbone.Router.extend({
-            routes: {
-                'scoreboard': 'scoreboardAction',
-                'game': 'gameAction',
-                'login': 'loginAction',
-                '*default': 'defaultActions'
-            },
-            defaultActions: function () {
-                // TODO
-            },
-            scoreboardAction: function () {
-                // TODO
-            },
-            gameAction: function () {
-                // TODO
-            },
-            loginAction: function () {
-                // TODO
+                routes: {
+                    '': 'mainAction',
+                    'login': 'loginAction',
+                    'register': 'registerAction',
+                    'scoreboard': 'scoreboardAction',
+                    'game': 'gameAction',
+                    '*default': 'defaultAction'
+                },
+                mainAction: function () {
+                    mainView.show();
+                    console.log('main');
+                },
+                loginAction: function () {
+                    loginView.show();
+                    console.log('login');
+                },
+                registerAction: function () {
+                    registerView.show();
+                    console.log('reg');
+                },
+                scoreboardAction: function () {
+                    scoreboardView.show();
+                    console.log('score');
+                },
+                gameAction: function () {
+                    gameView.show();
+                    console.log('game');
+                },
+                defaultAction: function () {
+                    console.log('def');
+                }
             }
-        });
+        );
 
         return new Router();
-    });
+    }
+);
