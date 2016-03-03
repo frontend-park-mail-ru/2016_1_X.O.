@@ -1,7 +1,27 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
     <div id="scoreboard" class="container">
         <div class="container center" id="header">
             <h2>Scoreboard</h2>
+        </div>
+        <div class="container center" id="board">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-field="id">Player</th>
+                        <th data-field="name">Score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <fest:for iterate="data.scores" index="i" value="v">
+                        <tr>
+                            <td><fest:value>v.name</fest:value></td>
+                            <td><fest:value>v.score</fest:value></td>
+                        </tr>
+                    </fest:for>
+                </tbody>
+            </table>
+
         </div>
         <div class="row center">
             <a class="btn" id="main" href="#">Main menu</a>

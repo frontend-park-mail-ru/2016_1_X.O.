@@ -1,12 +1,21 @@
 define(function (require) {
 
-        var BaseView = require('views/base'),
-            tmpl = require('tmpl/scoreboard');
+        var Backbone = require('backbone'),
+            BaseView = require('views/base'),
+            tmpl = require('tmpl/scoreboard'),
+            ScoreboardCollection = require('collections/scores');
 
-        var View = BaseView.extend({
-            template: tmpl
+        var ScoreboardView = BaseView.extend({
+            template: tmpl,
+
+            render: function () {
+                this.$el.html(this.template({scores: ScoreboardCollection.toJSON()}));
+                return this;
+            },
+
+            collection: ScoreboardCollection
         });
 
-        return new View();
+        return new ScoreboardView();
     }
 );

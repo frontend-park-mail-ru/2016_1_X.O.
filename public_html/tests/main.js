@@ -1,11 +1,13 @@
 // QUnit.config.autostart = false;
-require.config({
+rrequire.config({
     urlArgs: "_=" + (new Date()).getTime(),
-    baseUrl: "../js",
+    baseUrl: "js",
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone"
+        backbone: "lib/backbone",
+        materialize: "lib/materialize",
+        hammerjs: "lib/hammer.min"
     },
     shim: {
         'backbone': {
@@ -14,6 +16,13 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        'materialize': {
+            deps: ['jquery', 'hammerjs'],
+            exports: 'Materialize'
+        },
+        'hammerjs': {
+            exports: 'Hammer'
         }
     }
 });

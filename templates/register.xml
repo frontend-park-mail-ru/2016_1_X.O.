@@ -1,5 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <div id="" class="container">
+    <div id="register" class="container">
         <div class="container center" id="header">
             <h2>Register</h2>
         </div>

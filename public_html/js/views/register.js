@@ -1,12 +1,13 @@
 define(function (require) {
 
-        var BaseView = require('views/base'),
+        var Backbone = require('backbone'),
+            BaseView = require('views/base'),
             tmpl = require('tmpl/register');
 
-        var View = BaseView.extend({
+        var RegisterView = BaseView.extend({
             template: tmpl
         });
 
-        return new View();
+        return new RegisterView();
     }
 );

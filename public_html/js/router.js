@@ -16,22 +16,22 @@ define(function (require) {
             },
 
             initialize: function () {
-
+                this.$page = $('#page');
             },
             loginAction: function () {
-                LoginView.show();
+                this.$page.html(LoginView.render().$el)
             },
             registerAction: function () {
-                RegisterView.show();
+                this.$page.html(RegisterView.render().$el)
             },
             scoreboardAction: function () {
-                ScoreboardView.show();
+                this.$page.html(ScoreboardView.render().$el)
             },
             gameAction: function () {
-                GameView.show();
+                this.$page.html(GameView.render().$el)
             },
             defaultAction: function () {
-                MainView.show();
+                this.$page.html(MainView.render().$el)
             }
         });
 
