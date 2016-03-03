@@ -6,6 +6,7 @@ define(function (require) {
 
         var GameView = BaseView.extend({
             template: tmpl
+
         });
 
         return new GameView();
