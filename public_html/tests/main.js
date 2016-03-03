@@ -1,7 +1,7 @@
 // QUnit.config.autostart = false;
-rrequire.config({
+require.config({
     urlArgs: "_=" + (new Date()).getTime(),
-    baseUrl: "js",
+    baseUrl: "../js",
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
