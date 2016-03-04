@@ -2,7 +2,7 @@
   "name": "X.O.",
   "version": "0.1.0",
   "description": "Tic tac toe",
-  "main": "index.js",
+  "main": "main.js",
   "author": "team X.O.",
   "license": "MIT",
   "devDependencies": {

@@ -13,7 +13,6 @@ define(function (require) {
 
             win: function() {
                 alert('ETO WIN');
-                return this
             }
         });
 
