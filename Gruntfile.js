@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+                command: 'node server.js'
             }
         },
         fest: {
@@ -21,7 +21,7 @@ module.exports = function (grunt) {
                 options: {
                     template: function (data) {
                         return grunt.template.process(
-                            'var <%= name %>Tmpl = <%= contents %> ;',
+                            'define(function () { return <%= contents %> ; });',
                             {data: data}
                         );
                     }
@@ -52,14 +52,19 @@ module.exports = function (grunt) {
             options: {
                 logConcurrentOutput: true
             }
+        },
+        qunit: {
+            all: ['./public_html/tests/index.html']
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-fest');
 
+    grunt.registerTask('test', ['qunit:all']);
     grunt.registerTask('default', ['concurrent']);
 
 };

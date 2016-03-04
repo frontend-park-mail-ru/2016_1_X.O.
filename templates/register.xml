@@ -1,9 +1,9 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <div id="login" class="container">
+    <div id="register" class="container">
         <div class="container center" id="header">
-            <h2>Login</h2>
+            <h2>Register</h2>
         </div>
-        <form class="col s12" id="login-form">
+        <form class="col s12" id="register-form">
             <div class="row">
                 <div class="input-field col s12">
                     <p>Email</p>
@@ -19,15 +19,12 @@
 
                 </div>
             </div>
-            <div class="row center">
-                <button class="btn waves-effect waves-light" type="submit" id="login-input">
-                    Login
+            <div class="row">
+                <button class="btn waves-effect waves-light left" type="submit" id="register-input">
+                    Register
                 </button>
+                <a class="btn right" id="main" href="#">Main menu</a>
             </div>
         </form>
-        <div class="row">
-            <a class="btn left" id="register" href="#register">Register</a>
-            <a class="btn right" id="main" href="#">Main menu</a>
-        </div>
     </div>
 </fest:template>

@@ -1,12 +1,12 @@
 var express = require('express'),
-    errorHandler = require('errorhandler'),
-    app = express();
+	errorHandler = require('errorhandler'),
+	app = express();
 
 var HOSTNAME = 'localhost',
-    PORT = 8080,
-    PUBLIC_DIR = __dirname + '/public_html';
+	PORT = 8080,
+	PUBLIC_DIR = __dirname + '/public_html';
 
-var requestCounter = 0;   
+var requestCounter = 0;
 
 app.use(function (req, res, done) {
 	// Здесь нужно написать журналирование в формате
