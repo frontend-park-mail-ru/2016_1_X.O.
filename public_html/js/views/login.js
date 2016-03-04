@@ -12,11 +12,12 @@ define(function (require) {
                 'submit #login-form': 'submit'
             },
 
-            submit: function() {
+            submit: function(event) {
+                event.preventDefault();
                 var u = new User();
-                u.email = this.$('#email-input').val();
-                u.password = this.$('#password-input').val();
-                alert('email: ' + u.email.toString() +'\npassword: ' + u.password.toString());
+                u.set({email: this.$('#email-input').val(), password: this.$('#password-input').val()});
+                alert('email: ' + u.get('email').toString() +'\npassword: ' + u.get('password').toString());
+                Backbone.history.navigate('', true);
             }
         });
 
