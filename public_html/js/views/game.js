@@ -5,7 +5,16 @@ define(function (require) {
             tmpl = require('tmpl/game');
 
         var GameView = BaseView.extend({
-            template: tmpl
+            template: tmpl,
+
+            events: {
+                'click #win' : 'win'
+            },
+
+            win: function() {
+                alert('ETO WIN');
+                return this
+            }
         });
 
         return new GameView();
