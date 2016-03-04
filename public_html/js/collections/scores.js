@@ -10,18 +10,10 @@ define(function (require) {
         }
     });
 
-    return new ScoreCollection(
-        [
-            {'name': 'A', 'score': 100},
-            {'name': 'B', 'score': 20},
-            {'name': 'C', 'score': 88},
-            {'name': 'D', 'score': 50},
-            {'name': 'E', 'score': 42},
-            {'name': 'F', 'score': 15},
-            {'name': 'G', 'score': 200},
-            {'name': 'X', 'score': 10},
-            {'name': 'Y', 'score': 1},
-            {'name': 'Z', 'score': 23}
-        ]
-    );
+    var scores = new ScoreCollection();
+    for (var i = 0; i < 10; i++) {
+        scores.add({'name': Math.random().toString(36).substr(2, 5), 'score': Math.floor(Math.random() * 1000)});
+    }
+
+    return scores;
 });

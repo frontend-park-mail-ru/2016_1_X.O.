@@ -29,6 +29,7 @@ require.config({
 
 var tests = [
     'models/score.test',
+    'models/user.test',
     'collections/scores.test'
 ];
 
