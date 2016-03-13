@@ -1,1 +1,97 @@
-/* TODO */
+.g-center {
+  text-align: center; }
+.g-float-left {
+  float: left !important; }
+.g-float-right {
+  float: right !important; }
+.b-page, .b-page__header, .b-menu, .b-board {
+	margin: 0 auto;
+	max-width: 1280px;
+	width: 90%; }
+@media only screen and (min-width : 601px) {
+  .b-page , .b-page__header, .b-menu, .b-board {
+    width: 85%; } 
+}
+@media only screen and (min-width : 993px) {
+  .b-page, .b-page__header, .b-menu, .b-board {
+    width: 70%; } 
+}
+.b-menu {
+	border: 1px solid #e0e0e0;
+	border-radius: 2px;
+	overflow: hidden;
+	position: relative; }
+.b-menu__link {
+	text-transform: uppercase;
+	background-color: #fff;
+	line-height: 1.5rem;
+	padding: 10px 20px;
+	margin: 0;
+	border-bottom: 1px solid #e0e0e0;
+	display: block;
+	-webkit-transition: 0.25s;
+	-moz-transition: 0.25s;
+	-o-transition: 0.25s;
+	-ms-transition: 0.25s;
+	transition: 0.25s;
+	color: #26a69a; }
+.b-menu__link.active {
+	background-color: #26a69a;
+	color: #eafaf9; }
+.b-menu__link:not(.active):hover {
+	background-color: #ddd; }
+.b-menu__link:last-child {
+	border-bottom: none; }
+.b-row, .b-form__row{
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px; }
+.b-form__row {
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 0.75rem; 
+  width: 100%;
+  margin-left: 0; }
+.b-button{
+  border: none;
+  border-radius: 2px;
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  outline: 0;
+  padding: 0 2rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent; 
+  text-decoration: none;
+  color: #fff;
+  background-color: #26a69a;
+  letter-spacing: .5px;
+  -webkit-transition: .2s ease-out;
+  -moz-transition: .2s ease-out;
+  -o-transition: .2s ease-out;
+  -ms-transition: .2s ease-out;
+  transition: .2s ease-out;
+  cursor: pointer;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); }
+.b-button:disabled {
+  background-color: #DFDFDF !important;
+  box-shadow: none;
+  color: #9F9F9F !important;
+  cursor: default; }
+.b-button:disabled:hover {
+  background-color: #DFDFDF;
+  color: #9F9F9F; }
+.b-button:hover {
+  background-color: #2bbbad;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15); }
+
+
+
+
+
+
+
+
