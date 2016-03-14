@@ -12,7 +12,12 @@ define(function (require) {
             },
 
             win: function() {
-                alert('ETO WIN');
+                if (Math.random() >= 0.5) {
+                    alert('ETO WIN');
+                }
+                else {
+                    alert('TI PROIGRAL');
+                }
             }
         });
 
