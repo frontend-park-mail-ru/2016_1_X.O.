@@ -4,16 +4,17 @@
   float: left !important; }
 .g-float-right {
   float: right !important; }
-.b-page, .b-page__header, .b-menu, .b-board {
+.b-page, .b-page__header, .b-menu, .b-board, .b-game {
 	margin: 0 auto;
 	max-width: 1280px;
+    overflow: auto;
 	width: 90%; }
 @media only screen and (min-width : 601px) {
-  .b-page , .b-page__header, .b-menu, .b-board {
+  .b-page , .b-page__header, .b-menu, .b-board, .b-game {
     width: 85%; } 
 }
 @media only screen and (min-width : 993px) {
-  .b-page, .b-page__header, .b-menu, .b-board {
+  .b-page, .b-page__header, .b-menu, .b-board, .b-game {
     width: 70%; } 
 }
 .b-menu {
