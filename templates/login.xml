@@ -7,19 +7,22 @@
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Email</p>
-                    <input id="emailInput" type="email"/>
+                    <input id="emailInput" type="email" placeholder="example@email.com"/>
+                    <span class="b-form__error" id="emailError"> </span>
                 </div>
             </div>
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Login</p>
-                    <input id="loginInput" type="text"/>
+                    <input id="loginInput" type="text" placeholder="1-16 symbols"/>
+                    <span class="b-form__error" id="loginError"> </span>
                 </div>
             </div>
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Password</p>
-                    <input id="passwordInput" type="password"/>
+                    <input id="passwordInput" type="password" placeholder="1-16 symbols"/>
+                    <span class="b-form__error" id="passwordError"> </span>
                 </div>
             </div>
             <div class="b-row g-center">
