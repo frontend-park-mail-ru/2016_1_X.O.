@@ -8,7 +8,13 @@ define(function (require) {
     var GameView = BaseView.extend({
         template: tmpl,
 
-        initialize: function () {
+        events: {
+            'click #newGame' : 'game'
+        },
+
+        game: function (event) {
+            event.preventDefault();
+            console.log('');
             var square = function (x, y) {
                 //координату лучше привязывать к середине квадрата, тогда попадание мышкой будет проще считать
                 this.posX = x;
@@ -111,8 +117,6 @@ define(function (require) {
             }
             // отрисовка поля
             init();
-
-            this.render();
         }
     });
     return new GameView();
