@@ -3,24 +3,30 @@
         <div class="b-page__header g-center" id="header">
             <h2>Register</h2>
         </div>
-        <form class="b-form__row" id="register-form">
+        <form class="b-form__row" id="registerForm">
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Email</p>
-                    <input id="email-input" type="email" class="validate"
-                           required="" aria-required="true" placeholder="example@email.com"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field b-form__row">
-                    <p>Password</p>
-                    <input id="password-input" type="password" class="validate"
-                           required="" aria-required="true"/>
-
+                    <input id="emailInput" type="email"/>
+                    <span class="b-form__error" id="emailError"> </span>
                 </div>
             </div>
             <div class="b-row">
-                <button class="b-button g-float-left" type="submit" id="register-input">
+                <div class="input-field b-form__row">
+                    <p>Login</p>
+                    <input id="loginInput" type="text"/>
+                    <span class="b-form__error" id="loginError"> </span>
+                </div>
+            </div>
+            <div class="b-row">
+                <div class="input-field b-form__row">
+                    <p>Password</p>
+                    <input id="passwordInput" type="password"/>
+                    <span class="b-form__error" id="passwordError"> </span>
+                </div>
+            </div>
+            <div class="b-row">
+                <button class="b-button g-float-left" type="submit" id="registerSubmit">
                     Register
                 </button>
                 <a class="b-button g-float-right" id="main" href="#">Main menu</a>

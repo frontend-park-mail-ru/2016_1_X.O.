@@ -19,19 +19,19 @@ define(function (require) {
                 this.$page = $('#page');
             },
             loginAction: function () {
-                this.$page.html(loginView.render().$el)
+                this.$page.html(loginView.el)
             },
             registerAction: function () {
-                this.$page.html(registerView.render().$el)
+                this.$page.html(registerView.el)
             },
             scoreboardAction: function () {
-                this.$page.html(scoreboardView.render().$el)
+                this.$page.html(scoreboardView.el)
             },
             gameAction: function () {
-                this.$page.html(gameView.render().$el)
+                this.$page.html(gameView.el)
             },
             defaultAction: function () {
-                this.$page.html(mainView.render().$el)
+                this.$page.html(mainView.el)
             }
         });
 

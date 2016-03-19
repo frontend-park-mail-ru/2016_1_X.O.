@@ -16,7 +16,7 @@ define(function (require) {
                 this.value = 0;
                 this.size = 30;
             };
-            
+
             var collection = [];
 
             function init() {
