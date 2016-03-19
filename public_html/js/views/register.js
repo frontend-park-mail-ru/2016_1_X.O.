@@ -53,10 +53,10 @@ define(function (require) {
                     item.text('');
                 });
 
-                if(errors != undefined && errors.length) {
+                if(errors && errors.length) {
                     var errorFields = this.errorFields;
                     _.each(errors, function(error) {
-                        if(errorFields[error.field] !== undefined) {
+                        if(errorFields[error.field]) {
                             errorFields[error.field].text(error.error);
                         }
                     });
