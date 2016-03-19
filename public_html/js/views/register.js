@@ -10,6 +10,8 @@ define(function (require) {
             template: tmpl,
 
             initialize: function() {
+                this.$page = $('#page');
+                this.$page.append(this.el);
                 this.render();
                 this.fields = {
                     email: this.$el.find('#emailInput'),
@@ -21,6 +23,7 @@ define(function (require) {
                     login: this.$el.find('#loginError'),
                     password: this.$el.find('#passwordError')
                 };
+                this.hide();
             },
 
             events: {

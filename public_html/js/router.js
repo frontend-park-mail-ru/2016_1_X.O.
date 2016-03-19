@@ -4,7 +4,8 @@ define(function (require) {
             loginView = require('views/login'),
             registerView = require('views/register'),
             scoreboardView = require('views/scoreboard'),
-            gameView = require('views/game');
+            gameView = require('views/game'),
+            viewManager = require('views/manager');
 
         var Router = Backbone.Router.extend({
             routes: {
@@ -16,22 +17,26 @@ define(function (require) {
             },
 
             initialize: function () {
-                this.$page = $('#page');
+                viewManager.addView(mainView);
+                viewManager.addView(loginView);
+                viewManager.addView(registerView);
+                viewManager.addView(scoreboardView);
+                viewManager.addView(gameView);
             },
             loginAction: function () {
-                this.$page.html(loginView.el)
+                loginView.show();
             },
             registerAction: function () {
-                this.$page.html(registerView.el)
+                registerView.show();
             },
             scoreboardAction: function () {
-                this.$page.html(scoreboardView.el)
+                scoreboardView.show();
             },
             gameAction: function () {
-                this.$page.html(gameView.el)
+                gameView.show();
             },
             defaultAction: function () {
-                this.$page.html(mainView.el)
+                mainView.show();
             }
         });
 
