@@ -66,7 +66,7 @@ define(function (require) {
                 //запуск рендера
                 render();
                 //запуск имитатора действий каждые 3 cек
-                setInterval(action, 300);
+                setInterval(action, 3000);
             }
 
             function action() {
