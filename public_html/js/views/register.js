@@ -46,8 +46,8 @@ define(function (require) {
                     password: this.fields.password.val()
                 };
 
-                var u = new User();
-                var errors = u.validate(uData);
+                var user = new User();
+                var errors = user.validate(uData);
 
                 _.each(this.errorFields, function(item) {
                     item.text('');
@@ -63,7 +63,7 @@ define(function (require) {
                 }
                 else
                 {
-                    u.set({email: uData.email, login: uData.login, password: uData.password});
+                    user.set({email: uData.email, login: uData.login, password: uData.password});
                     Backbone.history.navigate('', true);
                 }
 

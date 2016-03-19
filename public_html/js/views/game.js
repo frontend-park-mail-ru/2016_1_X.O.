@@ -66,7 +66,7 @@ define(function (require) {
                 //запуск рендера
                 render();
                 //запуск имитатора действий каждые 3 cек
-                setInterval(action, 3000);
+                setInterval(action, 300);
             }
 
             function action() {
@@ -92,11 +92,9 @@ define(function (require) {
                             case 1:
                                 rect.graphics.beginFill("#ffff00");
                                 break;
-                                break;
                             //помечен противником
                             case -1:
                                 rect.graphics.beginFill("#d50000");
-                                break;
                                 break;
                         }
                         //сама отрисовка

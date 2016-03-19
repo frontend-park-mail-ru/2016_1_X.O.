@@ -8,13 +8,15 @@ define(function (require) {
 
         addView: function (currentView) {
             views.push(currentView);
-            this.listenTo(currentView, 'show', function () {
-                _.each(views, function (view) {
-                    if (view != currentView) {
-                        view.hide();
-                    }
-                });
-            });
+            this.listenTo(currentView, 'show', this.changeView(currentView));
+        },
+
+        changeView: function (currentView) {
+            _.each(views, function (view) {
+                if (view != currentView) {
+                    view.hide();
+                }
+            })
         }
 
     });
