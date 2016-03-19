@@ -62,6 +62,7 @@ define(function (require) {
                 }
                 else
                 {
+                    u.set({email: uData.email, login: uData.login, password: uData.password});
                     Backbone.history.navigate('', true);
                 }
             }
