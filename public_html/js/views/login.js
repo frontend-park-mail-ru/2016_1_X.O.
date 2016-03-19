@@ -30,6 +30,14 @@ define(function (require) {
                 this.hide();
             },
 
+            show: function() {
+                this.fields.email.val('');
+                this.fields.login.val('');
+                this.fields.password.val('');
+                this.$el.show();
+                this.trigger('show', this);
+            },
+
             submit: function (event) {
                 event.preventDefault();
                 var uData = {

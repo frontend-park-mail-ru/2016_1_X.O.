@@ -14,7 +14,6 @@ define(function (require) {
 
         game: function (event) {
             event.preventDefault();
-            console.log('');
             var square = function (x, y) {
                 //координату лучше привязывать к середине квадрата, тогда попадание мышкой будет проще считать
                 this.posX = x;
@@ -118,6 +117,7 @@ define(function (require) {
             // отрисовка поля
             init();
         }
+
     });
     return new GameView();
 });
