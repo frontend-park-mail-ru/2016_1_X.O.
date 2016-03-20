@@ -7,16 +7,15 @@ define(function (require) {
     var Manager = Backbone.View.extend({
 
         addView: function (currentView) {
-            views.push(currentView);
-            this.listenTo(currentView, 'show', this.changeView(currentView));
+            this.listenTo(currentView, 'show', this.onShow.bind(this, currentView));
         },
 
-        changeView: function (currentView) {
-            _.each(views, function (view) {
+        onShow: function (currentView) {
+            views.forEach(function (view) {
                 if (view != currentView) {
                     view.hide();
                 }
-            })
+            });
         }
 
     });
