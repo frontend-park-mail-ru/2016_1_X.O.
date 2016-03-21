@@ -16,18 +16,18 @@ define(function(require) {
                 passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
                 loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
 
-            this.trimEmail = $.trim(data.email);
-            this.trimLogin = $.trim(data.password)
-            this.trimPassword = $.trim(data.email);
+            var $trimEmail = $.trim(data.email),
+                $trimLogin = $.trim(data.login),
+                $trimPassword = $.trim(data.password);
 
 
-            if(this.trimEmail === '') {
+            if($trimEmail === '') {
                 errors.push({
                     field: 'email',
                     error: 'Where is your email bro?'
                 });
             }
-            else if(!emailRegexp.test(this.trimEmail)) {
+            else if(!emailRegexp.test($trimEmail)) {
                 errors.push({
                     field: 'email',
                     error: 'Wrong email bro!'
@@ -35,26 +35,26 @@ define(function(require) {
             }
 
 
-            if(this.trimLogin === '') {
+            if($trimLogin === '') {
                 errors.push({
                     field: 'login',
                     error: 'Where is your login bro?'
                 });
             }
-            else if(!loginRegexp.test(this.trimLogin)) {
+            else if(!loginRegexp.test($trimLogin)) {
                 errors.push({
                     field: 'login',
                     error: 'Wrong login bro!'
                 });
             }
 
-            if(this.trimPassword === '') {
+            if($trimPassword === '') {
                 errors.push({
                     field: 'password',
                     error: 'Where is your password bro?'
                 });
             }
-            else if(!passwRegexp.test(this.trimPassword)) {
+            else if(!passwRegexp.test($trimPassword)) {
                 errors.push({
                     field: 'password',
                     error: 'Wrong password bro!'

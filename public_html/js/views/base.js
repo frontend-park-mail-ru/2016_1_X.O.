@@ -15,11 +15,13 @@ define(function (require) {
                 return this;
             },
             show: function () {
+                this.$page.append(this.el);
                 this.$el.show();
                 this.trigger('show', this);
             },
             hide: function () {
                 this.$el.hide();
+                this.$el.detach();
             }
         });
 

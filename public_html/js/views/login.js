@@ -31,6 +31,7 @@ define(function (require) {
             },
 
             show: function() {
+                this.$page.append(this.el);
                 this.fields.email.val('');
                 this.fields.login.val('');
                 this.fields.password.val('');
@@ -53,12 +54,11 @@ define(function (require) {
                 });
 
                 if(errors && errors.length) {
-                    var errorFields = this.errorFields;
                     _.each(errors, function(error) {
-                        if(errorFields[error.field]) {
-                            errorFields[error.field].text(error.error);
+                        if(this.errorFields[error.field]) {
+                            this.errorFields[error.field].text(error.error);
                         }
-                    });
+                    }.bind(this));
                 }
                 else
                 {
