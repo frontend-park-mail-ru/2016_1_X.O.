@@ -9,7 +9,7 @@ define(function (require) {
         var RegisterView = BaseView.extend({
             template: tmpl,
 
-            initialize: function() {
+            initialize: function () {
                 this.$page = $('#page');
                 this.$page.append(this.el);
                 this.render();
@@ -26,13 +26,20 @@ define(function (require) {
                 this.hide();
             },
 
-            show: function() {
+            show: function () {
                 this.$page.append(this.el);
                 this.fields.email.val('');
                 this.fields.login.val('');
                 this.fields.password.val('');
                 this.$el.show();
                 this.trigger('show', this);
+
+                var video = document.querySelector('.shia-do-it .container video');
+                video.style.visibility = "hidden";
+                video.src = "http://etaheri.github.io/output.webm";
+                video.load();
+                video.style.visibility = "visible";
+                video.play();
             },
 
             events: {
@@ -50,19 +57,18 @@ define(function (require) {
                 var user = new User();
                 var errors = user.validate(uData);
 
-                _.each(this.errorFields, function(item) {
+                _.each(this.errorFields, function (item) {
                     item.text('');
                 });
 
-                if(errors && errors.length) {
-                    _.each(errors, function(error) {
-                        if(this.errorFields[error.field]) {
+                if (errors && errors.length) {
+                    _.each(errors, function (error) {
+                        if (this.errorFields[error.field]) {
                             this.errorFields[error.field].text(error.error);
                         }
                     }.bind(this));
                 }
-                else
-                {
+                else {
                     user.set({email: uData.email, login: uData.login, password: uData.password});
                     Backbone.history.navigate('', true);
                 }
