@@ -31,7 +31,7 @@ define(function(require) {
             }
 
 
-            if(data.login=== '') {
+            if(data.login === '') {
                 errors.push({
                     field: 'login',
                     error: 'Where is your login bro?'

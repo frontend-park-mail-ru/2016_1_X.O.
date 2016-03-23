@@ -36,7 +36,7 @@ define(function (require) {
 
                 var video = document.querySelector('.shia-do-it .container video');
                 video.style.visibility = "hidden";
-                video.src = "http://etaheri.github.io/output.webm";
+                video.src = "/../video/shia.webm";
                 video.load();
                 video.style.visibility = "visible";
                 video.play();
