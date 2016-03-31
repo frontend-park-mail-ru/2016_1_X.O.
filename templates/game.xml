@@ -7,7 +7,7 @@
             <a class="b-menu__link g-center" id="newGame">New game</a>
         </div>
         <div class="b-game g-center">
-            <canvas id="gameCanvas" width="500" height="500"> </canvas>
+            <canvas id="gameCanvas" width="600" height="600"> </canvas>
         </div>
         <div class="b-menu g-center">
             <a class="b-menu__link g-center" id="main" href="#">Main menu</a>

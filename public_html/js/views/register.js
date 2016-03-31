@@ -33,7 +33,6 @@ define(function (require) {
                 this.fields.password.val('');
                 this.$el.show();
                 this.trigger('show', this);
-
                 var video = document.querySelector('.shia-do-it .container video');
                 video.style.visibility = "hidden";
                 video.src = "/../video/shia.webm";

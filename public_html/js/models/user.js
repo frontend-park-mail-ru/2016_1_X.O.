@@ -1,6 +1,5 @@
 define(function(require) {
-    var $ = require('jquery'),
-        Backbone = require('backbone');
+    var Backbone = require('backbone');
 
     var UserModel = Backbone.Model.extend({
         defaults: {
