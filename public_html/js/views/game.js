@@ -12,10 +12,10 @@ define(function (require) {
         initialize: function () {
             this.$page = $('#page');
             this.$page.append(this.el);
-            this.$who = this.$el.find('#who');
             this.blocksView = new BlocksView();
             this.player = new SinglePlayerModel;
             this.render();
+            this.$who = this.$el.find('#who');
             this.hide();
         },
 
@@ -55,10 +55,18 @@ define(function (require) {
             }.bind(this));
 
             if(this.nextVal) {
-                blocksCollection.models.forEach(function (block) {
-                    block.set({'isClickable': false});
-                });
-                blocksCollection.at(this.nextVal - 1).set({'isClickable': true});
+                if(blocksCollection.at(this.nextVal - 1).get('isFinished')) {
+                    blocksCollection.models.forEach(function (block) {
+                        if(!block.get('isFinished')) {
+                            block.set({'isClickable': true});
+                        }
+                    });
+                } else {
+                    blocksCollection.models.forEach(function (block) {
+                        block.set({'isClickable': false});
+                    });
+                    blocksCollection.at(this.nextVal - 1).set({'isClickable': true});
+                }
             }
 
             this.start();
