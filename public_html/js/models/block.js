@@ -1,6 +1,5 @@
 define(function (require) {
         var Backbone = require('backbone'),
-            _ = require('underscore');
             SquareModel = require('models/square');
 
         var BlockModel = Backbone.Model.extend({
@@ -47,7 +46,8 @@ define(function (require) {
             onClick: function(x, y, playerModel) {
                 var x0 = this.get('posX'),
                     y0 = this.get('posY'),
-                    half = this.get('size') / 2;
+                    half = this.get('size') / 2,
+                    next;
                 
                 if(this.get('isClickable')) {
                     if(
@@ -58,9 +58,58 @@ define(function (require) {
                     )
                      {
                         this.get('squareModels').forEach(function(square) {
-                            square.onClick(x, y, playerModel)
-                        });
+                            next = square.onClick(x, y, playerModel);
+                            if(next) {
+                                this.nextVal = next;
+                            }
+                        }.bind(this));
+                         return this.nextVal;
                     }
+                }
+            },
+
+            check: function() {
+                var values = [],
+                    i;
+
+                if(!this.get('isFinished')) {
+                    this.get('squareModels').forEach(function(square) {
+                        values.push(square.get('value'));
+                    });
+                    //ряд
+                    for (i = 0; i < 9; i++) {
+                        if(values[i] && (values[i] === values[i+1]) && (values[i] === values[i+2])) {
+                            this.set({'isFinished': true, 'isClickable': false, 'value': values[i]});
+                            return;
+                        }
+                        i+=2;
+                    }
+                    //колонна
+                    for(i = 0; i < 3; i++) {
+                        if(values[i] && (values[i] === values[i+3]) && (values[i] === values[i+6])) {
+                            this.set({'isFinished': true, 'isClickable': false, 'value': values[i]});
+                            return;
+                        }
+                    }
+                    //диагональ
+                    if(values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
+                        this.set({'isFinished': true, 'isClickable': false, 'value': values[0]});
+                        return;
+                    }
+
+                    //побочная диагональ
+                    if(values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
+                        this.set({'isFinished': true, 'isClickable': false, 'value': values[2]});
+                        return;
+                    }
+
+                    //ничья
+                    for(i = 0; i < 9; i++) {
+                        if(!values[i]) {
+                            return;
+                        }
+                    }
+                    this.set({'isClickable': false});
                 }
             }
         });

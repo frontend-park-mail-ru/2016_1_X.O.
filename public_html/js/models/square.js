@@ -30,6 +30,7 @@ define(function (require) {
                     ) {
                         this.set({'value': playerModel.get('id'), 'isClickable': false});
                         playerModel.changePlayer();
+                        return this.get('id');
                     }
                 }
             }

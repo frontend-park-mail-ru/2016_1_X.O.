@@ -9,35 +9,60 @@ define(function (require) {
         SinglePlayerModel = require('models/singlePlayer');
 
     var GameView = BaseView.extend({
+        initialize: function () {
+            this.$page = $('#page');
+            this.$page.append(this.el);
+            this.$who = this.$el.find('#who');
+            this.blocksView = new BlocksView();
+            this.player = new SinglePlayerModel;
+            this.render();
+            this.hide();
+        },
+
         template: tmpl,
 
         events: {
-            'click #newGame': 'game',
             'click #gameCanvas': 'gameClick'
         },
 
-        game: function (event) {
-            this.$who = this.$el.find('#who');
-            event.preventDefault();
-            this.blocksView = new BlocksView();
-            this.player = new SinglePlayerModel;
+        show: function () {
+            this.$el.appendTo("#page");
+            this.$who.text('Player : ' + this.player.get('id').toString());
             this.stage = new createjs.Stage("gameCanvas");
+            this.stage.clear();
             blocksCollection.createBlocks(100, 100);
+            this.start();
+            this.$el.show();
+            this.trigger('show', this);
+        },
+
+        start: function () {
             this.blocksView.render(this.stage);
             this.stage.update();
-            this.$who.text('Player : ' + this.player.get('id').toString());
         },
 
         gameClick: function (event) {
+            var next;
             event.preventDefault();
             blocksCollection.models.forEach(function (block) {
-                block.onClick(event.offsetX, event.offsetY, this.player)
+                next = block.onClick(event.offsetX, event.offsetY, this.player);
+                if(next) {
+                    this.nextVal = next;
+                    block.check();
+                    this.blocksView.check();
+                }
             }.bind(this));
-            this.blocksView.render(this.stage);
-            this.stage.update();
+
+            if(this.nextVal) {
+                blocksCollection.models.forEach(function (block) {
+                    block.set({'isClickable': false});
+                });
+                blocksCollection.at(this.nextVal - 1).set({'isClickable': true});
+            }
+
+            this.start();
             this.$who.text('Player : ' + this.player.get('id').toString());
         }
-
     });
     return new GameView();
 });

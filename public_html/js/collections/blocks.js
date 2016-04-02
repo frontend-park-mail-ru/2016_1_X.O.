@@ -1,9 +1,22 @@
 define(function (require) {
         var Backbone = require('backbone'),
+            _ = require('underscore'),
             BlockModel = require('models/block');
 
         var BlocksCollection = Backbone.Collection.extend({
             model: BlockModel,
+            
+            initialize: function () {
+                this._isFinished = false;
+            },
+            
+            isFinished: function () {
+                this._isFinished = true;
+            },
+            
+            getStatus: function() {
+                return this._isFinished;
+            },
 
             createBlocks: function (x0, y0) {
                 var intervalBetweenBlock = 20,
@@ -14,11 +27,63 @@ define(function (require) {
                     this.add(new BlockModel(x0 + currentX, y0 + currentY, i));
                     if (i === 9) break;
                     if (i % 3 === 0) {
-                        currentY += this.at(i-1).get('size') + intervalBetweenBlock;
+                        currentY += this.at(i - 1).get('size') + intervalBetweenBlock;
                         currentX = 0;
                     } else {
-                        currentX += this.at(i-1).get('size') + intervalBetweenBlock;
+                        currentX += this.at(i - 1).get('size') + intervalBetweenBlock;
                     }
+                }
+            },
+
+            check: function () {
+                var values = [],
+                    i;
+
+                if (this.getStatus() === false) {
+
+                    for (i = 0; i < 9; i++) {
+                        values.push(this.at(i).get('value'));
+                    }
+                
+
+                    //ряд
+                    for (i = 0; i < 9; i++) {
+                        if (values[i] && (values[i] === values[i + 1]) && (values[i] === values[i + 2])) {
+                            alert('WIN ' + values[i].toString());
+                            this.isFinished();
+                            return;
+                        }
+                        i += 2;
+                    }
+                    //колонна
+                    for (i = 0; i < 3; i++) {
+                        if (values[i] && (values[i] === values[i + 3]) && (values[i] === values[i + 6])) {
+                            this.isFinished();
+                            return;
+                        }
+                    }
+                    //диагональ
+                    if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
+                        alert('WIN ' + values[0].toString());
+                        this.isFinished();
+                        return;
+                    }
+
+                    //побочная диагональ
+                    if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
+                        alert('WIN ' + values[2].toString());
+                        this.isFinished();
+                        return;
+                    }
+
+                    //ничья
+                    for (i = 0; i < 9; i++) {
+                        if (!values[i]) {
+                            return;
+                        }
+                    }
+                    alert('DRAW');
+                    this.isFinished();
                 }
             }
         });

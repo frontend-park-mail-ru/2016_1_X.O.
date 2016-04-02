@@ -9,6 +9,13 @@ define(function(require) {
                 var blockView = new BlockView(block, stage);
                 blockView.render();
             })
+        },
+
+        check: function() {
+            blocksCollection.check();
+            if(blocksCollection.getStatus()) {
+                Backbone.history.navigate('', true);
+            }
         }
     });
     return BlocksView;
