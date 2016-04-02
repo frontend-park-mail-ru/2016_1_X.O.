@@ -5,33 +5,37 @@ define(function (require) {
         tmpl = require('tmpl/game'),
         createjs = require('easel'),
         BlocksView = require('views/blocks'),
-        blocksCollection = require('collections/blocks');
+        blocksCollection = require('collections/blocks'),
+        SinglePlayerModel = require('models/singlePlayer');
 
     var GameView = BaseView.extend({
         template: tmpl,
 
         events: {
-            'click #newGame' : 'game'
+            'click #newGame': 'game',
+            'click #gameCanvas': 'gameClick'
         },
 
         game: function (event) {
+            this.$who = this.$el.find('#who');
             event.preventDefault();
+            this.blocksView = new BlocksView();
+            this.player = new SinglePlayerModel;
+            this.stage = new createjs.Stage("gameCanvas");
+            blocksCollection.createBlocks(100, 100);
+            this.blocksView.render(this.stage);
+            this.stage.update();
+            this.$who.text('Player : ' + this.player.get('id').toString());
+        },
 
-            function init() {
-                this.blocksView = new BlocksView();
-                render();
-            }
-
-            function render() {
-                var stage = new createjs.Stage("gameCanvas");
-                blocksCollection.createBlocks(100, 100);
-                this.blocksView.render(stage);
-                stage.update();
-                //requestAnimationFrame(render);
-            }
-            
-            // отрисовка поля
-            init();
+        gameClick: function (event) {
+            event.preventDefault();
+            blocksCollection.models.forEach(function (block) {
+                block.onClick(event.offsetX, event.offsetY, this.player)
+            }.bind(this));
+            this.blocksView.render(this.stage);
+            this.stage.update();
+            this.$who.text('Player : ' + this.player.get('id').toString());
         }
 
     });
