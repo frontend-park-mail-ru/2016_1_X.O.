@@ -49,6 +49,8 @@ define(function (require) {
                     half = this.get('size') / 2,
                     next;
                 
+                this.nextVal = 0;
+                
                 if(this.get('isClickable')) {
                     if(
                         (x0 - half <= x && y0 - half <= y) &&

@@ -43,6 +43,7 @@ define(function (require) {
 
         gameClick: function (event) {
             var next;
+            this.nextVal = 0;
             event.preventDefault();
             blocksCollection.models.forEach(function (block) {
                 next = block.onClick(event.offsetX, event.offsetY, this.player);
