@@ -1,10 +1,10 @@
 define(function (require) {
-    var Backbone = require('backbone');
-    var UserModel = require('models/user');
     QUnit.module('models/user');
 
-    QUnit.test("userModel - экземпляр Backbone.Model", function () {
+    QUnit.test("userModel - экземпляр Backbone.Model", function (assert) {
+        var Backbone = require('backbone');
+        var UserModel = require('models/user');
         var userModel = new UserModel();
-        QUnit.ok(userModel instanceof Backbone.Model, "userModel - экземпляр Backbone.Model");
+        assert.ok(userModel instanceof Backbone.Model, "userModel - экземпляр Backbone.Model");
     });
 });

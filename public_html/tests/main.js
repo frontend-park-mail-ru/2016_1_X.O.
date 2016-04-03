@@ -1,4 +1,3 @@
-// QUnit.config.autostart = false;
 require.config({
     urlArgs: "_=" + (new Date()).getTime(),
     baseUrl: "../js",
