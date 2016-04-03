@@ -1,0 +1,5 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+    <div class="g-center">
+        <canvas id="homeCanvas" width="1280" height="720"> </canvas>
+    </div>
+</fest:template>
