@@ -33,7 +33,7 @@ define(function(require) {
                 this.model.get('size'),
                 this.model.get('size')
             );
-            
+
             this.stage.addChild(rect);
         }
     });

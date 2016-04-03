@@ -11,9 +11,8 @@ define(function (require) {
             this.stage = stage;
         },
 
-        render: function () {
+        render: function (player) {
             var rect = new createjs.Shape();
-            //определение каким цветом рисовать
             switch (this.model.get('value')) {
                 //не помеченный квадрат
                 case 0:
@@ -28,7 +27,6 @@ define(function (require) {
                     rect.graphics.beginFill("#d50000");
                     break;
             }
-            //сама отрисовка
             rect.graphics.drawRect(
                 this.model.get('posX') - this.model.get('size') / 2,
                 this.model.get('posY') - this.model.get('size') / 2,
@@ -38,14 +36,20 @@ define(function (require) {
             this.stage.addChild(rect);
 
             var border = new createjs.Shape();
-
             if (this.model.get('isClickable')) {
-                border.graphics.beginStroke("#9c27b0");
+                var color = '';
+                if (player.get('id') === 1) {
+                    color = '#ffff00';
+                } else {
+                    color = '#d50000';
+                }
+                border.graphics.beginStroke(color);
                 border.graphics.setStrokeStyle(4);
             } else {
-                border.graphics.beginStroke("#f3e5f5");
-                border.graphics.setStrokeStyle(1);
+                border.graphics.beginStroke("#ffffff");
+                border.graphics.setStrokeStyle(4);
             }
+
             border.graphics.drawRect(
                 this.model.get('posX') - this.model.get('size') / 2,
                 this.model.get('posY') - this.model.get('size') / 2,

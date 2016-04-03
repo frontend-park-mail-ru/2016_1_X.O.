@@ -3,9 +3,6 @@
         <div class="b-page__header g-center" id="header">
             <h2>Tic tac toe</h2>
         </div>
-        <div class="b-menu g-center">
-            <h5><span id="who"> </span></h5>
-        </div>
         <div class="b-game g-center">
             <canvas id="gameCanvas" width="600" height="600"> </canvas>
         </div>

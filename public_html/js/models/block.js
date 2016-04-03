@@ -1,5 +1,6 @@
 define(function (require) {
         var Backbone = require('backbone'),
+            _ = require('underscore'),
             SquareModel = require('models/square');
 
         var BlockModel = Backbone.Model.extend({
@@ -74,40 +75,40 @@ define(function (require) {
                 var values = [],
                     i;
 
-                if(!this.get('isFinished')) {
-                    this.get('squareModels').forEach(function(square) {
+                if (!this.get('isFinished')) {
+                    this.get('squareModels').forEach(function (square) {
                         values.push(square.get('value'));
                     });
                     //ряд
                     for (i = 0; i < 9; i++) {
-                        if(values[i] && (values[i] === values[i+1]) && (values[i] === values[i+2])) {
+                        if (values[i] && (values[i] === values[i + 1]) && (values[i] === values[i + 2])) {
                             this.set({'isFinished': true, 'isClickable': false, 'value': values[i]});
                             return;
                         }
-                        i+=2;
+                        i += 2;
                     }
                     //колонна
-                    for(i = 0; i < 3; i++) {
-                        if(values[i] && (values[i] === values[i+3]) && (values[i] === values[i+6])) {
+                    for (i = 0; i < 3; i++) {
+                        if (values[i] && (values[i] === values[i + 3]) && (values[i] === values[i + 6])) {
                             this.set({'isFinished': true, 'isClickable': false, 'value': values[i]});
                             return;
                         }
                     }
                     //диагональ
-                    if(values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
+                    if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
                         this.set({'isFinished': true, 'isClickable': false, 'value': values[0]});
                         return;
                     }
 
                     //побочная диагональ
-                    if(values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
+                    if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
                         this.set({'isFinished': true, 'isClickable': false, 'value': values[2]});
                         return;
                     }
 
                     //ничья
-                    for(i = 0; i < 9; i++) {
-                        if(!values[i]) {
+                    for (i = 0; i < 9; i++) {
+                        if (!values[i]) {
                             return;
                         }
                     }

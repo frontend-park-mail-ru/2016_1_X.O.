@@ -15,7 +15,6 @@ define(function (require) {
             this.blocksView = new BlocksView();
             this.player = new SinglePlayerModel;
             this.render();
-            this.$who = this.$el.find('#who');
             this.hide();
         },
 
@@ -27,9 +26,9 @@ define(function (require) {
 
         show: function () {
             this.$el.appendTo("#page");
-            this.$who.text('Player : ' + this.player.get('id').toString());
             this.stage = new createjs.Stage("gameCanvas");
-            this.stage.clear();
+            this.player.set({'id' : 1});
+            blocksCollection.reset();
             blocksCollection.createBlocks(100, 100);
             this.start();
             this.$el.show();
@@ -37,7 +36,7 @@ define(function (require) {
         },
 
         start: function () {
-            this.blocksView.render(this.stage);
+            this.blocksView.render(this.stage, this.player);
             this.stage.update();
         },
 
@@ -68,9 +67,8 @@ define(function (require) {
                     blocksCollection.at(this.nextVal - 1).set({'isClickable': true});
                 }
             }
-
+            
             this.start();
-            this.$who.text('Player : ' + this.player.get('id').toString());
         }
     });
     return new GameView();

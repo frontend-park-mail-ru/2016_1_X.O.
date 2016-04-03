@@ -10,8 +10,12 @@ define(function (require) {
                 this._isFinished = false;
             },
             
-            isFinished: function () {
-                this._isFinished = true;
+            setStatus: function () {
+                if(this._isFinished){
+                    this._isFinished = false;
+                } else {
+                    this._isFinished = true;
+                }
             },
             
             getStatus: function() {
@@ -50,7 +54,7 @@ define(function (require) {
                     for (i = 0; i < 9; i++) {
                         if (values[i] && (values[i] === values[i + 1]) && (values[i] === values[i + 2])) {
                             alert('WIN ' + values[i].toString());
-                            this.isFinished();
+                            this.setStatus();
                             return;
                         }
                         i += 2;
@@ -58,21 +62,22 @@ define(function (require) {
                     //колонна
                     for (i = 0; i < 3; i++) {
                         if (values[i] && (values[i] === values[i + 3]) && (values[i] === values[i + 6])) {
-                            this.isFinished();
+                            alert('WIN ' + values[i].toString());
+                            this.setStatus();
                             return;
                         }
                     }
                     //диагональ
                     if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
                         alert('WIN ' + values[0].toString());
-                        this.isFinished();
+                        this.setStatus();
                         return;
                     }
 
                     //побочная диагональ
                     if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
                         alert('WIN ' + values[2].toString());
-                        this.isFinished();
+                        this.setStatus();
                         return;
                     }
 
@@ -83,7 +88,7 @@ define(function (require) {
                         }
                     }
                     alert('DRAW');
-                    this.isFinished();
+                    this.setStatus();
                 }
             }
         });

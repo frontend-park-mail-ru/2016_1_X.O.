@@ -4,10 +4,10 @@ define(function(require) {
         blocksCollection = require('collections/blocks');
 
     var BlocksView = Backbone.View.extend({
-        render: function(stage) {
+        render: function(stage, player) {
             blocksCollection.each(function (block) {
                 var blockView = new BlockView(block, stage);
-                blockView.render();
+                blockView.render(player);
             })
         },
 
@@ -15,6 +15,7 @@ define(function(require) {
             blocksCollection.check();
             if(blocksCollection.getStatus()) {
                 Backbone.history.navigate('', true);
+                blocksCollection.setStatus();
             }
         }
     });
