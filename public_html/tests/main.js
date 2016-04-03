@@ -7,9 +7,13 @@ require.config({
         underscore: "lib/underscore",
         backbone: "lib/backbone",
         materialize: "lib/materialize",
-        hammerjs: "lib/hammer.min"
+        hammerjs: "lib/hammer.min",
+        easel: "lib/easel"
     },
     shim: {
+        'jquery' : {
+            exports: '$'
+        },
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
@@ -21,6 +25,9 @@ require.config({
             deps: ['jquery', 'hammerjs'],
             exports: 'Materialize'
         },
+        'easel': {
+            exports: 'createjs'
+        },
         'hammerjs': {
             exports: 'Hammer'
         }
@@ -28,9 +35,10 @@ require.config({
 });
 
 var tests = [
-    'models/score.test',
-    'models/user.test',
-    'collections/scores.test'
+    'tests/scoreModel.test',
+    'tests/userModel.test',
+    'tests/scoresCollection.test',
+    'tests/managerView.test'
 ];
 
 require(tests, function () {

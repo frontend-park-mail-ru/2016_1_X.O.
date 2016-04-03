@@ -37,11 +37,11 @@
 	width: 90%; }
 @media only screen and (min-width : 601px) {
   .b-page , .b-page__header, .b-menu, .b-board, .b-game {
-    width: 85%; } 
+    width: 85%; }
 }
 @media only screen and (min-width : 993px) {
   .b-page, .b-page__header, .b-menu, .b-board, .b-game {
-    width: 70%; } 
+    width: 70%; }
 }
 .b-menu {
 	border: 1px solid #e0e0e0;
@@ -78,7 +78,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 0 0.75rem; 
+  padding: 0 0.75rem;
   width: 100%;
   margin-left: 0; }
 .b-button{
@@ -91,7 +91,7 @@
   padding: 0 2rem;
   text-transform: uppercase;
   vertical-align: middle;
-  -webkit-tap-highlight-color: transparent; 
+  -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   color: #fff;
   background-color: #26a69a;

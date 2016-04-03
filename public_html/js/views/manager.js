@@ -1,22 +1,20 @@
 define(function (require) {
-    var Backbone = require('backbone'),
-        _ = require('underscore');
-
-    var views = [];
+    var Backbone = require('backbone');
 
     var Manager = Backbone.View.extend({
+        views: [],
 
         addView: function (currentView) {
-            views.push(currentView);
+            this.views.push(currentView);
             this.listenTo(currentView, 'show', this.onShow.bind(this, currentView));
         },
 
         onShow: function (currentView) {
-            _.each(views, function (view) {
-                if (view != currentView) {
+            this.views.forEach(function (view) {
+                if (view !== currentView) {
                     view.hide();
                 }
-            })
+            });
         }
 
     });

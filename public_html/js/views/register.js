@@ -31,9 +31,12 @@ define(function (require) {
                 this.fields.email.val('');
                 this.fields.login.val('');
                 this.fields.password.val('');
+                _.each(this.errorFields, function (item) {
+                    item.text('');
+                });
                 this.$el.show();
                 this.trigger('show', this);
-                var video = document.querySelector('.shia-do-it .container video');
+                var video = document.querySelector('.shia-do-it video');
                 video.style.visibility = "hidden";
                 video.src = "/../video/shia.webm";
                 video.load();

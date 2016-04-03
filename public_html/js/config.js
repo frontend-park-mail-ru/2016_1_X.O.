@@ -10,6 +10,9 @@ require.config({
         easel: "lib/easel"
     },
     shim: {
+        'jquery' : {
+            exports: '$'
+        },
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'

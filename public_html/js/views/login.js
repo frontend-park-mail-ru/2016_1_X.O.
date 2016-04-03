@@ -36,6 +36,9 @@ define(function (require) {
                 this.fields.login.val('');
                 this.fields.password.val('');
                 this.$el.show();
+                _.each(this.errorFields, function (item) {
+                    item.text('');
+                });
                 this.trigger('show', this);
             },
 

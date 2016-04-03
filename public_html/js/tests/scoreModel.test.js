@@ -3,8 +3,8 @@ define(function (require) {
     var ScoreModel = require('models/score');
     QUnit.module('models/score');
 
-    QUnit.test("scoreModel - экземпляр Backbone.Model", function (assert) {
+    QUnit.test("scoreModel - экземпляр Backbone.Model", function () {
         var scoreModel = new ScoreModel();
-        assert.ok(scoreModel instanceof Backbone.Model);
+        QUnit.ok(scoreModel instanceof Backbone.Model, "scoreModel - экземпляр Backbone.Model");
     });
 });
