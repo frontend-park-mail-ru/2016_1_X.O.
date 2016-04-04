@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div id="register" class="b-page">
-        <div class="b-page__header g-center" id="header">
+        <div class="b-page__header" id="header">
             <h2>Register</h2>
         </div>
         <form class="b-form__row" id="registerForm">
@@ -26,14 +26,14 @@
                 </div>
             </div>
             <div class="b-row">
-                <button class="b-button g-float-left" type="submit" id="registerSubmit">
+                <button class="b-button b-form__button--left" type="submit" id="registerSubmit">
                     Register
                 </button>
-                <a class="b-button g-float-right" id="main" href="#">Main menu</a>
+                <a class="b-button b-form__button--right" id="main" href="#">Main menu</a>
             </div>
         </form>
-        <div class="shia-do-it">
-            <div class="container">
+        <div class="b-shia">
+            <div class="b-shia__container">
                 <video width="960" height="540" autoplay="">
 
                 </video>

@@ -1,13 +1,13 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div class="b-page" id="game">
-        <div class="b-page__header g-center" id="header">
+        <div class="b-page__header" id="header">
             <h2>Tic tac toe</h2>
         </div>
-        <div class="b-game g-center">
+        <div class="b-game">
             <canvas id="gameCanvas" width="600" height="600"> </canvas>
         </div>
-        <div class="b-menu g-center">
-            <a class="b-menu__link g-center" id="main" href="#">Main menu</a>
+        <div class="b-menu">
+            <a class="b-menu__link" id="main" href="#">Main menu</a>
         </div>
     </div>
 </fest:template>

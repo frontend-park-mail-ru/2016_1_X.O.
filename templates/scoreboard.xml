@@ -1,9 +1,9 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
     <div class="b-page" id="scoreboard" >
-        <div class="b-page__header g-center" id="header">
+        <div class="b-page__header" id="header">
             <h2>Scoreboard</h2>
         </div>
-        <div class="b-board g-center" id="board">
+        <div class="b-board" id="board">
             <table>
                 <thead>
                     <tr>
@@ -31,8 +31,8 @@
             </table>
 
         </div>
-        <div class="b-row g-center">
-            <a class="b-button g-center" id="main" href="#">Main menu</a>
+        <div class="g-center">
+            <a class="b-menu__link" id="main" href="#">Main menu</a>
         </div>
     </div>
 </fest:template>

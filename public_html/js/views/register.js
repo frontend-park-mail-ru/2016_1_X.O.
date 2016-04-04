@@ -36,7 +36,7 @@ define(function (require) {
                 });
                 this.$el.show();
                 this.trigger('show', this);
-                var video = document.querySelector('.shia-do-it video');
+                var video = document.querySelector('.b-shia .b-shia__container video');
                 video.style.visibility = "hidden";
                 video.src = "/../video/shia.webm";
                 video.load();

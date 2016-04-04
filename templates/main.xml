@@ -1,14 +1,14 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div class="b-page" id="main">
-        <div class="b-page__header g-center" id="header">
+        <div class="b-page__header" id="header">
             <h2>Tic tac toe</h2>
         </div>
-        <div class="b-menu g-center">
-            <a class="b-menu__link g-center" id="game" href="#game">Game</a>
-            <a class="b-menu__link g-center" id="canvas" href="#canvas">Canvas</a>
-            <a class="b-menu__link g-center" id="login" href="#login">Login</a>
-            <a class="b-menu__link g-center" id="register" href="#register">Register</a>
-            <a class="b-menu__link g-center" id="scoreboard" href="#scoreboard">Scoreboard</a>
+        <div class="b-menu">
+            <a class="b-menu__link" id="game" href="#game">Game</a>
+            <a class="b-menu__link" id="canvas" href="#canvas">Canvas</a>
+            <a class="b-menu__link" id="login" href="#login">Login</a>
+            <a class="b-menu__link" id="register" href="#register">Register</a>
+            <a class="b-menu__link" id="scoreboard" href="#scoreboard">Scoreboard</a>
         </div>
     </div>
 </fest:template>

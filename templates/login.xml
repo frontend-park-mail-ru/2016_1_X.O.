@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div id="login" class="b-page">
-        <div class="b-page__header g-center" id="header">
+        <div class="b-page__header" id="header">
             <h2>Login</h2>
         </div>
         <form class="b-form__row" id="loginForm">
@@ -25,15 +25,15 @@
                     <span class="b-form__error" id="passwordError"> </span>
                 </div>
             </div>
-            <div class="b-row g-center">
+            <div class="b-row b-form__button--center">
                 <button class="b-button" type="submit" id="loginSubmit">
                     Login
                 </button>
             </div>
         </form>
         <div class="b-row">
-            <a class="b-button g-float-left" id="register" href="#register">Register</a>
-            <a class="b-button g-float-right" id="main" href="#">Main menu</a>
+            <a class="b-button b-form__button--left" id="register" href="#register">Register</a>
+            <a class="b-button b-form__button--right" id="main" href="#">Main menu</a>
         </div>
     </div>
 </fest:template>
