@@ -31,7 +31,9 @@ define(function (require) {
                     this.set({'squareModels': this.get('squareModels').concat(
                         new SquareModel(x0 + currentX, y0 + currentY, i))
                     });
-                    if (i === 9) break;
+                    if (i === 9) {
+                        break;
+                    }
                     if (i % 3 === 0) {
                             currentY += this.get('squareModels')[i-1].get('size') +
                                 this.get('intervalBetweenRect');
