@@ -17,7 +17,7 @@ define(function (require) {
                 this.set({
                     'posX': posX,
                     'posY': posY,
-                    'id': id 
+                    'id': id
                 });
 
                 var currentX = 0,
@@ -43,17 +43,17 @@ define(function (require) {
                                 this.get('intervalBetweenRect');
                     }
                 }
-                
+
             },
-            
+
             onClick: function(x, y, playerModel) {
                 var x0 = this.get('posX'),
                     y0 = this.get('posY'),
                     half = this.get('size') / 2,
                     next;
-                
+
                 this.nextVal = 0;
-                
+
                 if(this.get('isClickable')) {
                     if(
                         (x0 - half <= x && y0 - half <= y) &&

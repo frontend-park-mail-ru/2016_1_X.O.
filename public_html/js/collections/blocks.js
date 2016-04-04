@@ -5,20 +5,20 @@ define(function (require) {
 
         var BlocksCollection = Backbone.Collection.extend({
             model: BlockModel,
-            
+
             initialize: function () {
                 this._isFinished = false;
             },
-            
+
             setStatus: function () {
-                if(this._isFinished){
+                if (this._isFinished) {
                     this._isFinished = false;
                 } else {
                     this._isFinished = true;
                 }
             },
-            
-            getStatus: function() {
+
+            getStatus: function () {
                 return this._isFinished;
             },
 
@@ -45,53 +45,54 @@ define(function (require) {
                 var values = [],
                     i;
 
-                if (this.getStatus() === false) {
-
-                    for (i = 0; i < 9; i++) {
-                        values.push(this.at(i).get('value'));
-                    }
-                
-
-                    //ряд
-                    for (i = 0; i < 9; i++) {
-                        if (values[i] && (values[i] === values[i + 1]) && (values[i] === values[i + 2])) {
-                            alert('WIN ' + values[i].toString());
-                            this.setStatus();
-                            return;
-                        }
-                        i += 2;
-                    }
-                    //колонна
-                    for (i = 0; i < 3; i++) {
-                        if (values[i] && (values[i] === values[i + 3]) && (values[i] === values[i + 6])) {
-                            alert('WIN ' + values[i].toString());
-                            this.setStatus();
-                            return;
-                        }
-                    }
-                    //диагональ
-                    if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
-                        alert('WIN ' + values[0].toString());
-                        this.setStatus();
-                        return;
-                    }
-
-                    //побочная диагональ
-                    if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
-                        alert('WIN ' + values[2].toString());
-                        this.setStatus();
-                        return;
-                    }
-
-                    //ничья
-                    for (i = 0; i < 9; i++) {
-                        if (!values[i]) {
-                            return;
-                        }
-                    }
-                    alert('DRAW');
-                    this.setStatus();
+                if (this.getStatus()) {
+                    return;
                 }
+
+                for (i = 0; i < 9; i++) {
+                    values.push(this.at(i).get('value'));
+                }
+
+
+                //ряд
+                for (i = 0; i < 9; i++) {
+                    if (values[i] && (values[i] === values[i + 1]) && (values[i] === values[i + 2])) {
+                        alert('WIN ' + values[i].toString());
+                        this.setStatus();
+                        return;
+                    }
+                    i += 2;
+                }
+                //колонна
+                for (i = 0; i < 3; i++) {
+                    if (values[i] && (values[i] === values[i + 3]) && (values[i] === values[i + 6])) {
+                        alert('WIN ' + values[i].toString());
+                        this.setStatus();
+                        return;
+                    }
+                }
+                //диагональ
+                if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
+                    alert('WIN ' + values[0].toString());
+                    this.setStatus();
+                    return;
+                }
+
+                //побочная диагональ
+                if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
+                    alert('WIN ' + values[2].toString());
+                    this.setStatus();
+                    return;
+                }
+
+                //ничья
+                for (i = 0; i < 9; i++) {
+                    if (!values[i]) {
+                        return;
+                    }
+                }
+                alert('DRAW');
+                this.setStatus();
             }
         });
         return new BlocksCollection();
