@@ -6,9 +6,13 @@ require.config({
         underscore: "lib/underscore",
         backbone: "lib/backbone",
         materialize: "lib/materialize",
-        hammerjs: "lib/hammer.min"
+        hammerjs: "lib/hammer.min",
+        easel: "lib/easel"
     },
     shim: {
+        'jquery' : {
+            exports: '$'
+        },
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
@@ -22,6 +26,9 @@ require.config({
         },
         'hammerjs': {
             exports: 'Hammer'
+        },
+        'easel': {
+            exports: 'createjs'
         }
     }
 });
