@@ -118,7 +118,7 @@ define(function (require) {
                         return;
                     }
                 }
-                this.set({'isClickable': false});
+                this.set({'isFinished': true, 'isClickable': false});
             }
         });
         return BlockModel;
