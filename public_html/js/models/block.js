@@ -59,10 +59,8 @@ define(function (require) {
                     return;
                 }
                 if (
-                    (x0 - half <= x && y0 - half <= y) &&
-                    (x0 - half <= x && y0 + half >= y) &&
-                    (x0 + half >= x && y0 - half <= y) &&
-                    (x0 + half >= x && y0 + half >= y)
+                    x0 - half <= x && y0 - half <= y &&
+                    x0 + half >= x && y0 + half >= y
                 ) {
                     this.get('squareModels').forEach(function (square) {
                         next = square.onClick(x, y, playerModel);

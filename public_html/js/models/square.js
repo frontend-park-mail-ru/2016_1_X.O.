@@ -25,10 +25,8 @@ define(function (require) {
                     return;
                 }
                 if (
-                    (x0 - half <= x && y0 - half <= y) &&
-                    (x0 - half <= x && y0 + half >= y) &&
-                    (x0 + half >= x && y0 - half <= y) &&
-                    (x0 + half >= x && y0 + half >= y)
+                    x0 - half <= x && y0 - half <= y &&
+                    x0 + half >= x && y0 + half >= y
                 ) {
                     this.set({'value': playerModel.get('id'), 'isClickable': false});
                     playerModel.changePlayer();
