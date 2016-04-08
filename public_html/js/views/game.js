@@ -45,7 +45,7 @@ define(function (require) {
             this.nextVal = 0;
             event.preventDefault();
             blocksCollection.models.forEach(function (block) {
-                next = block.onClick(event.offsetX, event.offsetY, this.player);
+                next = block.handleClick(event.offsetX, event.offsetY, this.player);
                 if(next) {
                     this.nextVal = next;
                     block.check();
