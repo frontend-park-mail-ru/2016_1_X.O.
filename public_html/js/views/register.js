@@ -23,6 +23,9 @@ define(function (require) {
                     login: this.$el.find('#loginError'),
                     password: this.$el.find('#passwordError')
                 };
+                this.video = document.querySelector('.b-shia .b-shia__container video');
+                this.video.style.visibility = "hidden";
+                this.video.src = "/../video/shia.webm";
                 this.hide();
             },
 
@@ -36,12 +39,15 @@ define(function (require) {
                 });
                 this.$el.show();
                 this.trigger('show', this);
-                var video = document.querySelector('.b-shia .b-shia__container video');
-                video.style.visibility = "hidden";
-                video.src = "/../video/shia.webm";
-                video.load();
-                video.style.visibility = "visible";
-                video.play();
+                this.video.load();
+                this.video.style.visibility = "visible";
+                this.video.play();
+            },
+
+            hide: function () {
+                this.video.style.visibility = "hidden";
+                this.video.pause();
+                this.$el.hide();
             },
 
             events: {
