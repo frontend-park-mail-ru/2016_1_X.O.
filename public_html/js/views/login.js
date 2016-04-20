@@ -18,12 +18,10 @@ define(function (require) {
                 this.$page.append(this.el);
                 this.render();
                 this.fields = {
-                    email: this.$el.find('#emailInput'),
                     login: this.$el.find('#loginInput'),
                     password: this.$el.find('#passwordInput')
                 };
                 this.errorFields = {
-                    email: this.$el.find('#emailError'),
                     login: this.$el.find('#loginError'),
                     password: this.$el.find('#passwordError')
                 };
@@ -32,7 +30,6 @@ define(function (require) {
 
             show: function() {
                 this.$page.append(this.el);
-                this.fields.email.val('');
                 this.fields.login.val('');
                 this.fields.password.val('');
                 this.$el.show();
@@ -45,28 +42,32 @@ define(function (require) {
             submit: function (event) {
                 event.preventDefault();
                 var uData = {
-                    email: this.fields.email.val(),
-                    login: this.fields.login.val(),
-                    password: this.fields.password.val()
-                };
-                var user = new User();
-                var errors = user.validate(uData);
+                        login: this.fields.login.val(),
+                        password: this.fields.password.val()
+                    },
 
-                _.each(this.errorFields, function(item) {
+                    user = new User(),
+
+                    errors = [
+                        user.validateLogin(uData.login),
+                        user.validatePass(uData.password)
+                    ],
+
+                    crap = 0;
+
+                _.each(this.errorFields, function (item) {
                     item.text('');
                 });
 
-                if(errors && errors.length) {
-                    _.each(errors, function(error) {
-                        if(this.errorFields[error.field]) {
-                            this.errorFields[error.field].text(error.error);
-                        }
-                    }.bind(this));
-                }
-                else
-                {
-                    user.set({email: uData.email, login: uData.login, password: uData.password});
-                    Backbone.history.navigate('', true);
+                _.each(errors, function (error) {
+                    if (error && this.errorFields[error.field]) {
+                        this.errorFields[error.field].text(error.error);
+                        crap++;
+                    }
+                }.bind(this));
+
+                if (crap === 0) {
+                    //TODO
                 }
             }
         });
