@@ -18,12 +18,10 @@ define(function (require) {
                 this.$page.append(this.el);
                 this.render();
                 this.fields = {
-                    email: this.$el.find('#emailInput'),
                     login: this.$el.find('#loginInput'),
                     password: this.$el.find('#passwordInput')
                 };
                 this.errorFields = {
-                    email: this.$el.find('#emailError'),
                     login: this.$el.find('#loginError'),
                     password: this.$el.find('#passwordError')
                 };
@@ -32,28 +30,27 @@ define(function (require) {
 
             show: function() {
                 this.$page.append(this.el);
-                this.fields.email.val('');
-                this.fields.login.val('');
-                this.fields.password.val('');
-                this.$el.show();
-                _.each(this.errorFields, function (item) {
-                    item.text('');
+                _.each(this.fields, function(field) {
+                    field.val('');
                 });
+                _.each(this.errorFields, function (errorField) {
+                    errorField.text('');
+                });
+                this.$el.show();
                 this.trigger('show', this);
             },
 
             submit: function (event) {
                 event.preventDefault();
                 var uData = {
-                    email: this.fields.email.val(),
                     login: this.fields.login.val(),
                     password: this.fields.password.val()
                 };
                 var user = new User();
                 var errors = user.validate(uData);
 
-                _.each(this.errorFields, function(item) {
-                    item.text('');
+                _.each(this.errorFields, function(errorField) {
+                    errorField.text('');
                 });
 
                 if(errors && errors.length) {
@@ -65,6 +62,7 @@ define(function (require) {
                 }
                 else
                 {
+                    //TODO
                     user.set({email: uData.email, login: uData.login, password: uData.password});
                     Backbone.history.navigate('', true);
                 }

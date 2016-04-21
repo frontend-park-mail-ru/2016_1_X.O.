@@ -15,18 +15,19 @@ define(function(require) {
                 passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
                 loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
 
-
-            if(data.email === '') {
-                errors.push({
-                    field: 'email',
-                    error: 'Where is your email bro?'
-                });
-            }
-            else if(!emailRegexp.test(data.email)) {
-                errors.push({
-                    field: 'email',
-                    error: 'Wrong email bro!'
-                });
+            if(data.email) {
+                if (data.email === '') {
+                    errors.push({
+                        field: 'email',
+                        error: 'Where is your email bro?'
+                    });
+                }
+                else if (!emailRegexp.test(data.email)) {
+                    errors.push({
+                        field: 'email',
+                        error: 'Wrong email bro!'
+                    });
+                }
             }
 
 
