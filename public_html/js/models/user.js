@@ -8,52 +8,57 @@ define(function(require) {
             password: ''
         },
 
-        validateLogin: function(login) {
-          var loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
-          if(login === '') {
-              return {
-                  field: 'login',
-                  error: 'Where is your login bro?'
-              }
-          }
-          else if(!loginRegexp.test(login)) {
-              return {
-                  field: 'login',
-                  error: 'Wrong login bro!'
-              }
-          }
-        },
+        validate: function(data) {
+            var errors = [];
 
-        validateEmail: function(email) {
-          var emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-          if(email === '') {
-              return {
-                  field: 'email',
-                  error: 'Where is your email bro?'
-              }
-          }
-          else if(!emailRegexp.test(email)) {
-              return {
-                  field: 'email',
-                  error: 'Wrong email bro!'
-              }
-          }
-        },
+            var emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
+                loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
 
-        validatePass: function(password) {
-          var passwRegexp = /^[0-9a-zA-Z]{1,16}$/;
-          if(password === '') {
-              return {
-                  field: 'password',
-                  error:'Where is your password bro?'
-              }
-          }
-          else if(!passwRegexp.test(password)) {
-              return {
-                  field: 'password',
-                  error: 'Wrong password bro!'
-              }
-          }
+            if(data.email) {
+                if (data.email === '') {
+                    errors.push({
+                        field: 'email',
+                        error: 'Where is your email bro?'
+                    });
+                }
+                else if (!emailRegexp.test(data.email)) {
+                    errors.push({
+                        field: 'email',
+                        error: 'Wrong email bro!'
+                    });
+                }
+            }
+
+
+            if(data.login === '') {
+                errors.push({
+                    field: 'login',
+                    error: 'Where is your login bro?'
+                });
+            }
+            else if(!loginRegexp.test(data.login)) {
+                errors.push({
+                    field: 'login',
+                    error: 'Wrong login bro!'
+                });
+            }
+
+            if(data.password === '') {
+                errors.push({
+                    field: 'password',
+                    error: 'Where is your password bro?'
+                });
+            }
+            else if(!passwRegexp.test(data.password)) {
+                errors.push({
+                    field: 'password',
+                    error: 'Wrong password bro!'
+                });
+            }
+            if(errors.length) {
+                return errors;
+            }
         }
     });
 
