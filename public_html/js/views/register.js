@@ -29,14 +29,13 @@ define(function (require) {
             this.hide();
         },
 
-<<<<<<< HEAD
         show: function () {
             this.$page.append(this.el);
-            this.fields.email.val('');
-            this.fields.login.val('');
-            this.fields.password.val('');
-            _.each(this.errorFields, function (item) {
-                item.text('');
+            _.each(this.fields, function (field) {
+                field.val('');
+            });
+            _.each(this.errorFields, function (errorField) {
+                errorField.text('');
             });
             this.$el.show();
             this.trigger('show', this);
@@ -44,22 +43,6 @@ define(function (require) {
             this.video.style.visibility = "visible";
             this.video.play();
         },
-=======
-            show: function () {
-                this.$page.append(this.el);
-                _.each(this.fields, function(field) {
-                    field.val('');
-                });
-                _.each(this.errorFields, function (errorField) {
-                    errorField.text('');
-                });
-                this.$el.show();
-                this.trigger('show', this);
-                this.video.load();
-                this.video.style.visibility = "visible";
-                this.video.play();
-            },
->>>>>>> af58459
 
         hide: function () {
             this.video.style.visibility = "hidden";
@@ -74,56 +57,28 @@ define(function (require) {
         submit: function (event) {
             event.preventDefault();
             var uData = {
-                    email: this.fields.email.val(),
-                    login: this.fields.login.val(),
-                    password: this.fields.password.val()
-                },
+                email: this.fields.email.val(),
+                login: this.fields.login.val(),
+                password: this.fields.password.val()
+            };
+            var user = new User();
+            var errors = user.validate(uData);
 
-<<<<<<< HEAD
-                user = new User(),
-
-                errors = [
-                    user.validateEmail(uData.email),
-                    user.validateLogin(uData.login),
-                    user.validatePass(uData.password)
-                ],
-                
-                crap = 0;
-
-            _.each(this.errorFields, function (item) {
-                item.text('');
+            _.each(this.errorFields, function (errorField) {
+                errorField.text('');
             });
-=======
-                var user = new User();
-                var errors = user.validate(uData);
-                
-                _.each(this.errorFields, function (errorField) {
-                    errorField.text('');
-                });
 
-                if (errors && errors.length) {
-                    _.each(errors, function (error) {
-                        if (this.errorFields[error.field]) {
-                            this.errorFields[error.field].text(error.error);
-                        }
-                    }.bind(this));
-                }
-                else {
-                    //TODO
-                    user.set({email: uData.email, login: uData.login, password: uData.password});
-                    Backbone.history.navigate('', true);
-                }
->>>>>>> af58459
-
-            _.each(errors, function (error) {
-                if (error && this.errorFields[error.field]) {
-                    this.errorFields[error.field].text(error.error);
-                    crap++;
-                }
-            }.bind(this));
-            
-            if (crap === 0) {
-                //TODO 
+            if (errors && errors.length) {
+                _.each(errors, function (error) {
+                    if (this.errorFields[error.field]) {
+                        this.errorFields[error.field].text(error.error);
+                    }
+                }.bind(this));
+            }
+            else {
+                //TODO
+                user.set({email: uData.email, login: uData.login, password: uData.password});
+                Backbone.history.navigate('', true);
             }
         }
     });
