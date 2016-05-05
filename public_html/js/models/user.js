@@ -3,10 +3,13 @@ define(function(require) {
 
     var UserModel = Backbone.Model.extend({
         defaults: {
+            id: '',
             email: '',
             login: '',
             password: ''
         },
+
+        urlRoot: '/user/' + this.get('id'),
 
         validate: function(data) {
             var errors = [];
@@ -29,7 +32,6 @@ define(function(require) {
                     });
                 }
             }
-
 
             if(data.login === '') {
                 errors.push({
@@ -62,5 +64,5 @@ define(function(require) {
         }
     });
 
-    return UserModel;
+    return new UserModel();
 });

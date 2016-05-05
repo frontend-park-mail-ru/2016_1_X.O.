@@ -77,7 +77,7 @@ define(function (require) {
             }
             else {
                 //TODO
-                user.set({email: uData.email, login: uData.login, password: uData.password});
+                user.register(uData);
                 Backbone.history.navigate('', true);
             }
         }
