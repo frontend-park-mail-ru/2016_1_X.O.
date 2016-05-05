@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'node server.js'
+                command: 'java -jar tictactoe-1.0.1-jar-with-dependencies.jar 8090'
             }
         },
         fest: {
@@ -43,7 +43,7 @@ module.exports = function (grunt) {
                     'public_html/css/**/*.css'
                 ],
                 options: {
-                    livereload: true
+                    //livereload: true
                 }
             }
         },

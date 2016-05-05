@@ -45,7 +45,7 @@ define(function (require) {
             submit: function (event) {
                 event.preventDefault();
                 var uData = {
-                    email: this.fields.email.val(),
+                    email: "email@email.com",
                     login: this.fields.login.val(),
                     password: this.fields.password.val()
                 };
@@ -65,8 +65,28 @@ define(function (require) {
                 }
                 else
                 {
-                    user.set({email: uData.email, login: uData.login, password: uData.password});
-                    Backbone.history.navigate('', true);
+                    $.ajax({
+                        url: "/session",
+                        method: "PUT",
+                        data: {
+                            login: uData.login,
+                            password: uData.password
+                        }
+                    }).done(function(data){
+                        data = JSON.parse(data);
+                        var id = data.id;
+                        $.ajax({
+                            url: "/user",
+                            method: "GET",
+                            data: {
+                                id: id
+                            }
+                        }).done(function(data){
+                            data = JSON.parse(data);
+                            user.set({email: data.email, login: data.login, password: data.password});
+                            Backbone.history.navigate('', true);
+                        });
+                    });
                 }
             }
         });

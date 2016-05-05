@@ -71,8 +71,23 @@ define(function (require) {
                     }.bind(this));
                 }
                 else {
-                    user.set({email: uData.email, login: uData.login, password: uData.password});
-                    Backbone.history.navigate('', true);
+                    $.ajax({
+                        url: "/user",
+                        method: "PUT",
+                        data: uData
+                    }).done(function(data){
+                        $.ajax({
+                            url: "/session",
+                            method: "PUT",
+                            data: {
+                                login: uData.login,
+                                password: uData.password
+                            }
+                        }).done(function(){
+                            user.set({email: uData.email, login: uData.login, password: uData.password});
+                            Backbone.history.navigate('', true);
+                        });
+                    });
                 }
 
             }
