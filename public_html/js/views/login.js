@@ -1,6 +1,7 @@
 define(function (require) {
 
-        var Backbone = require('backbone'),
+        var $ = require('jquery'),
+            Backbone = require('backbone'),
             _ = require('underscore'),
             BaseView = require('views/base'),
             tmpl = require('tmpl/login'),
@@ -65,27 +66,30 @@ define(function (require) {
                 }
                 else
                 {
+                    console.log('21212');
                     $.ajax({
                         url: "/session",
                         method: "PUT",
-                        data: {
+                        data: JSON.stringify({
                             login: uData.login,
                             password: uData.password
-                        }
+                        })
                     }).done(function(data){
                         data = JSON.parse(data);
                         var id = data.id;
                         $.ajax({
                             url: "/user",
                             method: "GET",
-                            data: {
+                            data: JSON.stringify({
                                 id: id
-                            }
+                            })
                         }).done(function(data){
                             data = JSON.parse(data);
                             user.set({email: data.email, login: data.login, password: data.password});
                             Backbone.history.navigate('', true);
                         });
+                    }).fail(function(response) {
+                        alert(user.handleServerError(response.responseText));
                     });
                 }
             }
