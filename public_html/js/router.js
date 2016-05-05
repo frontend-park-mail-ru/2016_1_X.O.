@@ -5,8 +5,10 @@ define(function (require) {
             registerView = require('views/register'),
             scoreboardView = require('views/scoreboard'),
             gameView = require('views/game'),
-            canvasView = require('views/canvas'),
-            viewManager = require('views/manager');
+            viewManager = require('views/manager'),
+            views = [mainView, loginView, registerView, scoreboardView, gameView];
+
+
 
         var Router = Backbone.Router.extend({
             routes: {
@@ -14,17 +16,11 @@ define(function (require) {
                 'register': 'registerAction',
                 'scoreboard': 'scoreboardAction',
                 'game': 'gameAction',
-                'canvas': 'canvasAction',
                 '*default': 'defaultAction'
             },
 
             initialize: function () {
-                viewManager.addView(mainView);
-                viewManager.addView(loginView);
-                viewManager.addView(registerView);
-                viewManager.addView(scoreboardView);
-                viewManager.addView(gameView);
-                viewManager.addView(canvasView);
+                viewManager.addViews(views);
             },
             loginAction: function () {
                 loginView.show();
@@ -40,9 +36,6 @@ define(function (require) {
             },
             defaultAction: function () {
                 mainView.show();
-            },
-            canvasAction: function() {
-                canvasView.show();
             }
         });
 

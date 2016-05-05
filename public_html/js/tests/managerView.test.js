@@ -26,10 +26,10 @@ define(function (require) {
             }),
 
             firstView = new SomeView(),
-            secondView = new SomeView();
+            secondView = new SomeView(),
+            views = [firstView, secondView];
 
-        viewManager.addView(firstView);
-        viewManager.addView(secondView);
+        viewManager.addViews(views);
 
         firstView.show();
         assert.ok(secondView.key, "hide second when show first");

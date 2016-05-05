@@ -11,11 +11,7 @@ define(function (require) {
             },
 
             setStatus: function () {
-                if (this._isFinished) {
-                    this._isFinished = false;
-                } else {
-                    this._isFinished = true;
-                }
+                this._isFinished = !this._isFinished;
             },
 
             getStatus: function () {

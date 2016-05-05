@@ -21,17 +21,18 @@ define(function (require) {
                     y0 = this.get('posY'),
                     half = this.get('size') / 2;
 
-                if (this.get('isClickable')) {
-                    if (
-                        (x0 - half <= x && y0 - half <= y) &&
-                        (x0 - half <= x && y0 + half >= y) &&
-                        (x0 + half >= x && y0 - half <= y) &&
-                        (x0 + half >= x && y0 + half >= y)
-                    ) {
-                        this.set({'value': playerModel.get('id'), 'isClickable': false});
-                        playerModel.changePlayer();
-                        return this.get('id');
-                    }
+                if (!this.get('isClickable')) {
+                    return;
+                }
+                if (
+                    (x0 - half <= x && y0 - half <= y) &&
+                    (x0 - half <= x && y0 + half >= y) &&
+                    (x0 + half >= x && y0 - half <= y) &&
+                    (x0 + half >= x && y0 + half >= y)
+                ) {
+                    this.set({'value': playerModel.get('id'), 'isClickable': false});
+                    playerModel.changePlayer();
+                    return this.get('id');
                 }
             }
 

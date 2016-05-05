@@ -3,10 +3,12 @@ define(function (require) {
 
     var Manager = Backbone.View.extend({
         views: [],
-
-        addView: function (currentView) {
-            this.views.push(currentView);
-            this.listenTo(currentView, 'show', this.onShow.bind(this, currentView));
+        
+        addViews: function (views) {
+            views.forEach(function (currentView) {
+                this.listenTo(currentView, 'show', this.onShow.bind(this, currentView));
+            }.bind(this));
+            this.views = this.views.concat(views);
         },
 
         onShow: function (currentView) {
