@@ -63,7 +63,6 @@ define(function(require) {
 
         handleServerError: function(data) {
             data = JSON.parse(data);
-            console.log(data);
             switch(data.error){
                 case 1:
                     return "BAD_INPUT_DATA";

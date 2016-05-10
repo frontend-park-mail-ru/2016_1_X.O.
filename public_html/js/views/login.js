@@ -66,23 +66,22 @@ define(function (require) {
                 }
                 else
                 {
-                    console.log('21212');
                     $.ajax({
                         url: "/session",
                         method: "PUT",
-                        data: JSON.stringify({
+                        data: {
                             login: uData.login,
                             password: uData.password
-                        })
+                        }
                     }).done(function(data){
                         data = JSON.parse(data);
                         var id = data.id;
                         $.ajax({
                             url: "/user",
                             method: "GET",
-                            data: JSON.stringify({
+                            data: {
                                 id: id
-                            })
+                            }
                         }).done(function(data){
                             data = JSON.parse(data);
                             user.set({email: data.email, login: data.login, password: data.password});

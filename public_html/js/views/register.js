@@ -75,15 +75,15 @@ define(function (require) {
                     $.ajax({
                         url: "/user",
                         method: "PUT",
-                        data: JSON.stringify(uData)
+                        data: uData
                     }).done(function(){
                         $.ajax({
                             url: "/session",
                             method: "PUT",
-                            data: JSON.stringify({
+                            data: {
                                 login: uData.login,
                                 password: uData.password
-                            })
+                            }
                         }).done(function(){
                             user.set({email: uData.email, login: uData.login, password: uData.password});
                             Backbone.history.navigate('', true);
