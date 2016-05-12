@@ -9,7 +9,7 @@ define(function(require) {
             password: ''
         },
 
-        urlRoot: '/user/' + this.get('id'),
+        // urlRoot: '/user/' + this.get('id').toString(),
 
         validate: function(data) {
             var errors = [];
@@ -18,7 +18,7 @@ define(function(require) {
                 passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
                 loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
 
-            if(data.email) {
+            if(data.email !== undefined) {
                 if (data.email === '') {
                     errors.push({
                         field: 'email',
@@ -58,11 +58,12 @@ define(function(require) {
                     error: 'Wrong password bro!'
                 });
             }
+
             if(errors.length) {
                 return errors;
             }
         }
     });
 
-    return new UserModel();
+    return UserModel;
 });

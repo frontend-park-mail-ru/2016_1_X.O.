@@ -31,8 +31,6 @@ define(function (require) {
                     'collection': this.get('collection').createCollection(x0, y0, currentX, currentY,
                     this.get('intervalBetweenRect'))
                 });
-
-                console.log(this.get('collection'));
             },
 
             handleClick: function (x, y, playerModel) {
