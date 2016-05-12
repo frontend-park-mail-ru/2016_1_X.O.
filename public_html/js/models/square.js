@@ -21,13 +21,14 @@ define(function (require) {
             },
 
             isInside: function (x, y) {
-                var x0 = this.get('posX'),
-                    y0 = this.get('posY'),
-                    half = this.get('size') / 2;
-
                 if (!this.get('isClickable')) {
                     return false;
                 }
+                
+                var x0 = this.get('posX'),
+                    y0 = this.get('posY'),
+                    half = this.get('size') / 2;
+                
                 return x0 - half <= x && y0 - half <= y && x0 + half >= x && y0 + half >= y
             },
 
@@ -35,7 +36,10 @@ define(function (require) {
                 if (!this.isInside(x, y)) {
                     return;
                 }
-                this.set({'value': playerModel.get('id'), 'isClickable': false});
+                this.set({
+                    'value': playerModel.get('id'), 
+                    'isClickable': false
+                });
                 playerModel.changePlayer();
                 return this.get('id');
             }

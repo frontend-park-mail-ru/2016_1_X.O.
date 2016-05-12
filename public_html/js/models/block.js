@@ -63,7 +63,11 @@ define(function (require) {
                 //ряд
                 for (i = 0; i < 9; i++) {
                     if (values[i] && (values[i] === values[i + 1]) && (values[i] === values[i + 2])) {
-                        this.set({'isFinished': true, 'isClickable': false, 'value': values[i]});
+                        this.set({
+                            'isFinished': true, 
+                            'isClickable': false, 
+                            'value': values[i]
+                        });
                         return;
                     }
                     i += 2;
@@ -71,19 +75,31 @@ define(function (require) {
                 //колонна
                 for (i = 0; i < 3; i++) {
                     if (values[i] && (values[i] === values[i + 3]) && (values[i] === values[i + 6])) {
-                        this.set({'isFinished': true, 'isClickable': false, 'value': values[i]});
+                        this.set({
+                            'isFinished': true,
+                            'isClickable': false,
+                            'value': values[i]
+                        });
                         return;
                     }
                 }
                 //диагональ
                 if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
-                    this.set({'isFinished': true, 'isClickable': false, 'value': values[0]});
+                    this.set({
+                        'isFinished': true,
+                        'isClickable': false,
+                        'value': values[0]
+                    });
                     return;
                 }
 
                 //побочная диагональ
                 if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
-                    this.set({'isFinished': true, 'isClickable': false, 'value': values[2]});
+                    this.set({
+                        'isFinished': true,
+                        'isClickable': false, 
+                        'value': values[2]
+                    });
                     return;
                 }
 
@@ -93,7 +109,10 @@ define(function (require) {
                         return;
                     }
                 }
-                this.set({'isFinished': true, 'isClickable': false});
+                this.set({
+                    'isFinished': true, 
+                    'isClickable': false
+                });
             }
         });
         return BlockModel;
