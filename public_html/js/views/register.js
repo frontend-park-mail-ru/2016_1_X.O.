@@ -1,5 +1,6 @@
 define(function (require) {
     var Backbone = require('backbone'),
+        $ = require('jquery'),
         _ = require('underscore'),
         BaseView = require('views/base'),
         tmpl = require('tmpl/register'),
