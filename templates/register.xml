@@ -3,11 +3,11 @@
         <div class="b-page__header" id="header">
             <h2>Register</h2>
         </div>
-        <form class="b-form__row" id="registerForm">
+        <form class="b-form" id="registerForm">
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Email</p>
-                    <input id="emailInput" type="email" placeholder="example@email.com"/>
+                    <input id="emailInput" type="text" placeholder="example@email.com"/>
                     <span class="b-form__error" id="emailError"> </span>
                 </div>
             </div>
