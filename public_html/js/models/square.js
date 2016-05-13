@@ -8,7 +8,7 @@ define(function (require) {
                 isClickable: true
             },
 
-            initialize: function (posX, posY, id) {
+            setInit: function (posX, posY, id) {
                 this.set({
                     'posX': posX,
                     'posY': posY,
@@ -16,24 +16,32 @@ define(function (require) {
                 });
             },
 
-            onClick: function (x, y, playerModel) {
+            initialize: function (posX, posY, id) {
+                this.setInit(posX, posY, id);
+            },
+
+            isInside: function (x, y) {
+                if (!this.get('isClickable')) {
+                    return false;
+                }
+                
                 var x0 = this.get('posX'),
                     y0 = this.get('posY'),
                     half = this.get('size') / 2;
+                
+                return x0 - half <= x && y0 - half <= y && x0 + half >= x && y0 + half >= y
+            },
 
-                if (!this.get('isClickable')) {
+            handleClick: function (x, y, playerModel) {
+                if (!this.isInside(x, y)) {
                     return;
                 }
-                if (
-                    (x0 - half <= x && y0 - half <= y) &&
-                    (x0 - half <= x && y0 + half >= y) &&
-                    (x0 + half >= x && y0 - half <= y) &&
-                    (x0 + half >= x && y0 + half >= y)
-                ) {
-                    this.set({'value': playerModel.get('id'), 'isClickable': false});
-                    playerModel.changePlayer();
-                    return this.get('id');
-                }
+                this.set({
+                    'value': playerModel,
+                    'isClickable': false
+                });
+                //playerModel.changePlayer();
+                this.trigger(this.get('id').toString());
             }
 
         });

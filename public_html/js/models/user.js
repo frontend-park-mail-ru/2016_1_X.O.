@@ -4,9 +4,10 @@ define(function(require) {
     var UserModel = Backbone.Model.extend({
         defaults: {
             email: '',
-            login: '',
-            password: ''
+            login: ''
         },
+
+        urlRoot: '/user',
 
         validate: function(data) {
             var errors = [];
@@ -15,20 +16,20 @@ define(function(require) {
                 passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
                 loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
 
-
-            if(data.email === '') {
-                errors.push({
-                    field: 'email',
-                    error: 'Where is your email bro?'
-                });
+            if(data.email !== undefined) {
+                if (data.email === '') {
+                    errors.push({
+                        field: 'email',
+                        error: 'Where is your email bro?'
+                    });
+                }
+                else if (!emailRegexp.test(data.email)) {
+                    errors.push({
+                        field: 'email',
+                        error: 'Wrong email bro!'
+                    });
+                }
             }
-            else if(!emailRegexp.test(data.email)) {
-                errors.push({
-                    field: 'email',
-                    error: 'Wrong email bro!'
-                });
-            }
-
 
             if(data.login === '') {
                 errors.push({
@@ -100,5 +101,5 @@ define(function(require) {
         }
     });
 
-    return UserModel;
+    return new UserModel();
 });

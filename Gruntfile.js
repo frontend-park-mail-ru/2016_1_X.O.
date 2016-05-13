@@ -28,6 +28,16 @@ module.exports = function (grunt) {
                 }
             }
         },
+        sass: {
+            options: {
+                outputStyle: 'nested',
+            },
+            dist: {
+                files: {
+                    'public_html/css/main.css': 'public_html/scss/main.scss'
+                }
+            }
+        },
         watch: {
             fest: {
                 files: ['templates/*.xml'],
@@ -37,10 +47,18 @@ module.exports = function (grunt) {
                     atBegin: true
                 }
             },
+            sass: {
+                files: 'public_html/scss/*.scss',
+                tasks: ['sass'],
+                options: {
+                    atBegin: true
+                }
+            },
             server: {
                 files: [
                     'public_html/js/**/*.js',
-                    'public_html/css/**/*.css'
+                    'public_html/css/**/*.css',
+                    'public_html/scss/**/*.scss'
                 ],
                 options: {
                     //livereload: true
@@ -63,6 +81,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-fest');
+    grunt.loadNpmTasks('grunt-sass');
 
     grunt.registerTask('test', ['qunit:all']);
     grunt.registerTask('default', ['concurrent']);
