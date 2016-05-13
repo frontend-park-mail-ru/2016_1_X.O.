@@ -10,8 +10,7 @@ define(function (require) {
                 value: 0,
                 intervalBetweenRect: 20,
                 isClickable: true,
-                isFinished: false,
-                collection: new SquaresCollection
+                isFinished: false
             },
 
             initialize: function (posX, posY, id) {
@@ -28,25 +27,9 @@ define(function (require) {
                     y0 = this.get('posY') - squareY;
 
                 this.set({
-                    'collection': this.get('collection').createCollection(x0, y0, currentX, currentY,
+                    'collection': new SquaresCollection(x0, y0, currentX, currentY,
                     this.get('intervalBetweenRect'))
                 });
-            },
-
-            handleClick: function (x, y, playerModel) {
-                var next;
-                this.nextVal = 0;
-
-                if (!this.isInside(x, y)) {
-                    return;
-                }
-                _.forEach(this.get('collection').models, function (square) {
-                    next = square.handleClick(x, y, playerModel);
-                    if (next) {
-                        this.nextVal = next;
-                    }
-                }.bind(this));
-                return this.nextVal;
             },
 
             check: function () {

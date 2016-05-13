@@ -20,7 +20,7 @@ define(function (require) {
             var color = '';
             var border = new createjs.Shape();
             if (this.model.get('isClickable')) {
-                if (player.get('id') === 1) {
+                if (player === 1) {
                     color = '#ffff00';
                 } else {
                     color = '#d50000';

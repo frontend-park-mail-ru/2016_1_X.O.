@@ -8,6 +8,15 @@ define(function(require) {
             this.stage = stage;
             this.model = model;
         },
+
+        events: {
+            "click #gameCanvas": "handleClick"
+        },
+
+        handleClick: function (e) {
+            e.preventDefault();
+            this.model.handleClick(e.offsetX, e.offsetY, 1);
+        },
         
         renderRect: function (rect) {
             rect.graphics.drawRect(

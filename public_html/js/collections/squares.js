@@ -1,14 +1,14 @@
 define(function (require) {
 
     var Backbone = require('backbone'),
-        SquareModel = require('models/square');
+        Model = require('models/square');
 
     var SquaresCollection = Backbone.Collection.extend({
-        model: SquareModel,
+        model: Model,
 
-        createCollection: function(x0, y0, currentX, currentY, interval) {
+        initialize: function(x0, y0, currentX, currentY, interval) {
             for (var i = 1; i <= 9; i++) {
-                this.add(new SquareModel(x0 + currentX, y0 + currentY, i));
+                this.add(new Model(x0 + currentX, y0 + currentY, i));
                 if (i === 9) {
                     break;
                 }
@@ -19,7 +19,6 @@ define(function (require) {
                     currentX += this.at(i - 1).get('size') + interval;
                 }
             }
-            return this;
         }
         
     });

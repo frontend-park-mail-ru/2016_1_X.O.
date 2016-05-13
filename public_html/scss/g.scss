@@ -1,0 +1,13 @@
+.g{
+  &-center {
+    text-align: center;
+  }
+  &-float {
+    &-left {
+      float: left !important;
+    }
+    &-right {
+      float: right !important;
+    }
+  }
+}

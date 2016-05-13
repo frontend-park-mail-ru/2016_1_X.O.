@@ -1,0 +1,12 @@
+.b{
+  &-page{
+    margin: 0 auto;
+    max-width: 1280px;
+    overflow: auto;
+    width: 90%;
+    &__header{
+      @extend .b-page;
+      @extend .g-center;
+    }
+  }
+}

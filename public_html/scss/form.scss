@@ -1,0 +1,29 @@
+.b{
+  &-form{
+    @extend .b-row;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 0.75rem;
+    width: 100%;
+    margin-left: 0;
+    &__row{
+
+    }
+    &__error{
+      color: red;
+    }
+    &__button{
+      &--left{
+        @extend .g-float-left;
+      }
+      &--right{
+        @extend .g-float-right;
+      }
+      &--center{
+        @extend .g-center;
+      }
+    }
+  }
+}

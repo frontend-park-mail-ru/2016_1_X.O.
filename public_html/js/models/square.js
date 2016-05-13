@@ -37,11 +37,11 @@ define(function (require) {
                     return;
                 }
                 this.set({
-                    'value': playerModel.get('id'), 
+                    'value': playerModel,
                     'isClickable': false
                 });
-                playerModel.changePlayer();
-                return this.get('id');
+                //playerModel.changePlayer();
+                this.trigger(this.get('id').toString());
             }
 
         });
