@@ -76,6 +76,32 @@ define(function (require) {
                 }.bind(this));
             }
             else {
+                // user.save({
+                //         email: uData.email,
+                //         login: uData.login,
+                //         password: uData.password
+                //     },
+                //     {
+                //         success: function (model, response) {
+                //             session.save({
+                //                 login: uData.login,
+                //                 password: uData.password
+                //             }, {
+                //                 success: function (model, response) {
+                //                     alert('success');
+                //                     //TODO
+                //                 },
+                //                 error: function (model, response) {
+                //                     console.log(model.toJSON());
+                //                     alert(user.handleServerError(response.responseText));
+                //                 }
+                //             })
+                //         },
+                //         error: function (model, response) {
+                //             console.log(model.toJSON());
+                //             alert(user.handleServerError(response.responseText));
+                //         }
+                //     });
                 $.ajax({
                     url: "/user",
                     method: "PUT",

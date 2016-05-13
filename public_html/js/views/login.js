@@ -80,6 +80,7 @@ define(function (require) {
                                 id: id
                             }
                         }).done(function(data){
+                            console.log(data);
                             alert('success');
                             //TODO
                             Backbone.history.navigate('', true);
