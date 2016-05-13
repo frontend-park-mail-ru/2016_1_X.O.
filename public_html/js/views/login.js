@@ -6,7 +6,7 @@ define(function (require) {
             BaseView = require('views/base'),
             tmpl = require('tmpl/login'),
             session = require('models/session'),
-            user = require('models/user');
+            User = require('models/user');
 
         var LoginView = BaseView.extend({
             template: tmpl,
@@ -44,6 +44,7 @@ define(function (require) {
 
             submit: function (event) {
                 event.preventDefault();
+                var user = new User();
                 var uData = {
                     login: this.fields.login.val(),
                     password: this.fields.password.val()

@@ -5,7 +5,7 @@ define(function (require) {
         BaseView = require('views/base'),
         tmpl = require('tmpl/register'),
         session = require('models/session'),
-        user = require('models/user');
+        User = require('models/user');
 
     var RegisterView = BaseView.extend({
         template: tmpl,
@@ -57,6 +57,7 @@ define(function (require) {
 
         submit: function (event) {
             event.preventDefault();
+            var user = new User();
             var uData = {
                 email: this.fields.email.val(),
                 login: this.fields.login.val(),

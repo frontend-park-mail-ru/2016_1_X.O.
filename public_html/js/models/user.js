@@ -142,5 +142,5 @@ define(function(require) {
         }
     });
 
-    return new UserModel();
+    return UserModel;
 });
