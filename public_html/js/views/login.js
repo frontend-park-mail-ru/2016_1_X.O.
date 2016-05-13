@@ -4,7 +4,8 @@ define(function (require) {
             _ = require('underscore'),
             BaseView = require('views/base'),
             tmpl = require('tmpl/login'),
-            User = require('models/user');
+            session = require('models/session'),
+            user = require('models/user');
 
         var LoginView = BaseView.extend({
             template: tmpl,
@@ -46,7 +47,6 @@ define(function (require) {
                     login: this.fields.login.val(),
                     password: this.fields.password.val()
                 };
-                var user = new User();
                 var errors = user.validate(uData);
 
                 _.each(this.errorFields, function(errorField) {
@@ -62,9 +62,8 @@ define(function (require) {
                 }
                 else
                 {
+                    session.login(uData);
                     //TODO
-                    user.set({email: uData.email, login: uData.login, password: uData.password});
-                    Backbone.history.navigate('', true);
                 }
             }
         });

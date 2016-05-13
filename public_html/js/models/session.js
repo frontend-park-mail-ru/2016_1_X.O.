@@ -1,103 +1,86 @@
-define(function(require) {
+define(function (require) {
     var Backbone = require('backbone'),
+        _ = require('underscore');
         user = require('models/user');
 
     var Session = Backbone.Model.extend({
         defaults: {
-            'isAuth': false
+            'isAuth': false,
+            'id': ''
         },
         urlRoot: '/session',
         initialize: function() {
+            this.excludeAttrs = ['isAuth', 'id'];
             this.fetch({
-                success: function(data) {
+                success: function(model, response) {
                     this.set({
                         'isAuth': true
                     });
                     user.set({
-                        'id': data.id
+                        'id': response.id
                     });
                 }.bind(this),
-                error: function() {
+                error: function(model, response) {
                     this.set({
                         'isAuth': false
                     });
+                    alert(user.handleServerError(response.responseText));
                 }.bind(this)
             });
+            user.on('login', function() {
+                this.set('isAuth', true);
+                this.trigger('login');
+            }.bind(this));
         },
-        login: function(login, password) {
-            $.ajax({
-                method: 'POST',
-                url: '/session',
-                data: JSON.stringify({
-                    'login': login,
-                    'password': password
-                }),
-                contentType: 'application/json',
-                success: function (data) {
-                    user.set('_id', data._id);
+
+        login: function(data) {
+            this.save({
+                'login': data.login,
+                'password': data.password
+            },{
+                success: function (model, response) {
+                    user.set('id', response.id);
                     user.fetch();
-                    this.set('isAuth', true);
+                    this.set({
+                        'isAuth': true
+                    });
                     this.trigger('login');
                 }.bind(this),
-                error: function () {
-                    this.trigger('invalidLoginPassword', 'Invalid login or password');
-                }.bind(this)
+                error: function (model, response) {
+                    alert(user.handleServerError(response.responseText));
+                }.bind(this),
+                method: 'put'
             });
         },
         logout: function() {
-            $.ajax({
-                method: 'DELETE',
-                url: '/session',
-                contentType: 'application/json',
+            this.save(null, {
                 success: function() {
-                    window.location.hash = 'main';
-                    this.set('isAuth', false);
+                    this.set({
+                        'isAuth': false
+                    });
                     user.clear();
                 }.bind(this),
-                error: function () {
-                    this.trigger('invalidLogout');
-                }.bind(this)
-            });
-        },
-        register: function(login, password, email) {
-            $.ajax({
-                method: 'POST',
-                url: '/user',
-                data: JSON.stringify({
-                    'login': login,
-                    'password': password,
-                    'email': email
-                }),
-                contentType: 'application/json',
-                success: function (data) {
-                    this.set('isAuth', true);
-                    user.set('_id', data._id);
-                    user.fetch();
-                    this.trigger('login');
+                error: function (model, response) {
+                    alert(user.handleServerError(response.responseText));
                 }.bind(this),
-                error: function () {
-                    this.trigger('invalidLoginPassword', 'Invalid data');
-                }.bind(this)
+                method: 'delete'
             });
         },
-        validateLogin: function (login, password1) {
-            if ( !(login && password1) ) {
-                this.trigger('invalidLoginPassword', 'All fields required');
-                return false;
-            }
-            return true;
+        destroy: function(options) {
+            this.isNew = function() {return false;};
+            Backbone.Model.prototype.destroy.apply(this, arguments);
+            this.isNew = Backbone.Model.prototype.isNew;
         },
-        validateRegistration: function (email, login, password1, password2) {
-            if ( !(email && login && password1 && password2) ) {
-                this.trigger('invalidLoginPassword', 'All fields required');
-                return false;
+        save: function (attrs, options) {
+            attrs = attrs || this.toJSON();
+            options = options || {};
+            if (this.excludeAttrs) {
+                attrs = _.omit(attrs, this.excludeAttrs);
             }
-            if (password1 !== password2) {
-                this.trigger('invalidLoginPassword', 'Passwords must match');
-                return false;
-            }
-            return true;
+            options.attrs = attrs;
+            Backbone.Model.prototype.save.call(this, attrs, options);
         },
+
         isLoggedIn: function() {
             return this.get('isAuth');
         }

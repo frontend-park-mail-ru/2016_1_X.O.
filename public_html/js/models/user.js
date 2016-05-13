@@ -3,13 +3,30 @@ define(function(require) {
 
     var UserModel = Backbone.Model.extend({
         defaults: {
-            id: '',
             email: '',
-            login: '',
-            password: ''
+            login: ''
         },
 
-        // urlRoot: '/user/' + this.get('id').toString(),
+        urlRoot: '/user',
+
+        register: function(data) {
+            this.save({
+                'login': data.login,
+                'email': data.email,
+                'password': data.password
+            },{
+                success: function (model, response) {
+                    this.set({
+                        'id': response.id
+                    });
+                    this.fetch();
+                    this.trigger('login');
+                }.bind(this),
+                error: function (model, response) {
+                    alert(this.handleServerError(response.responseText));
+                }.bind(this)
+            });
+        },
 
         validate: function(data) {
             var errors = [];
@@ -62,8 +79,46 @@ define(function(require) {
             if(errors.length) {
                 return errors;
             }
+        },
+
+        handleServerError: function(data) {
+            data = JSON.parse(data);
+            switch(data.error){
+                case 1:
+                    return "BAD_INPUT_DATA";
+                    break;
+                case 2:
+                    return "LOGIN_REQUIRED";
+                    break;
+                case 101:
+                    return "LOGIN_IN_USE";
+                    break;
+                case 102:
+                    return "EMAIL_IN_USE";
+                    break;
+                case 103:
+                    return "BAD_LOGIN";
+                    break;
+                case 104:
+                    return "BAD_EMAIL";
+                    break;
+                case 105:
+                    return "BAD_PASSWORD";
+                    break;
+                case 106:
+                    return "BAD_ID";
+                    break;
+                case 107:
+                    return "WRONG_CREDENTIALS";
+                    break;
+                case 108:
+                    return "NO_USER";
+                    break;
+                default:
+                    return "Unknown error"
+            }
         }
     });
 
-    return UserModel;
+    return new UserModel();
 });
