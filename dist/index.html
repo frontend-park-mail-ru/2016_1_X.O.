@@ -10,10 +10,36 @@
 
 <body>
 
+<div id="prehead" class="g-center">
+    <h2>Tic tac toe</h2>
+</div>
+<div id="preloader" class="preloader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
 <div id="page">
 
 </div>
 
+<script>
+    var head = document.getElementById('prehead');
+    var preloader = document.getElementById('preloader');
+    var page = document.getElementById('page');
+    page.style.display = 'none';
+    function change() {
+        prehead.style.display = 'none';
+        preloader.style.display = 'none';
+        page.style.display = 'block';
+    }
+    window.onload = function() {
+        setTimeout(change, 3000);
+    }
+</script>
 <script type = "text/javascript" src="js/build.min.js"></script>
 
 </body>
