@@ -22,6 +22,10 @@ define(function (require) {
             this.$el.appendTo("#page");
             this.$el.show();
             this.trigger('show', this);
+        },
+        
+        hide: function() {
+            this.$el.hide();
         }
     });
     return new GameView();

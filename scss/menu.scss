@@ -1,0 +1,36 @@
+.b{
+  &-menu {
+    @extend .b-page;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    &__link {
+      text-transform: uppercase;
+      background-color: #fff;
+      line-height: 1.5rem;
+      padding: 10px 20px;
+      margin: 0;
+      border-bottom: 1px solid #e0e0e0;
+      display: block;
+      -webkit-transition: 0.25s;
+      -moz-transition: 0.25s;
+      -o-transition: 0.25s;
+      -ms-transition: 0.25s;
+      transition: 0.25s;
+      color: #26a69a;
+      text-align: center;
+      &active {
+        background-color: #26a69a;
+        color: #eafaf9;
+      }
+      &:not(.active):hover {
+        background-color: #ddd;
+      }
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}

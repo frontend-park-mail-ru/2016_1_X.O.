@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'java -jar tictactoe-1.0.1-jar-with-dependencies.jar 8090'
+                command: 'node server'
             }
         },
         fest: {
@@ -30,12 +30,37 @@ module.exports = function (grunt) {
         },
         sass: {
             options: {
-                outputStyle: 'nested',
+                outputStyle: 'nested'
             },
             dist: {
                 files: {
-                    'public_html/css/main.css': 'public_html/scss/main.scss'
+                    'public_html/css/main.css': 'scss/main.scss'
                 }
+            }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: "./public_html/js",
+                    mainConfigFile: "./public_html/js/config.js",
+                    include: ["../../node_modules/almond/almond.js", "main.js"],
+                    out: "dist/js/build.min.js",
+                    findNestedDependencies: true,
+                    wrap: true,
+                    insertRequire: ["main.js"]
+                }
+            }
+        },
+        concat: {
+            css: {
+                src: './public_html/css/*.css',
+                dest: './public_html/css/concat/concat.css'
+            }
+        },
+        cssmin: {
+            target: {
+                src: './public_html/css/concat/concat.css',
+                dest: './dist/css/concat.min.css'
             }
         },
         watch: {
@@ -48,7 +73,7 @@ module.exports = function (grunt) {
                 }
             },
             sass: {
-                files: 'public_html/scss/*.scss',
+                files: 'scss/*.scss',
                 tasks: ['sass'],
                 options: {
                     atBegin: true
@@ -58,10 +83,10 @@ module.exports = function (grunt) {
                 files: [
                     'public_html/js/**/*.js',
                     'public_html/css/**/*.css',
-                    'public_html/scss/**/*.scss'
+                    'scss/**/*.scss'
                 ],
                 options: {
-                    //livereload: true
+                    livereload: true
                 }
             }
         },
@@ -82,7 +107,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-fest');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
+    grunt.registerTask('compile', ['requirejs', 'concat', 'cssmin']);
     grunt.registerTask('test', ['qunit:all']);
     grunt.registerTask('default', ['concurrent']);
 
