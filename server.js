@@ -4,7 +4,7 @@ var express = require('express'),
 
 var HOSTNAME = 'localhost',
 	PORT = 8080,
-	PUBLIC_DIR = __dirname + '/public_html';
+	PUBLIC_DIR = __dirname + '/dist';
 
 var requestCounter = 0;
 

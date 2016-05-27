@@ -87,7 +87,7 @@ define(function (require) {
                             Backbone.history.navigate('', true);
                         });
                     }).fail(function(response) {
-                        alert(user.handleServerError(response.responseText));
+                        user.handleServerError(response.responseText);
                     });
                 }
             }

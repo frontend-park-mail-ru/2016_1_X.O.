@@ -94,13 +94,13 @@ define(function (require) {
                 //                 },
                 //                 error: function (model, response) {
                 //                     console.log(model.toJSON());
-                //                     alert(user.handleServerError(response.responseText));
+                //                     user.handleServerError(response.responseText);
                 //                 }
                 //             })
                 //         },
                 //         error: function (model, response) {
                 //             console.log(model.toJSON());
-                //             alert(user.handleServerError(response.responseText));
+                //             user.handleServerError(response.responseText);
                 //         }
                 //     });
                 $.ajax({
@@ -121,7 +121,7 @@ define(function (require) {
                         Backbone.history.navigate('', true);
                     });
                 }).fail(function (response) {
-                    alert(user.handleServerError(response.responseText));
+                    user.handleServerError(response.responseText);
                 });
             }
         }
