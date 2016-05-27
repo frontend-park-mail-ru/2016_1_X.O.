@@ -1,6 +1,6 @@
 define(function (require) {
     var Backbone = require('backbone'),
-        _ = require('underscore');
+        _ = require('underscore'),
         user = require('models/user');
 
     var Session = Backbone.Model.extend({

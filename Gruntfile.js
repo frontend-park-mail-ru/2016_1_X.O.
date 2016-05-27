@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'node server'
+                command: 'java -jar tictactoe-1.0.1-jar-with-dependencies.jar 8090'
             }
         },
         fest: {

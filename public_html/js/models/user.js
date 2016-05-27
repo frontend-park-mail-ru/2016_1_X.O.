@@ -5,7 +5,19 @@ define(function(require) {
     var UserModel = Backbone.Model.extend({
         defaults: {
             email: "",
-            login: ""
+            login: "",
+            responseMap: {
+                1: "BAD_INPUT_DATA",
+                2: "LOGIN_REQUIRED",
+                101: "LOGIN_IN_USE",
+                102: "EMAIL_IN_USE",
+                103: "BAD_LOGIN",
+                104: "BAD_EMAIL",
+                105: "BAD_PASSWORD",
+                106: "BAD_ID",
+                107: "WRONG_CREDENTIALS",
+                108: "NO_USER"
+            }
         },
 
         urlRoot: "/user",
@@ -105,39 +117,13 @@ define(function(require) {
 
         handleServerError: function(data) {
             data = JSON.parse(data);
-            switch(data.error){
-                case 1:
-                    return "BAD_INPUT_DATA";
-                    break;
-                case 2:
-                    return "LOGIN_REQUIRED";
-                    break;
-                case 101:
-                    return "LOGIN_IN_USE";
-                    break;
-                case 102:
-                    return "EMAIL_IN_USE";
-                    break;
-                case 103:
-                    return "BAD_LOGIN";
-                    break;
-                case 104:
-                    return "BAD_EMAIL";
-                    break;
-                case 105:
-                    return "BAD_PASSWORD";
-                    break;
-                case 106:
-                    return "BAD_ID";
-                    break;
-                case 107:
-                    return "WRONG_CREDENTIALS";
-                    break;
-                case 108:
-                    return "NO_USER";
-                    break;
-                default:
-                    return "Unknown error"
+            if (this.get('responseMap')[data.error]) {
+                //TODO
+                console.log(this.get('responseMap')[data.error])
+            }
+            else {
+                //TODO
+                console.log('unknown error');
             }
         }
     });
