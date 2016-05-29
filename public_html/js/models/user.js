@@ -1,65 +1,84 @@
 define(function(require) {
     var Backbone = require('backbone'),
-        _ = require('underscore');
+        $ = require('jquery');
 
     var UserModel = Backbone.Model.extend({
         defaults: {
-            email: "",
             login: "",
-            responseMap: {
-                1: "BAD_INPUT_DATA",
-                2: "LOGIN_REQUIRED",
-                101: "LOGIN_IN_USE",
-                102: "EMAIL_IN_USE",
-                103: "BAD_LOGIN",
-                104: "BAD_EMAIL",
-                105: "BAD_PASSWORD",
-                106: "BAD_ID",
-                107: "WRONG_CREDENTIALS",
-                108: "NO_USER"
-            }
+            id: 0,
+            isAuth: false,
+            sessionUrl: "/session",
+            userUrl: "/user"
         },
 
-        urlRoot: "/user",
-
-        sync: function (method, model, options) {
-            if (method === "create") {
-                method = "update";
-            }
-            options || (options = {});
-            options.url = this.urlRoot;
-            return Backbone.sync.apply(this, arguments)
+        getId: function() {
+            var self = this;
+            $.ajax({
+                url: this.get('sessionUrl'),
+                method: "GET"
+            }).done(function (resp) {
+                console.log('get done');
+                var parsed = JSON.parse(resp);
+                self.set({
+                    'isAuth': true,
+                    'id': parsed.id
+                });
+                self.trigger("authDone", alert('aaaa'));
+            }).fail(function (response) {
+                console.log('get fail');
+                self.handleServerError(response.responseText);
+            });
         },
 
-        save : function(key, value, options) {
+        login: function(uLogin, uPassword) {
+            var self = this;
+            $.ajax({
+                url: self.get('sessionUrl'),
+                method: "PUT",
+                data: {
+                    login: uLogin,
+                    password: uPassword
+                }
+            }).done(function () {
+                console.log('log done');
+                self.getId();
+            }).fail(function (response) {
+                console.log('log fail');
+                self.handleServerError(response.responseText);
+            });
+        },
 
-            var attributes={}, opts={};
+        register: function(uEmail, uLogin, uPassword) {
+            var self = this;
+            $.ajax({
+                url: self.get('userUrl'),
+                method: "PUT",
+                data: {
+                    email: uEmail,
+                    login: uLogin,
+                    password: uPassword
+                }
+            }).done(function () {
+                console.log('reg done');
+                self.login(uLogin, uPassword);
+            }).fail(function (response) {
+                console.log('reg fail');
+                self.handleServerError(response.responseText);
+            });
+        },
 
-            //Need to use the same conditional that Backbone is using
-            //in its default save so that attributes and options
-            //are properly passed on to the prototype
-            if (_.isObject(key) || key == null) {
-                attributes = key;
-                opts = value;
-            } else {
-                attributes = {};
-                attributes[key] = value;
-                opts = options;
-            }
-
-            //Since backbone will post all the fields at once, we
-            //need a way to post only the fields we want. So we can do this
-            //by passing in a JSON in the "key" position of the args. This will
-            //be assigned to opts.data. Backbone.sync will evaluate options.data
-            //and if it exists will use it instead of the entire JSON.
-            if (opts && attributes) {
-                opts.data = JSON.stringify(attributes);
-                opts.contentType = "application/json";
-            }
-
-            //Finally, make a call to the default save now that we've
-            //got all the details worked out.
-            return Backbone.Model.prototype.save.call(this, attributes, opts);
+        logout: function () {
+            var self = this;
+            $.ajax({
+                method: "DELETE",
+                url: "/session"
+            }).done(function(){
+                self.set({
+                    'isAuth': false
+                })
+            }).fail(function(response){
+                self.handleServerError(response.responseText);
+            })
         },
 
         validate: function(data) {
@@ -117,9 +136,21 @@ define(function(require) {
 
         handleServerError: function(data) {
             data = JSON.parse(data);
-            if (this.get('responseMap')[data.error]) {
+            var responseMap = {
+                    1: "BAD_INPUT_DATA",
+                    2: "LOGIN_REQUIRED",
+                    101: "LOGIN_IN_USE",
+                    102: "EMAIL_IN_USE",
+                    103: "BAD_LOGIN",
+                    104: "BAD_EMAIL",
+                    105: "BAD_PASSWORD",
+                    106: "BAD_ID",
+                    107: "WRONG_CREDENTIALS",
+                    108: "NO_USER"
+            };
+            if (responseMap[data.error]) {
                 //TODO
-                console.log(this.get('responseMap')[data.error])
+                console.log(responseMap[data.error])
             }
             else {
                 //TODO

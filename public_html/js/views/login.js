@@ -5,7 +5,6 @@ define(function (require) {
             _ = require('underscore'),
             BaseView = require('views/base'),
             tmpl = require('tmpl/login'),
-            session = require('models/session'),
             User = require('models/user');
 
         var LoginView = BaseView.extend({
@@ -42,9 +41,14 @@ define(function (require) {
                 this.trigger('show', this);
             },
 
+            handleAuth: function() {
+                Backbone.history.navigate('', true);
+            },
+
             submit: function (event) {
                 event.preventDefault();
                 var user = new User();
+                this.listenToOnce(user, 'authSuccess', this.handleAuth());
                 var uData = {
                     login: this.fields.login.val(),
                     password: this.fields.password.val()
@@ -64,31 +68,7 @@ define(function (require) {
                 }
                 else
                 {
-                    $.ajax({
-                        url: "/session",
-                        method: "PUT",
-                        data: {
-                            login: uData.login,
-                            password: uData.password
-                        }
-                    }).done(function(data){
-                        data = JSON.parse(data);
-                        var id = data.id;
-                        $.ajax({
-                            url: "/user",
-                            method: "GET",
-                            data: {
-                                id: id
-                            }
-                        }).done(function(data){
-                            console.log(data);
-                            alert('success');
-                            //TODO
-                            Backbone.history.navigate('', true);
-                        });
-                    }).fail(function(response) {
-                        user.handleServerError(response.responseText);
-                    });
+                    user.login(uData.login, uData.password);
                 }
             }
         });

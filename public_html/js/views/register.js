@@ -4,7 +4,6 @@ define(function (require) {
         _ = require('underscore'),
         BaseView = require('views/base'),
         tmpl = require('tmpl/register'),
-        session = require('models/session'),
         User = require('models/user');
 
     var RegisterView = BaseView.extend({
@@ -58,6 +57,7 @@ define(function (require) {
         submit: function (event) {
             event.preventDefault();
             var user = new User();
+            this.listenToOnce(user, 'authSuccess', Backbone.history.navigate('', true));
             var uData = {
                 email: this.fields.email.val(),
                 login: this.fields.login.val(),
@@ -77,52 +77,9 @@ define(function (require) {
                 }.bind(this));
             }
             else {
-                // user.save({
-                //         email: uData.email,
-                //         login: uData.login,
-                //         password: uData.password
-                //     },
-                //     {
-                //         success: function (model, response) {
-                //             session.save({
-                //                 login: uData.login,
-                //                 password: uData.password
-                //             }, {
-                //                 success: function (model, response) {
-                //                     alert('success');
-                //                     //TODO
-                //                 },
-                //                 error: function (model, response) {
-                //                     console.log(model.toJSON());
-                //                     user.handleServerError(response.responseText);
-                //                 }
-                //             })
-                //         },
-                //         error: function (model, response) {
-                //             console.log(model.toJSON());
-                //             user.handleServerError(response.responseText);
-                //         }
-                //     });
-                $.ajax({
-                    url: "/user",
-                    method: "PUT",
-                    data: uData
-                }).done(function () {
-                    $.ajax({
-                        url: "/session",
-                        method: "PUT",
-                        data: {
-                            login: uData.login,
-                            password: uData.password
-                        }
-                    }).done(function () {
-                        alert('success');
-                        //TODO
-                        Backbone.history.navigate('', true);
-                    });
-                }).fail(function (response) {
-                    user.handleServerError(response.responseText);
-                });
+                user.register(uData.email, uData.login, uData.password);
+                console.log(user.get('id'));
+                console.log(user);
             }
         }
     });

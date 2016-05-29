@@ -27,7 +27,7 @@
 </div>
 
 <script>
-    var head = document.getElementById('prehead');
+    var prehead = document.getElementById('prehead');
     var preloader = document.getElementById('preloader');
     var page = document.getElementById('page');
     page.style.display = 'none';
@@ -35,9 +35,6 @@
         prehead.style.display = 'none';
         preloader.style.display = 'none';
         page.style.display = 'block';
-    }
-    window.onload = function() {
-        setTimeout(change, 3000);
     }
 </script>
 <script type = "text/javascript" src="js/build.min.js"></script>
