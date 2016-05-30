@@ -38,14 +38,19 @@ define(function (require) {
                 errorField.text('');
             });
             this.$el.show();
-            this.video.load();
-            this.video.style.visibility = "visible";
-            this.video.play();
             this.trigger('show', this);
             if(user.get('isAuth')) {
                 Backbone.history.navigate('#menu', true);
             }
             this.listenToOnce(user, 'authDone', this.handleAuth);
+            this.video.load();
+            this.video.style.visibility = "visible";
+            //На случай прямого запроса на /#register
+            $("#preloader").fadeOut('slow');
+            $("#page").fadeIn('slow');
+            document.getElementById('page').style.display = 'block';
+            //
+            this.video.play();
         },
 
         hide: function () {

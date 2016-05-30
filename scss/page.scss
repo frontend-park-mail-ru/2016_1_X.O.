@@ -4,9 +4,9 @@
     max-width: 1280px;
     overflow: auto;
     width: 90%;
+    @extend .g-center;
     &__header{
       @extend .b-page;
-      @extend .g-center;
     }
   }
 }

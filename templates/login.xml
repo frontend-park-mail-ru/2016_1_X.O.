@@ -18,15 +18,16 @@
                     <span class="b-form__error" id="passwordError"> </span>
                 </div>
             </div>
-            <div class="b-row b-form__button--center">
-                <button class="b-button" type="submit" id="loginSubmit">
+            <div class="b-row">
+                <button class="b-button b-form__button--left" type="submit" id="loginSubmit">
                     Login
                 </button>
+                <a class="b-button b-form__button--right" id="main" href="#">Main menu</a>
             </div>
         </form>
-        <div class="b-row">
-            <a class="b-button b-form__button--left" id="register" href="#register">Register</a>
-            <a class="b-button b-form__button--right" id="main" href="#">Main menu</a>
-        </div>
+    </div>
+    <div class="b-row b-form__button--center">
+        <h4>Create new account bro!</h4>
+        <a class="b-button b-form_button--center" id="register" href="#register">Register</a>
     </div>
 </fest:template>
