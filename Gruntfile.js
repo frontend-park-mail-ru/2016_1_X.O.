@@ -6,7 +6,10 @@ module.exports = function (grunt) {
                 stdout: true,
                 stderr: true
             },
-            server: {
+            js: {
+                command: 'node server'
+            },
+            java: {
                 command: 'java -jar tictactoe-1.0.1-jar-with-dependencies.jar 8090'
             }
         },
@@ -43,10 +46,11 @@ module.exports = function (grunt) {
                 options: {
                     baseUrl: "./public_html/js",
                     mainConfigFile: "./public_html/js/config.js",
-                    include: ["../../node_modules/almond/almond.js"],
+                    include: ["../../node_modules/almond/almond.js", "main.js"],
                     out: "dist/js/build.min.js",
                     findNestedDependencies: true,
-                    wrap: true
+                    wrap: true,
+                    insertRequire: ["main.js"]
                 }
             }
         },
@@ -90,9 +94,14 @@ module.exports = function (grunt) {
             }
         },
         concurrent: {
-            target: ['watch', 'shell'],
             options: {
                 logConcurrentOutput: true
+            },
+            js: {
+                tasks: ['watch', 'shell:js']
+            },
+            java: {
+                tasks: ['watch', 'shell:java']
             }
         },
         qunit: {
@@ -112,6 +121,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('compile', ['requirejs', 'concat', 'cssmin']);
     grunt.registerTask('test', ['qunit:all']);
-    grunt.registerTask('default', ['concurrent']);
+    grunt.registerTask('default', ['concurrent:js']);
+    grunt.registerTask('java', ['concurrent:java'])
 
 };
