@@ -6,6 +6,7 @@
   "author": "team X.O.",
   "license": "MIT",
   "devDependencies": {
+    "alertifyjs": "^1.7.0",
     "almond": "^0.3.2",
     "backbone": "^1.2.3",
     "body-parser": "^1.14.2",

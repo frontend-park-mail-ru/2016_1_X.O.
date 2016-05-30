@@ -1,10 +1,12 @@
 define(function(require) {
     var Backbone = require('backbone'),
-        $ = require('jquery');
+        $ = require('jquery'),
+        alertify = require('alertify');
 
     var UserModel = Backbone.Model.extend({
         defaults: {
             login: "",
+            score: 0,
             id: 0,
             isAuth: false,
             sessionUrl: "/session",
@@ -17,15 +19,13 @@ define(function(require) {
                 url: this.get('sessionUrl'),
                 method: "GET"
             }).done(function (resp) {
-                console.log('get done');
                 var parsed = JSON.parse(resp);
                 self.set({
                     'isAuth': true,
                     'id': parsed.id
                 });
-                self.trigger("authDone", alert('aaaa'));
+                self.trigger("authDone", alertify.alert('TicTacToe', 'Welcome, ' + self.get('login')));
             }).fail(function (response) {
-                console.log('get fail');
                 self.handleServerError(response.responseText);
             });
         },
@@ -40,10 +40,11 @@ define(function(require) {
                     password: uPassword
                 }
             }).done(function () {
-                console.log('log done');
                 self.getId();
+                self.set({
+                    'login': uLogin
+                })
             }).fail(function (response) {
-                console.log('log fail');
                 self.handleServerError(response.responseText);
             });
         },
@@ -59,10 +60,8 @@ define(function(require) {
                     password: uPassword
                 }
             }).done(function () {
-                console.log('reg done');
                 self.login(uLogin, uPassword);
             }).fail(function (response) {
-                console.log('reg fail');
                 self.handleServerError(response.responseText);
             });
         },
@@ -75,7 +74,9 @@ define(function(require) {
             }).done(function(){
                 self.set({
                     'isAuth': false
-                })
+                });
+                alertify.alert('TicTacToe', 'Good bye, ' + self.get('login'));
+                Backbone.history.navigate('', true);
             }).fail(function(response){
                 self.handleServerError(response.responseText);
             })
@@ -98,7 +99,7 @@ define(function(require) {
                 else if (!emailRegexp.test(data.email)) {
                     errors.push({
                         field: 'email',
-                        error: 'Wrong email bro!'
+                        error: 'Bad email bro!'
                     });
                 }
             }
@@ -112,7 +113,7 @@ define(function(require) {
             else if(!loginRegexp.test(data.login)) {
                 errors.push({
                     field: 'login',
-                    error: 'Wrong login bro!'
+                    error: 'Bad login bro!'
                 });
             }
 
@@ -125,7 +126,7 @@ define(function(require) {
             else if(!passwRegexp.test(data.password)) {
                 errors.push({
                     field: 'password',
-                    error: 'Wrong password bro!'
+                    error: 'Bad password bro!'
                 });
             }
 
@@ -137,27 +138,26 @@ define(function(require) {
         handleServerError: function(data) {
             data = JSON.parse(data);
             var responseMap = {
-                    1: "BAD_INPUT_DATA",
-                    2: "LOGIN_REQUIRED",
-                    101: "LOGIN_IN_USE",
-                    102: "EMAIL_IN_USE",
-                    103: "BAD_LOGIN",
-                    104: "BAD_EMAIL",
-                    105: "BAD_PASSWORD",
-                    106: "BAD_ID",
-                    107: "WRONG_CREDENTIALS",
-                    108: "NO_USER"
+                    1: "Bad input data",
+                    2: "Login required",
+                    101: "Login in use",
+                    102: "Email in use",
+                    103: "Bad login",
+                    104: "Bad email",
+                    105: "Bad password",
+                    106: "Bad id",
+                    107: "Wrong credentials",
+                    108: "No user"
             };
             if (responseMap[data.error]) {
-                //TODO
-                console.log(responseMap[data.error])
+                alertify.alert('Server error', responseMap[data.error] + ' bro!');
             }
             else {
-                //TODO
-                console.log('unknown error');
+                alertify.alert('Server error', 'Unknown error bro!');
             }
         }
+        
     });
 
-    return UserModel;
+    return new UserModel();
 });

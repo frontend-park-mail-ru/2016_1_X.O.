@@ -7,7 +7,7 @@
             <canvas id="gameCanvas" width="600" height="600"> </canvas>
         </div>
         <div class="b-menu">
-            <a class="b-menu__link" id="main" href="#">Main menu</a>
+            <a class="b-menu__link" id="main" href="#menu">Main menu</a>
         </div>
     </div>
 </fest:template>

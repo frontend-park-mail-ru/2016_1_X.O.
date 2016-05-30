@@ -4,7 +4,7 @@ define(function (require) {
         _ = require('underscore'),
         BaseView = require('views/base'),
         tmpl = require('tmpl/register'),
-        User = require('models/user');
+        user = require('models/user');
 
     var RegisterView = BaseView.extend({
         template: tmpl,
@@ -38,10 +38,14 @@ define(function (require) {
                 errorField.text('');
             });
             this.$el.show();
-            this.trigger('show', this);
             this.video.load();
             this.video.style.visibility = "visible";
             this.video.play();
+            this.trigger('show', this);
+            if(user.get('isAuth')) {
+                Backbone.history.navigate('#menu', true);
+            }
+            this.listenToOnce(user, 'authDone', this.handleAuth);
         },
 
         hide: function () {
@@ -54,10 +58,12 @@ define(function (require) {
             'submit #registerForm': 'submit'
         },
 
+        handleAuth: function() {
+            Backbone.history.navigate('#menu', true);
+        },
+
         submit: function (event) {
             event.preventDefault();
-            var user = new User();
-            this.listenToOnce(user, 'authSuccess', Backbone.history.navigate('', true));
             var uData = {
                 email: this.fields.email.val(),
                 login: this.fields.login.val(),
@@ -78,8 +84,6 @@ define(function (require) {
             }
             else {
                 user.register(uData.email, uData.login, uData.password);
-                console.log(user.get('id'));
-                console.log(user);
             }
         }
     });

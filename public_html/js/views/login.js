@@ -5,7 +5,7 @@ define(function (require) {
             _ = require('underscore'),
             BaseView = require('views/base'),
             tmpl = require('tmpl/login'),
-            User = require('models/user');
+            user = require('models/user');
 
         var LoginView = BaseView.extend({
             template: tmpl,
@@ -39,16 +39,18 @@ define(function (require) {
                 });
                 this.$el.show();
                 this.trigger('show', this);
+                if(user.get('isAuth')) {
+                    Backbone.history.navigate('#menu', true);
+                }
+                this.listenToOnce(user, 'authDone', this.handleAuth);
             },
 
             handleAuth: function() {
-                Backbone.history.navigate('', true);
+                Backbone.history.navigate('#menu', true);
             },
 
             submit: function (event) {
                 event.preventDefault();
-                var user = new User();
-                this.listenToOnce(user, 'authSuccess', this.handleAuth());
                 var uData = {
                     login: this.fields.login.val(),
                     password: this.fields.password.val()

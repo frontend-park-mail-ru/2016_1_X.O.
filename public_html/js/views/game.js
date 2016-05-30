@@ -6,7 +6,8 @@ define(function (require) {
         createjs = require('easel'),
         MainSquareView = require('views/mainSquare'),
         MainSquareModel = require('models/mainSquare'),
-        SinglePlayerModel = require('models/singlePlayer');
+        SinglePlayerModel = require('models/singlePlayer'),
+        user = require('models/user');
 
     var GameView = BaseView.extend({
         initialize: function () {
@@ -22,6 +23,9 @@ define(function (require) {
             this.$el.appendTo("#page");
             this.$el.show();
             this.trigger('show', this);
+            if(user.get('isAuth') === false) {
+                Backbone.history.navigate('#', true);
+            }
             if(!this.websocket) {
                 if(this.websocket.readyState === 3)
                 {
