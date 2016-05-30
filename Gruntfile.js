@@ -121,7 +121,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('compile', ['requirejs', 'concat', 'cssmin']);
     grunt.registerTask('test', ['qunit:all']);
-    grunt.registerTask('default', ['concurrent:js']);
+    grunt.registerTask('default', ['compile', 'concurrent:js']);
     grunt.registerTask('java', ['concurrent:java'])
 
 };
