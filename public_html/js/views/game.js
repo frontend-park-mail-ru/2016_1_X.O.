@@ -6,22 +6,27 @@ define(function (require) {
         $ = require('jquery'),
         createjs = require('easel'),
         alertify = require('alertify'),
-        MainSquareView = require('views/mainSquare'),
-        MainSquareModel = require('models/mainSquare'),
+        BlocksView = require('views/blocks'),
+        blocksCollection = require('collections/blocks'),
+        SinglePlayerModel = require('models/singlePlayer'),
         user = require('models/user');
 
     var GameView = BaseView.extend({
         initialize: function () {
             this.$page = $('#page');
             this.$page.append(this.el);
-            this.mainSquareView = new MainSquareView;
-            this.mainSquareModel = new MainSquareModel;
+            this.blocksView = new BlocksView;
+            this.player = new SinglePlayerModel;
             this.render();
             this.hide();
             this.websocket = null;
         },
 
         template: tmpl,
+
+        events: {
+            'click #gameCanvas': 'gameClick'
+        },
 
         show: function () {
             this.$el.appendTo("#page");
@@ -45,15 +50,6 @@ define(function (require) {
             }
         },
 
-        sendSqr: function(msg) {
-            this.mainSquareModel.set({
-                'isClickable': false
-            });
-            if(this.websocket && this.websocket.readyState < 2) {
-                this.websocket.send(msg);
-            }
-        },
-
         handleMessage: function (msg) {
             var resp = JSON.parse(msg.data);
             console.log(resp);
@@ -63,32 +59,67 @@ define(function (require) {
                     $("#page").fadeIn('slow');
                     document.getElementById('page').style.display = 'block';
                     alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName);
+                    this.player.set({'id' : 1});
+                    blocksCollection.reset();
+                    blocksCollection.createBlocks(100, 100, this.websocket);
+                    blocksCollection.setClickFalse();
+                    this.blocksView.render(this.stage, this.player);
+                    this.stage.update();
                     break;
-                case "OPPONENT_DISCONNECT": {
+                case "OPPONENT_DISCONNECT": 
                     alertify.alert('Tic tac toe', 'Opponent disconected');
                     Backbone.history.navigate('#menu', true);
-                    break;
-                }
+                    break;                
             }
             if(resp.map && resp.map[0] === null) {
+                blocksCollection.setClickTrue();
                 alertify.warning('It`s your turn bro!');
-                this.mainSquareModel.set({
-                    'isClickable': true
-                });
             }
             if(resp.map && resp.map[0] !== null) {
+                blocksCollection.setClickTrue();
                 alertify.warning('It`s your turn bro!');
-                this.mainSquareModel.set({
-                    'isClickable': true
-                });
-                for(var i = 0; i < resp.map.length; i++) {
+                for(var i = 0; i < resp.map[0].length; i++) {
                     var parent, child, playerId,
-                        splitted = resp.map[i].split(".");
+                        splitted = resp.map[0][i].split(".");
                     parent = splitted[0];
                     child = splitted[1];
                     playerId = splitted[2];
                 }
             }
+        },
+
+        gameClick: function(event) {
+            if(blocksCollection.getClick() === false) {
+                return;
+            }
+            var next;
+            this.nextVal = 0;
+            event.preventDefault();
+            blocksCollection.models.forEach(function (block) {
+                next = block.onClick(event.offsetX, event.offsetY, this.player);
+                if(next) {
+                    this.nextVal = next;
+                    block.check();
+                    this.blocksView.check();
+                }
+            }.bind(this));
+
+            if(this.nextVal) {
+                if(blocksCollection.at(this.nextVal - 1).get('isFinished')) {
+                    blocksCollection.models.forEach(function (block) {
+                        if(!block.get('isFinished')) {
+                            block.set({'isClickable': true});
+                        }
+                    });
+                } else {
+                    blocksCollection.models.forEach(function (block) {
+                        block.set({'isClickable': false});
+                    });
+                    blocksCollection.at(this.nextVal - 1).set({'isClickable': true});
+                }
+            }
+            this.blocksView.render(this.stage, this.player);
+            this.stage.update();
         }
     });
     return new GameView();

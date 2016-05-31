@@ -8,40 +8,34 @@ define(function (require) {
                 isClickable: true
             },
 
-            setInit: function (posX, posY, id) {
+            initialize: function (posX, posY, id, parentId, socket) {
                 this.set({
                     'posX': posX,
                     'posY': posY,
-                    'id': id
+                    'id': id,
+                    'parentId': parentId,
+                    'socket': socket
                 });
             },
 
-            initialize: function (posX, posY, id) {
-                this.setInit(posX, posY, id);
-            },
-
-            isInside: function (x, y) {
-                if (!this.get('isClickable')) {
-                    return false;
-                }
-                
+            onClick: function (x, y, playerModel) {
                 var x0 = this.get('posX'),
                     y0 = this.get('posY'),
                     half = this.get('size') / 2;
-                
-                return x0 - half <= x && y0 - half <= y && x0 + half >= x && y0 + half >= y
-            },
 
-            handleClick: function (x, y, playerModel) {
-                if (!this.isInside(x, y)) {
+                if (!this.get('isClickable')) {
                     return;
                 }
-                this.set({
-                    'value': playerModel,
-                    'isClickable': false
-                });
-                //playerModel.changePlayer();
-                this.trigger(this.get('id').toString());
+                if (
+                    x0 - half <= x && y0 - half <= y &&
+                    x0 + half >= x && y0 + half >= y
+                ) {
+                    this.set({'value': playerModel.get('id'), 'isClickable': false});
+                    playerModel.changePlayer();
+                    this.trigger('socketSend', this);
+                    this.get('socket').send((this.get('parentId') - 1) + '.' + (this.get('id') - 1));
+                    return this.get('id');
+                }
             }
 
         });
