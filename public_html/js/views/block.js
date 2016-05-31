@@ -11,7 +11,7 @@ define(function (require) {
             this.stage = stage;
         },
 
-        render: function (player) {
+        render: function () {
             var rect = new createjs.Shape();
             switch (this.model.get('value')) {
                 //не помеченный квадрат
@@ -36,19 +36,18 @@ define(function (require) {
             this.stage.addChild(rect);
 
             var border = new createjs.Shape();
-            if (this.model.get('isClickable')) {
-                var color = '';
-                if (player.get('id') === 1) {
-                    color = '#ffff00';
-                } else {
-                    color = '#d50000';
-                }
-                border.graphics.beginStroke(color);
-                border.graphics.setStrokeStyle(4);
-            } else {
-                border.graphics.beginStroke("#ffffff");
-                border.graphics.setStrokeStyle(4);
+            switch (this.model.get('playerId')) {
+                case 0:
+                    border.graphics.beginStroke("#ffffff");
+                    break;
+                case 1:
+                    border.graphics.beginStroke('#ffff00');
+                    break;
+                case -1:
+                    border.graphics.beginStroke('#d50000');
+                    break;
             }
+            border.graphics.setStrokeStyle(4);
 
             border.graphics.drawRect(
                 this.model.get('posX') - this.model.get('size') / 2,

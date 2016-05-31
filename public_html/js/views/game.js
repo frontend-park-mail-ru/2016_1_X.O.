@@ -6,17 +6,14 @@ define(function (require) {
         $ = require('jquery'),
         createjs = require('easel'),
         alertify = require('alertify'),
-        BlocksView = require('views/blocks'),
-        blocksCollection = require('collections/blocks'),
-        SinglePlayerModel = require('models/singlePlayer'),
+        MainSquareView = require('views/mainSquare'),
+        MainSquareModel = require('models/mainSquare'),
         user = require('models/user');
 
     var GameView = BaseView.extend({
         initialize: function () {
             this.$page = $('#page');
             this.$page.append(this.el);
-            this.blocksView = new BlocksView;
-            this.player = new SinglePlayerModel;
             this.render();
             this.hide();
             this.websocket = null;
@@ -36,90 +33,165 @@ define(function (require) {
             document.getElementById('page').style.display = 'none';
             this.trigger('show', this);
             this.stage = new createjs.Stage("gameCanvas");
-            if(user.get('isAuth') === false) {
+            if (user.get('isAuth') === false) {
                 Backbone.history.navigate('#', true);
             }
             this.websocket = new WebSocket("ws://127.0.0.1:8090/game");
             this.websocket.onmessage = this.handleMessage.bind(this);
         },
-        
-        hide: function() {
+
+        hide: function () {
             this.$el.hide();
-            if(this.websocket && this.websocket.readyState < 2) {
+            if (this.websocket && this.websocket.readyState < 2) {
                 this.websocket.close();
             }
         },
 
         handleMessage: function (msg) {
+            var self = this;
             var resp = JSON.parse(msg.data);
             console.log(resp);
-            switch(resp.status) {
+            switch (resp.status) {
                 case "START_GAME":
                     $("#preloader").fadeOut('slow');
                     $("#page").fadeIn('slow');
                     document.getElementById('page').style.display = 'block';
                     alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName);
-                    this.player.set({'id' : 1});
-                    blocksCollection.reset();
-                    blocksCollection.createBlocks(100, 100, this.websocket);
-                    blocksCollection.setClickFalse();
-                    this.blocksView.render(this.stage, this.player);
-                    this.stage.update();
+                    this.mainSquareModel = new MainSquareModel(100, 100, 1, -1);
+                    this.mainSquareView = new MainSquareView(this.mainSquareModel, this.stage);
                     break;
-                case "OPPONENT_DISCONNECT": 
+                case "OPPONENT_DISCONNECT":
                     alertify.alert('Tic tac toe', 'Opponent disconected');
                     Backbone.history.navigate('#menu', true);
-                    break;                
+                    break;
+                case "ERROR_FIELD_BUSY":
+                    return;
+                case "ERROR_WRONG_SQUARE":
+                    return;
+                case "ERROR_WRONG_USER_TURN":
+                    return;
+                case "ERROR_WRONG_DATA":
+                    return;
+                case 0:
+                case "CONTINUE_GAME":
+                    this.mainSquareModel.set({
+                        'isClickable': true
+                    });
+                    alertify.warning('It`s your turn bro!');
+                    if (resp.map[0] === null) {
+                        this.mainSquareModel.get('blockModels').forEach(function(model){
+                            model.set({
+                                'playerId': 1
+                            });
+                        });
+                    }
+                    else {
+                        var i;
+                        for (i = 0; i < resp.map[0].length; i++) {
+                            var parent, child, playerId,
+                                splitted = resp.map[0][i].split(".");
+                            parent = splitted[0];
+                            child = splitted[1];
+                            playerId = splitted[2];
+                            if (playerId == user.get('id')) {
+                                playerId = 1;
+                            }
+                            else {
+                                playerId = -1;
+                            }
+                            if (this.mainSquareModel.get('blockModels')[parent].get
+                                ('squareModels')[child].get('value') != playerId) {
+                                this.mainSquareModel.get('blockModels')[parent].get
+                                ('squareModels')[child].set({
+                                    'value': playerId
+                                });
+                                if (self.mainSquareModel.get('blockModels')[child].get('isFinished')) {
+                                    self.mainSquareModel.get('blockModels').forEach(function (model) {
+                                        if (model.get('isFinished')) {
+                                            model.set({
+                                                'playerId': 0,
+                                                'isClickable': false
+                                            });
+                                        } else {
+                                            model.set({
+                                                'playerId': 1,
+                                                'isClickable': true
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    self.mainSquareModel.get('blockModels').forEach(function (model) {
+                                        if ((model.get('id') - 1) == child) {
+                                            model.set({
+                                                'playerId': 1,
+                                                'isClickable': true
+                                            });
+                                        } else {
+                                            model.set({
+                                                'playerId': 0,
+                                                'isClickable': false
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    break;
             }
-            if(resp.map && resp.map[0] === null) {
-                blocksCollection.setClickTrue();
-                alertify.warning('It`s your turn bro!');
-            }
-            if(resp.map && resp.map[0] !== null) {
-                blocksCollection.setClickTrue();
-                alertify.warning('It`s your turn bro!');
-                for(var i = 0; i < resp.map[0].length; i++) {
-                    var parent, child, playerId,
-                        splitted = resp.map[0][i].split(".");
-                    parent = splitted[0];
-                    child = splitted[1];
-                    playerId = splitted[2];
-                }
-            }
+            this.mainSquareModel.get('blockModels').forEach(function (model) {
+                model.check();
+            }.bind(this));
+            this.mainSquareModel.check();
+            this.mainSquareView.render();
+            this.stage.update();
         },
 
         gameClick: function(event) {
-            if(blocksCollection.getClick() === false) {
-                return;
-            }
-            var next;
-            this.nextVal = 0;
+            var self = this;
             event.preventDefault();
-            blocksCollection.models.forEach(function (block) {
-                next = block.onClick(event.offsetX, event.offsetY, this.player);
-                if(next) {
-                    this.nextVal = next;
-                    block.check();
-                    this.blocksView.check();
-                }
-            }.bind(this));
-
-            if(this.nextVal) {
-                if(blocksCollection.at(this.nextVal - 1).get('isFinished')) {
-                    blocksCollection.models.forEach(function (block) {
-                        if(!block.get('isFinished')) {
-                            block.set({'isClickable': true});
+            var square = self.mainSquareModel.onClick(event.offsetX, event.offsetY);
+            if (square) {
+                this.websocket.send((square.get('parentId') - 1) + '.' + (square.get('id') - 1));
+                if(this.mainSquareModel.get('blockModels')[square.get('id') - 1].get('isFinished')) {
+                    self.mainSquareModel.get('blockModels').forEach(function (model) {
+                        if (model.get('isFinished')) {
+                            model.set({
+                                'playerId': 0,
+                                'isClickable': false
+                            });
+                        } else {
+                            model.set({
+                                'playerId': -1,
+                                'isClickable': true
+                            });
                         }
                     });
                 } else {
-                    blocksCollection.models.forEach(function (block) {
-                        block.set({'isClickable': false});
+                    self.mainSquareModel.get('blockModels').forEach(function (model) {
+                        if (model.get('id') == square.get('id')) {
+                            model.set({
+                                'playerId': -1,
+                                'isClickable': true
+                            });
+                        } else {
+                            model.set({
+                                'playerId': 0,
+                                'isClickable': false
+                            });
+                        }
                     });
-                    blocksCollection.at(this.nextVal - 1).set({'isClickable': true});
                 }
+                this.mainSquareModel.get('blockModels').forEach(function (model) {
+                    model.check();
+                }.bind(this));
+                this.mainSquareModel.check();
+                this.mainSquareModel.set({
+                    'isClickable': false
+                });
+                this.mainSquareView.render();
+                this.stage.update();
             }
-            this.blocksView.render(this.stage, this.player);
-            this.stage.update();
         }
     });
     return new GameView();

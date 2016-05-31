@@ -1,16 +1,18 @@
 define(function (require) {
         var Backbone = require('backbone'),
             _ = require('underscore'),
-            SquareModel = require('models/square');
+            BlockModel = require('models/block');
 
-        var BlockModel = Backbone.Model.extend({
+        var MainSquareModel = Backbone.Model.extend({
             defaults: {
-                size: 180,
+                size: 600,
                 value: 0,
-                intervalBetweenRect: 20,
+                centerX: 300,
+                centerY: 300,
+                intervalBetweenBlock: 20,
+                isClickable: false,
                 isFinished: false,
-                isClickable: true,
-                squareModels: []
+                blockModels: []
             },
 
             initialize: function (posX, posY, id, playerId) {
@@ -23,26 +25,24 @@ define(function (require) {
 
                 var currentX = 0,
                     currentY = 0,
-                    squareX = 60,
-                    squareY = 60,
-                    x0 = this.get('posX') - squareX,
-                    y0 = this.get('posY') - squareY;
+                    x0 = this.get('posX'),
+                    y0 = this.get('posY');
 
                 for (var i = 1; i <= 9; i++) {
                     this.set({
-                        'squareModels': this.get('squareModels').concat(
-                            new SquareModel(x0 + currentX, y0 + currentY, i, this.get('id')))
+                        'blockModels': this.get('blockModels').concat(
+                            new BlockModel(x0 + currentX, y0 + currentY, i, this.get('playerId')))
                     });
                     if (i === 9) {
                         break;
                     }
                     if (i % 3 === 0) {
-                        currentY += this.get('squareModels')[i - 1].get('size') +
-                            this.get('intervalBetweenRect');
+                        currentY += this.get('blockModels')[i - 1].get('size') +
+                            this.get('intervalBetweenBlock');
                         currentX = 0;
                     } else {
-                        currentX += this.get('squareModels')[i - 1].get('size') +
-                            this.get('intervalBetweenRect');
+                        currentX += this.get('blockModels')[i - 1].get('size') +
+                            this.get('intervalBetweenBlock');
                     }
                 }
 
@@ -56,8 +56,8 @@ define(function (require) {
                     return;
                 }
 
-                this.get('squareModels').forEach(function (square) {
-                    values.push(square.get('value'));
+                this.get('blockModels').forEach(function (block) {
+                    values.push(block.get('value'));
                 });
                 //ряд
                 for (i = 0; i < 9; i++) {
@@ -94,30 +94,23 @@ define(function (require) {
                 }
                 this.set({'isFinished': true, 'isClickable': false});
             },
-            
-            onClick: function (x, y) {
-                var self = this;
-                self.square = null;
-                if(this.get('isClickable') === false) {
-                    return
-                }
-                var x0 = this.get('posX'),
-                    y0 = this.get('posY'),
-                    half = this.get('size') / 2,
-                    square;
 
-                if(x0 - half <= x && y0 - half <= y &&
-                    x0 + half >= x && y0 + half >= y) {
-                    this.get('squareModels').forEach(function (model) {
-                        square = model.onClick(x,y);
-                        if(square) {
-                            self.square = square;
-                        }
-                    }.bind(this));
-                    return self.square;
+            onClick: function (x,y) {
+                if(this.get('isClickable') === false) {
+                    return;
                 }
+                var square,
+                    self = this;
+                self.square = null;
+                this.get('blockModels').forEach(function(model) {
+                    square = model.onClick(x,y);
+                    if(square) {
+                       self.square = square;
+                    }
+                }.bind(this));
+                return self.square;
             }
         });
-        return BlockModel;
+        return MainSquareModel;
     }
 );
