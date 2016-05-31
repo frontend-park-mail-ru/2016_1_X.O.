@@ -4,6 +4,7 @@ define(function (require) {
         BaseView = require('views/base'),
         tmpl = require('tmpl/game'),
         $ = require('jquery'),
+        createjs = require('easel'),
         alertify = require('alertify'),
         MainSquareView = require('views/mainSquare'),
         MainSquareModel = require('models/mainSquare'),
@@ -13,8 +14,8 @@ define(function (require) {
         initialize: function () {
             this.$page = $('#page');
             this.$page.append(this.el);
-            // this.mainSquareView = new MainSquareView;
-            // this.mainSquareModel = new MainSquareModel;
+            this.mainSquareView = new MainSquareView;
+            this.mainSquareModel = new MainSquareModel;
             this.render();
             this.hide();
             this.websocket = null;
@@ -29,6 +30,7 @@ define(function (require) {
             $("#page").fadeOut('slow');
             document.getElementById('page').style.display = 'none';
             this.trigger('show', this);
+            this.stage = new createjs.Stage("gameCanvas");
             if(user.get('isAuth') === false) {
                 Backbone.history.navigate('#', true);
             }
@@ -44,6 +46,9 @@ define(function (require) {
         },
 
         sendSqr: function(msg) {
+            this.mainSquareModel.set({
+                'isClickable': false
+            });
             if(this.websocket && this.websocket.readyState < 2) {
                 this.websocket.send(msg);
             }
@@ -65,7 +70,17 @@ define(function (require) {
                     break;
                 }
             }
+            if(resp.map && resp.map[0] === null) {
+                alertify.warning('It`s your turn bro!');
+                this.mainSquareModel.set({
+                    'isClickable': true
+                });
+            }
             if(resp.map && resp.map[0] !== null) {
+                alertify.warning('It`s your turn bro!');
+                this.mainSquareModel.set({
+                    'isClickable': true
+                });
                 for(var i = 0; i < resp.map.length; i++) {
                     var parent, child, playerId,
                         splitted = resp.map[i].split(".");

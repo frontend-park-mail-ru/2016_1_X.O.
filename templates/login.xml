@@ -27,7 +27,7 @@
         </form>
     </div>
     <div class="b-row b-form__button--center">
-        <h4>Create new account bro!</h4>
+        <h5>Create new account bro!</h5>
         <a class="b-button b-form_button--center" id="register" href="#register">Register</a>
     </div>
 </fest:template>

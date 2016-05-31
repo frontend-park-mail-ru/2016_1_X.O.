@@ -9,10 +9,6 @@ define(function(require) {
             this.model = model;
         },
 
-        events: {
-            "click #gameCanvas": "handleClick"
-        },
-
         handleClick: function (e) {
             e.preventDefault();
             this.model.handleClick(e.offsetX, e.offsetY, 1);
