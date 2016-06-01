@@ -46,9 +46,7 @@ define(function (require) {
             this.video.load();
             this.video.style.visibility = "visible";
             //На случай прямого запроса на /#register
-            $("#preloader").fadeOut('slow');
-            $("#page").fadeIn('slow');
-            document.getElementById('page').style.display = 'block';
+            this.preloaderOut();
             //
             this.video.play();
         },

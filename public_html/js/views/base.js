@@ -21,6 +21,18 @@ define(function (require) {
             },
             hide: function () {
                 this.$el.hide();
+            },
+            
+            preloaderIn: function () {
+                $("#preloader").fadeIn('slow');
+                $("#page").fadeOut('slow');
+                document.getElementById('page').style.display = 'none';
+            },
+            
+            preloaderOut: function () {
+                $("#preloader").fadeOut('slow');
+                $("#page").fadeIn('slow');
+                document.getElementById('page').style.display = 'block';
             }
         });
 
