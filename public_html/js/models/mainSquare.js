@@ -92,7 +92,7 @@ define(function (require) {
                         return;
                     }
                 }
-                this.set({'isFinished': true, 'isClickable': false});
+                this.set({'isFinished': true, 'isClickable': false, 'value': 'draw'});
             },
 
             onClick: function (x,y) {

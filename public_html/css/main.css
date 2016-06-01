@@ -83,6 +83,7 @@
 .b-page, .b-board, .b-game, .b-menu, .b-page__header {
   margin: 0 auto;
   max-width: 1280px;
+  min-width: 600px;
   overflow: auto;
   width: 90%; }
 

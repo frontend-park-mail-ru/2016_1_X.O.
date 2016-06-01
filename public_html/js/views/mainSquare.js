@@ -24,14 +24,17 @@ define(function (require) {
                     //TODO YOU WIN
                     rect.graphics.beginFill("#ffff00");
                     alertify.alert('Tic tac toe', 'You win bro!');
-                    Backbone.history.navigate('#menu', true);
                     break;
                 //помечен противником
                 case -1:
                     //TODO YOU LOSE
                     rect.graphics.beginFill("#d50000");
                     alertify.alert('Tic tac toe', 'You lose bro!');
-                    Backbone.history.navigate('#menu', true);
+                    break;
+                //ничья
+                case 'draw':
+                    alertify.alert('Tic tac toe', 'It`s a draw!');
+                    rect.graphics.beginFill("#ffffff");
                     break;
             }
             rect.graphics.drawRect(

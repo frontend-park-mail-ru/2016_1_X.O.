@@ -153,6 +153,10 @@ define(function (require) {
             var square = self.mainSquareModel.onClick(event.offsetX, event.offsetY);
             if (square) {
                 this.websocket.send((square.get('parentId') - 1) + '.' + (square.get('id') - 1));
+                this.mainSquareModel.get('blockModels').forEach(function (model) {
+                    model.check();
+                }.bind(this));
+                this.mainSquareModel.check();
                 if(this.mainSquareModel.get('blockModels')[square.get('id') - 1].get('isFinished')) {
                     self.mainSquareModel.get('blockModels').forEach(function (model) {
                         if (model.get('isFinished')) {
@@ -182,10 +186,6 @@ define(function (require) {
                         }
                     });
                 }
-                this.mainSquareModel.get('blockModels').forEach(function (model) {
-                    model.check();
-                }.bind(this));
-                this.mainSquareModel.check();
                 this.mainSquareModel.set({
                     'isClickable': false
                 });
