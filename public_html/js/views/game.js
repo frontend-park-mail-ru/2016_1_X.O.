@@ -105,6 +105,10 @@ define(function (require) {
                                 ('squareModels')[child].set({
                                     'value': playerId
                                 });
+                                this.mainSquareModel.get('blockModels').forEach(function (model) {
+                                    model.check();
+                                }.bind(this));
+                                this.mainSquareModel.check();
                                 if (self.mainSquareModel.get('blockModels')[child].get('isFinished')) {
                                     self.mainSquareModel.get('blockModels').forEach(function (model) {
                                         if (model.get('isFinished')) {
@@ -139,10 +143,6 @@ define(function (require) {
                     }
                     break;
             }
-            this.mainSquareModel.get('blockModels').forEach(function (model) {
-                model.check();
-            }.bind(this));
-            this.mainSquareModel.check();
             this.mainSquareView.render();
             this.stage.update();
         },
