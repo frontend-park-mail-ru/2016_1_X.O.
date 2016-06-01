@@ -23,17 +23,15 @@ define(function (require) {
                 case 1:
                     //TODO YOU WIN
                     rect.graphics.beginFill("#ffff00");
-                    alertify.alert('Tic tac toe', 'You win bro!');
                     break;
                 //помечен противником
                 case -1:
                     //TODO YOU LOSE
                     rect.graphics.beginFill("#d50000");
-                    alertify.alert('Tic tac toe', 'You lose bro!');
                     break;
                 //ничья
                 case 'draw':
-                    alertify.alert('Tic tac toe', 'It`s a draw!');
+                    //TODO DRAW
                     rect.graphics.beginFill("#ffffff");
                     break;
             }

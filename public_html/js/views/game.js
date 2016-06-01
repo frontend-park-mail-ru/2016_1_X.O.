@@ -115,6 +115,40 @@ define(function (require) {
                             }
                         }.bind(this));
                     }
+                    break;
+                case 5: //GAME END
+                    if (resp.winner == user.get('id')) {
+                        this.mainSquareModel.set({
+                            'value': this.YOU,
+                            'isFinished': true
+                        });
+                        this.renderGame();
+                        alertify.alert('Tic tac toe', 'You win bro!', function() {
+                            Backbone.history.navigate('#menu', true);
+                        });
+
+                    } else {
+                        this.mainSquareModel.set({
+                            'value': this.OPPONENT,
+                            'isFinished': true
+                        });
+                        this.renderGame();
+                        alertify.alert('Tic tac toe', 'You lose bro!', function() {
+                            Backbone.history.navigate('#menu', true);
+                        });
+                    }
+                    return;
+                case 7: {
+                    this.mainSquareModel.set({
+                        'value': 'draw',
+                        'isFinished': true
+                    });
+                    this.renderGame();
+                    alertify.alert('Tic tac toe', 'It`s a draw', function() {
+                        Backbone.history.navigate('#menu', true);
+                    });
+                    return;
+                }
             }
             this.renderGame();
         },
@@ -169,7 +203,6 @@ define(function (require) {
             this.mainSquareModel.get('blockModels').forEach(function (model) {
                 model.check();
             }.bind(this));
-            this.mainSquareModel.check();
         },
 
         renderGame: function() {
