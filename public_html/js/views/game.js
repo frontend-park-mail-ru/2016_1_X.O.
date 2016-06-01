@@ -60,46 +60,39 @@ define(function (require) {
             var resp = JSON.parse(msg.data);
             console.log(resp);
             switch (resp.status) {
-                case "START_GAME":
+                case 4: //START GAME
                     this.preloaderOut();
                     alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName);
                     this.mainSquareModel = new MainSquareModel(this.STARTX, this.STARTY, this.YOU, this.OPPONENT);
                     this.mainSquareView = new MainSquareView(this.mainSquareModel, this.stage);
                     break;
-                case "OPPONENT_DISCONNECT":
+                case 6: //OPPONENT DISCONNECT
                     alertify.alert('Tic tac toe', 'Opponent disconnected');
                     this.closeSocket();
                     Backbone.history.navigate('#menu', true);
                     break;
-                // case "ERROR_FIELD_BUSY":
+                // case 101: //FIELD BUSY
                 //     //TODO
                 //     return;
-                // case "ERROR_WRONG_SQUARE":
+                // case 102: //WRONG SQUARE
                 //     //TODO
                 //     return;
-                // case "ERROR_WRONG_USER_TURN":
+                // case 103: //WRONG TURN
                 //     //TODO
                 //     return;
-                // case "ERROR_WRONG_DATA":
-                //     //TODO
-                //     return;
-                case 0:
+                case 0: //CONTINUE
                     this.mainSquareModel.set({
                         'isClickable': true
                     });
                     alertify.warning('It`s your turn bro!');
-                    this.mainSquareModel.get('blockModels').forEach(function(model){
-                        model.set({
-                            'playerId': this.YOU
-                        });
-                    }.bind(this));
-                    break;
-                case "CONTINUE_GAME":
-                    this.mainSquareModel.set({
-                        'isClickable': true
-                    });
-                    alertify.warning('It`s your turn bro!');
-                        resp.map[0].forEach(function(string) {
+                    if(resp.map[0] === null) {
+                        this.mainSquareModel.get('blockModels').forEach(function (model) {
+                            model.set({
+                                'playerId': this.YOU
+                            });
+                        }.bind(this));
+                    } else {
+                        resp.map[0].forEach(function (string) {
                             var parent, child, playerId,
                                 splitted = string.split(".");
                             parent = splitted[0];
@@ -121,7 +114,7 @@ define(function (require) {
                                 this.renderNext(parseInt(child) + 1, this.YOU);
                             }
                         }.bind(this));
-                    break;
+                    }
             }
             this.renderGame();
         },
