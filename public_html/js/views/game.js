@@ -16,7 +16,10 @@ define(function (require) {
             this.$page.append(this.el);
             this.render();
             this.hide();
+            this.closeSocket();
             this.websocket = null;
+            this.yourColorField = this.$el.find('#you');
+            this.oppColorField = this.$el.find('#opponent');
         },
 
         template: tmpl,
@@ -35,6 +38,8 @@ define(function (require) {
             if (user.get('isAuth') === false) {
                 Backbone.history.navigate('#', true);
             }
+            this.yourColorField.text('');
+            this.oppColorField.text('');
             this.websocket = new WebSocket("ws://127.0.0.1:8090/game");
             this.websocket.onmessage = this.handleMessage.bind(this);
             this.YOU = 1;
@@ -49,7 +54,7 @@ define(function (require) {
         },
 
         closeSocket: function() {
-            if (this.websocket && this.websocket.readyState < 2) {
+            if (this.websocket) {
                 this.websocket.close();
                 this.websocket.onmessage = null;
                 this.websocket = null;
@@ -62,12 +67,14 @@ define(function (require) {
             switch (resp.status) {
                 case 4: //START GAME
                     this.preloaderOut();
-                    alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName);
+                    alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName, function(){});
+                    this.yourColorField.text(user.get('login'));
+                    this.oppColorField.text(resp.opponentName);
                     this.mainSquareModel = new MainSquareModel(this.STARTX, this.STARTY, this.YOU, this.OPPONENT);
                     this.mainSquareView = new MainSquareView(this.mainSquareModel, this.stage);
                     break;
                 case 6: //OPPONENT DISCONNECT
-                    alertify.alert('Tic tac toe', 'Opponent disconnected');
+                    alertify.alert('Tic tac toe', 'Opponent disconnected', function(){});
                     this.closeSocket();
                     Backbone.history.navigate('#menu', true);
                     break;
@@ -210,8 +217,15 @@ define(function (require) {
             this.stage.update();
         },
 
-        mainClick: function() {
-            //TODO
+        mainClick: function(event) {
+            event.preventDefault();
+            alertify.confirm('Tic tac toe', 'Do you wanna give up bro ?',
+                function(){
+                    Backbone.history.navigate('#menu', true);
+                },
+                function(){
+
+                });
         }
     });
     return new GameView();

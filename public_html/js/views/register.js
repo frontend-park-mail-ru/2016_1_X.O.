@@ -43,12 +43,14 @@ define(function (require) {
                 Backbone.history.navigate('#menu', true);
             }
             this.listenToOnce(user, 'authDone', this.handleAuth);
-            this.video.load();
-            this.video.style.visibility = "visible";
-            //На случай прямого запроса на /#register
-            this.preloaderOut();
-            //
-            this.video.play();
+            if($(window).width() >= 800) {
+                this.video.load();
+                this.video.style.visibility = "visible";
+                //На случай прямого запроса на /#register
+                this.preloaderOut();
+                //
+                this.video.play();
+            }
         },
 
         hide: function () {

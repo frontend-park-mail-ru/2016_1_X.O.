@@ -16,6 +16,7 @@ define(function (require) {
                 this.$el.appendTo("#page");
                 this.$el.show();
                 this.trigger('show', this);
+                this.preloaderOut();
                 if(user.get('isAuth') === false) {
                     Backbone.history.navigate('#', true);
                 }

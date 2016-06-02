@@ -2,6 +2,15 @@
     <div class="b-page" id="game">
         <div class="b-page__header" id="header">
             <h2>Tic tac toe</h2>
+            <div class="g-names">
+                <h4 class="g-center">
+                    <span id="you" class="g-you"> </span>
+                    <span><div class="g-yourSquare"> </div></span>
+                    <span>VS</span>
+                    <span id="opponent" class="g-opponent"> </span>
+                    <span><div class="g-oppSquare"> </div></span>
+                </h4>
+            </div>
         </div>
         <div class="b-game">
             <canvas id="gameCanvas" width="600" height="600"> </canvas>

@@ -11,8 +11,8 @@
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
     text-decoration: none;
-    color: #fff;
-    background-color: #26a69a;
+    color: #000;
+    background-color: #fff;
     letter-spacing: .5px;
     -webkit-transition: .2s ease-out;
     -moz-transition: .2s ease-out;
@@ -32,7 +32,7 @@
       }
     }
     &:hover {
-      background-color: #2bbbad;
+      background-color: N/A;
       box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
     }
   }

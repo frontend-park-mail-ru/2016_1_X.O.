@@ -10,8 +10,8 @@
   vertical-align: middle;
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
-  color: #fff;
-  background-color: #26a69a;
+  color: #000;
+  background-color: #fff;
   letter-spacing: .5px;
   -webkit-transition: .2s ease-out;
   -moz-transition: .2s ease-out;
@@ -29,7 +29,7 @@
       background-color: #DFDFDF;
       color: #9F9F9F; }
   .b-button:hover {
-    background-color: #2bbbad;
+    background-color: N/A;
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15); }
 
 .b-form {
@@ -42,14 +42,46 @@
   .b-form__error {
     color: red; }
 
-.g-center, .b-board, .b-form__button--center, .b-game, .b-page, .b-menu, .b-page__header {
+.g-center, .b-board, .b-form__button--center, .g-names, .b-game, .b-page, .b-menu, .b-page__header {
   text-align: center; }
 
-.g-float-left, .b-form__button--left {
+.g-float-left, .b-form__button--left, .g-you, .g-yourSquare {
   float: left !important; }
 
-.g-float-right, .b-form__button--right {
+.g-float-right, .b-form__button--right, .g-opponent, .g-oppSquare {
   float: right !important; }
+
+.g-you {
+  color: black; }
+
+.g-opponent {
+  color: black; }
+
+.g-names {
+  width: 620px;
+  height: 50px; }
+
+.g-yourSquare {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background: #ffff00;
+  left: 10px;
+  top: 3px; }
+
+.g-oppSquare {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background: #d50000;
+  right: 10px;
+  top: 3px; }
+
+.g-red {
+  color: #d50000; }
+
+.g-yellow {
+  color: #ffff00; }
 
 .b-menu {
   border: 1px solid #e0e0e0;
@@ -70,10 +102,10 @@
     -o-transition: 0.25s;
     -ms-transition: 0.25s;
     transition: 0.25s;
-    color: #26a69a;
+    color: black;
     text-align: center; }
     .b-menu__linkactive {
-      background-color: #26a69a;
+      background-color: #fff;
       color: #eafaf9; }
     .b-menu__link:not(.active):hover {
       background-color: #ddd; }
@@ -82,9 +114,7 @@
 
 .b-page, .b-board, .b-game, .b-menu, .b-page__header {
   margin: 0 auto;
-  max-width: 1280px;
-  min-width: 600px;
-  overflow: auto;
+  min-width: 620px;
   width: 90%; }
 
 .b-row, .b-form {
@@ -117,3 +147,15 @@
 @media only screen and (min-width: 993px) {
   .b-page, .b-board, .b-game, .b-menu, .b-page__header, .b-page__header, .b-menu, .b-board, .b-game {
     width: 70%; } }
+
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000; }
+
+.input-field input[type=password]:focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000; }
+
+button:focus {
+  outline: none;
+  background-color: #fff; }
