@@ -6,3 +6,5 @@ main.css
 concat
 *.jar
 config
+dist/css
+dist/js
