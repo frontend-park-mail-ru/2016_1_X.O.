@@ -15,15 +15,30 @@ define(function (require) {
             },
             
             show: function () {
-                if(user.get('isAuth') === false) {
-                    Backbone.history.navigate('#', true);
-                    return;
-                }
                 this.$el.appendTo("#page");
                 this.$el.show();
                 this.trigger('show', this);
-                this.preloaderOut();
-                user.getScore();
+                this.listenTo(user, 'checkOk', this.onCheckOk);
+                this.listenTo(user, 'checkFail', this.onCheckFail);
+                this.listenTo(user, 'scoreOk', this.onScoreOk);
+                this.listenTo(user, 'scoreFail', this.onScoreFail);
+                if(user.get('isAuth') === false || user.get('login') === "") {
+                    user.checkData();
+                } 
+            },
+
+            onCheckOk: function() {
+                
+            },
+
+            onCheckFail: function () {
+                Backbone.history.navigate('#', true);
+            },
+
+            hide: function () {
+                this.$el.hide();
+                this.stopListening(user, 'checkOk', this.onCheckOk);
+                this.stopListening(user, 'checkFail', this.onCheckFail);
             },
             
             handleLogout: function(event) {
@@ -31,15 +46,17 @@ define(function (require) {
                 user.logout();
             },
 
+            onScoreFail: function () {
+                alertify.alert('Tic tac toe', 'Server error');
+            },
+
+            onScoreOk : function () {
+                alertify.alert('Tic tac toe', 'Login: ' + user.get('login') + '<br/> Score: ' + user.get('score'));
+            },
+
             handleInfo: function (event) {
                 event.preventDefault();
-                if(user.get('isAuth') === false) {
-                    alertify.alert('Tic tac toe', 'You are not logged in bro!', function () {
-                        Backbone.history.navigate('#', true);
-                    });
-                    return;
-                }
-                alertify.alert('Tic tac toe', 'Login: ' + user.get('login') + '<br/> Score: ' + user.get('score'));
+                user.getScore();
             }
         });
 

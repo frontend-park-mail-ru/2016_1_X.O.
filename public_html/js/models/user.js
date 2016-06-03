@@ -12,6 +12,38 @@ define(function(require) {
             sessionUrl: "/session",
             userUrl: "/user"
         },
+
+        checkData: function () {
+            var self = this;
+            $.ajax({
+                url: self.get('sessionUrl'),
+                method: "GET"
+            }).done(function (resp) {
+                var parsed = JSON.parse(resp);
+                self.set({
+                    'isAuth': true,
+                    'id': parsed.id
+                });
+                $.ajax({
+                    url: self.get('userUrl'),
+                    method: "GET",
+                    data: {
+                        'id': self.get('id')
+                    }
+                }).done(function (resp) {
+                    var parsed = JSON.parse(resp);
+                    self.set({
+                        'login': parsed.login,
+                        'score': parsed.score
+                    });
+                    self.trigger("checkOk");
+                }).fail(function (response) {
+                    self.trigger("checkFail");
+                });
+            }).fail(function (response) {
+                self.trigger("checkFail");
+            });
+        },
         
         getScore: function() {
             if(this.get('isAuth') === false) {
@@ -20,7 +52,7 @@ define(function(require) {
             }
             var self = this;
             $.ajax({
-                url: this.get('userUrl'),
+                url: self.get('userUrl'),
                 method: "GET",
                 data: {
                     'id': self.get('id')
@@ -30,15 +62,16 @@ define(function(require) {
                 self.set({
                     'score': parsed.score
                 });
+                self.trigger("scoreOk");
             }).fail(function (response) {
-                alertify.alert('Tic tac toe', 'Server error');
+                self.trigger("scoreFail");
             });
         },
 
         getId: function() {
             var self = this;
             $.ajax({
-                url: this.get('sessionUrl'),
+                url: self.get('sessionUrl'),
                 method: "GET"
             }).done(function (resp) {
                 var parsed = JSON.parse(resp);
@@ -96,7 +129,7 @@ define(function(require) {
             var self = this;
             $.ajax({
                 method: "DELETE",
-                url: "/session"
+                url: self.get('sessionUrl')
             }).done(function(){
                 self.set({
                     'isAuth': false

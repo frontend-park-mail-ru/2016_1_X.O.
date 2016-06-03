@@ -30,24 +30,42 @@ define(function (require) {
             },
 
             show: function() {
-                if(user.get('isAuth')) {
+                this.$el.appendTo("#page");
+                this.$el.show();
+                this.trigger('show', this);
+                this.listenTo(user, 'checkOk', this.onCheckOk);
+                this.listenTo(user, 'checkFail', this.onCheckFail);
+                if(user.get('isAuth') && user.get('login') !== "") {
                     Backbone.history.navigate('#menu', true);
                     return;
+                } else {
+                    user.checkData();
                 }
-                this.$page.append(this.el);
                 _.each(this.fields, function(field) {
                     field.val('');
                 });
                 _.each(this.errorFields, function (errorField) {
                     errorField.text('');
                 });
-                this.$el.show();
-                this.trigger('show', this);
                 this.listenToOnce(user, 'authDone', this.handleAuth);
+            },
+            
+            onCheckOk: function() {
+                Backbone.history.navigate('#menu', true);
+            },
+            
+            onCheckFail: function () {
+                
             },
 
             handleAuth: function() {
                 Backbone.history.navigate('#menu', true);
+            },
+
+            hide: function () {
+                this.$el.hide();
+                this.stopListening(user, 'checkOk', this.onCheckOk);
+                this.stopListening(user, 'checkFail', this.onCheckFail);
             },
 
             submit: function (event) {

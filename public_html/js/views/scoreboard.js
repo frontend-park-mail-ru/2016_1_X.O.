@@ -43,6 +43,10 @@ define(function (require) {
                     console.log(response.responseText);
                     Backbone.history.navigate('#menu', true);
                 });
+            },
+
+            hide: function() {
+                this.$el.hide();
             }
         });
 

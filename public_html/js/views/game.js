@@ -30,7 +30,7 @@ define(function (require) {
         },
 
         show: function () {
-            if (user.get('isAuth') === false) {
+            if(user.get('isAuth') === false) {
                 Backbone.history.navigate('#', true);
                 return;
             }
@@ -41,12 +41,12 @@ define(function (require) {
             this.stage = new createjs.Stage("gameCanvas");
             this.yourColorField.text('');
             this.oppColorField.text('');
-            this.websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/game");
-            this.websocket.onmessage = this.handleMessage.bind(this);
             this.YOU = 1;
             this.OPPONENT = -1;
             this.STARTX = 100;
             this.STARTY = 100;
+            this.websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/game");
+            this.websocket.onmessage = this.handleMessage.bind(this);
         },
 
         hide: function () {
