@@ -30,6 +30,10 @@ define(function (require) {
             },
 
             show: function() {
+                if(user.get('isAuth')) {
+                    Backbone.history.navigate('#menu', true);
+                    return;
+                }
                 this.$page.append(this.el);
                 _.each(this.fields, function(field) {
                     field.val('');
@@ -39,9 +43,6 @@ define(function (require) {
                 });
                 this.$el.show();
                 this.trigger('show', this);
-                if(user.get('isAuth')) {
-                    Backbone.history.navigate('#menu', true);
-                }
                 this.listenToOnce(user, 'authDone', this.handleAuth);
             },
 

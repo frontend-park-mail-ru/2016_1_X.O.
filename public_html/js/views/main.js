@@ -9,14 +9,14 @@ define(function (require) {
             template: tmpl,
 
             show: function () {
+                if(user.get('isAuth')) {
+                    Backbone.history.navigate('#menu', true);
+                    return;
+                }
                 this.$el.appendTo("#page");
                 this.$el.show();
                 this.trigger('show', this);
-                if(user.get('isAuth')) {
-                    Backbone.history.navigate('#menu', true);
-                }
             }
-
         });
 
         return new MainView();

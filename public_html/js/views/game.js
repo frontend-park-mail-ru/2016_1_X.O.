@@ -30,14 +30,15 @@ define(function (require) {
         },
 
         show: function () {
+            if (user.get('isAuth') === false) {
+                Backbone.history.navigate('#', true);
+                return;
+            }
             this.$el.appendTo("#page");
             this.$el.show();
             this.preloaderIn();
             this.trigger('show', this);
             this.stage = new createjs.Stage("gameCanvas");
-            if (user.get('isAuth') === false) {
-                Backbone.history.navigate('#', true);
-            }
             this.yourColorField.text('');
             this.oppColorField.text('');
             this.websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/game");
@@ -121,6 +122,7 @@ define(function (require) {
         },
 
         onEnd: function (resp) {
+            this.closeSocket();
             user.getScore();
             if (resp.winner == user.get('id')) {
                 this.mainSquareModel.set({
@@ -145,13 +147,14 @@ define(function (require) {
         },
 
         onDisconnect: function () {
+            this.closeSocket();
             alertify.alert('Tic tac toe', 'Opponent disconnected', function () {
             });
-            this.closeSocket();
             Backbone.history.navigate('#menu', true);
         },
 
         onDraw: function () {
+            this.closeSocket();
             user.getScore();
             this.mainSquareModel.set({
                 'value': 'draw',

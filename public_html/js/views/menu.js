@@ -15,13 +15,14 @@ define(function (require) {
             },
             
             show: function () {
+                if(user.get('isAuth') === false) {
+                    Backbone.history.navigate('#', true);
+                    return;
+                }
                 this.$el.appendTo("#page");
                 this.$el.show();
                 this.trigger('show', this);
                 this.preloaderOut();
-                if(user.get('isAuth') === false) {
-                    Backbone.history.navigate('#', true);
-                }
                 user.getScore();
             },
             
@@ -36,6 +37,7 @@ define(function (require) {
                     alertify.alert('Tic tac toe', 'You are not logged in bro!', function () {
                         Backbone.history.navigate('#', true);
                     });
+                    return;
                 }
                 alertify.alert('Tic tac toe', 'Login: ' + user.get('login') + '<br/> Score: ' + user.get('score'));
             }

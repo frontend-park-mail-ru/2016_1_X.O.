@@ -14,6 +14,10 @@ define(function(require) {
         },
         
         getScore: function() {
+            if(this.get('isAuth') === false) {
+                Backbone.history.navigate('', true);
+                return;
+            }
             var self = this;
             $.ajax({
                 url: this.get('userUrl'),
@@ -85,6 +89,10 @@ define(function(require) {
         },
 
         logout: function () {
+            if(this.get('isAuth') === false) {
+                Backbone.history.navigate('', true);
+                return;
+            }
             var self = this;
             $.ajax({
                 method: "DELETE",
