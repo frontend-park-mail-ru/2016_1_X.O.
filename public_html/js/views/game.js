@@ -61,104 +61,136 @@ define(function (require) {
             }
         },
 
+        onContinue: function (resp) {
+            this.mainSquareModel.set({
+                'isClickable': true
+            });
+            alertify.warning('It`s your turn bro!');
+            if (resp.map[0] === null) {
+                this.mainSquareModel.get('blockModels').forEach(function (model) {
+                    model.set({
+                        'playerId': this.YOU
+                    });
+                }.bind(this));
+            } else {
+                resp.map[0].forEach(function (string) {
+                    var parent, child, playerId,
+                        splitted = string.split(".");
+                    parent = splitted[0];
+                    child = splitted[1];
+                    playerId = splitted[2];
+                    if (playerId == user.get('id')) {
+                        playerId = this.YOU;
+                    }
+                    else {
+                        playerId = this.OPPONENT;
+                    }
+                    if (this.mainSquareModel.get('blockModels')[parent].get
+                        ('squareModels')[child].get('value') != playerId) {
+                        this.mainSquareModel.get('blockModels')[parent].get
+                        ('squareModels')[child].set({
+                            'value': playerId
+                        });
+                        this.check();
+                        this.renderNext(parseInt(child) + 1, this.YOU);
+                    }
+                }.bind(this));
+            }
+        },
+
+        onWin: function () {
+            //TODO
+        },
+
+        onLose: function () {
+            //TODO
+        },
+
+        onId: function () {
+            //TODO
+        },
+
+        onStartGame: function (resp) {
+            this.preloaderOut();
+            alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName, function () {
+            });
+            this.yourColorField.text(user.get('login'));
+            this.oppColorField.text(resp.opponentName);
+            this.mainSquareModel = new MainSquareModel(this.STARTX, this.STARTY, this.YOU, this.OPPONENT);
+            this.mainSquareView = new MainSquareView(this.mainSquareModel, this.stage);
+        },
+
+        onEnd: function (resp) {
+            user.getScore();
+            if (resp.winner == user.get('id')) {
+                this.mainSquareModel.set({
+                    'value': this.YOU,
+                    'isFinished': true
+                });
+                this.renderGame();
+                alertify.alert('Tic tac toe', 'You win bro!\nYour total score is: ' + user.get('score'), function () {
+                    Backbone.history.navigate('#menu', true);
+                });
+
+            } else {
+                this.mainSquareModel.set({
+                    'value': this.OPPONENT,
+                    'isFinished': true
+                });
+                this.renderGame();
+                alertify.alert('Tic tac toe', 'You lose bro!\nYour total score is: ' + user.get('score'), function () {
+                    Backbone.history.navigate('#menu', true);
+                });
+            }
+        },
+
+        onDisconnect: function () {
+            alertify.alert('Tic tac toe', 'Opponent disconnected', function () {
+            });
+            this.closeSocket();
+            Backbone.history.navigate('#menu', true);
+        },
+
+        onDraw: function () {
+            user.getScore();
+            this.mainSquareModel.set({
+                'value': 'draw',
+                'isFinished': true
+            });
+            this.renderGame();
+            alertify.alert('Tic tac toe', 'It`s a draw!\nYour total score is: ' + user.get('score'), function () {
+                Backbone.history.navigate('#menu', true);
+            });
+        },
+
+        onBusy: function () {
+            //TODO
+        },
+
+        onWrong: function () {
+            //TODO
+        },
+
+        onTurn: function () {
+            //TODO
+        },
+
         handleMessage: function (msg) {
             var resp = JSON.parse(msg.data);
-            switch (resp.status) {
-                case 4: //START GAME
-                    this.preloaderOut();
-                    alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName, function () {
-                    });
-                    this.yourColorField.text(user.get('login'));
-                    this.oppColorField.text(resp.opponentName);
-                    this.mainSquareModel = new MainSquareModel(this.STARTX, this.STARTY, this.YOU, this.OPPONENT);
-                    this.mainSquareView = new MainSquareView(this.mainSquareModel, this.stage);
-                    break;
-                case 6: //OPPONENT DISCONNECT
-                    alertify.alert('Tic tac toe', 'Opponent disconnected', function () {
-                    });
-                    this.closeSocket();
-                    Backbone.history.navigate('#menu', true);
-                    break;
-                // case 101: //FIELD BUSY
-                //     //TODO
-                //     return;
-                // case 102: //WRONG SQUARE
-                //     //TODO
-                //     return;
-                // case 103: //WRONG TURN
-                //     //TODO
-                //     return;
-                case 0: //CONTINUE
-                    this.mainSquareModel.set({
-                        'isClickable': true
-                    });
-                    alertify.warning('It`s your turn bro!');
-                    if (resp.map[0] === null) {
-                        this.mainSquareModel.get('blockModels').forEach(function (model) {
-                            model.set({
-                                'playerId': this.YOU
-                            });
-                        }.bind(this));
-                    } else {
-                        resp.map[0].forEach(function (string) {
-                            var parent, child, playerId,
-                                splitted = string.split(".");
-                            parent = splitted[0];
-                            child = splitted[1];
-                            playerId = splitted[2];
-                            if (playerId == user.get('id')) {
-                                playerId = this.YOU;
-                            }
-                            else {
-                                playerId = this.OPPONENT;
-                            }
-                            if (this.mainSquareModel.get('blockModels')[parent].get
-                                ('squareModels')[child].get('value') != playerId) {
-                                this.mainSquareModel.get('blockModels')[parent].get
-                                ('squareModels')[child].set({
-                                    'value': playerId
-                                });
-                                this.check();
-                                this.renderNext(parseInt(child) + 1, this.YOU);
-                            }
-                        }.bind(this));
-                    }
-                    break;
-                case 5: //GAME END
-                    user.getScore();
-                    if (resp.winner == user.get('id')) {
-                        this.mainSquareModel.set({
-                            'value': this.YOU,
-                            'isFinished': true
-                        });
-                        this.renderGame();
-                        alertify.alert('Tic tac toe', 'You win bro!\nYour total score is: ' + user.get('score'), function () {
-                            Backbone.history.navigate('#menu', true);
-                        });
-
-                    } else {
-                        this.mainSquareModel.set({
-                            'value': this.OPPONENT,
-                            'isFinished': true
-                        });
-                        this.renderGame();
-                        alertify.alert('Tic tac toe', 'You lose bro!\nYour total score is: ' + user.get('score'), function () {
-                            Backbone.history.navigate('#menu', true);
-                        });
-                    }
-                    return;
-                case 7: //DRAW
-                    user.getScore();
-                    this.mainSquareModel.set({
-                        'value': 'draw',
-                        'isFinished': true
-                    });
-                    this.renderGame();
-                    alertify.alert('Tic tac toe', 'It`s a draw!\nYour total score is: ' + user.get('score'), function () {
-                        Backbone.history.navigate('#menu', true);
-                    });
-                    return;
-            }
+            var responseMap = {
+                0: this.onContinue,
+                1: this.onWin,
+                2: this.onLose,
+                3: this.onId,
+                4: this.onStartGame,
+                5: this.onEnd,
+                6: this.onDisconnect,
+                7: this.onDraw,
+                101: this.onBusy,
+                102: this.onWrong,
+                103: this.onTurn
+            };
+            responseMap[resp.status].call(this, resp);
             this.renderGame();
         },
 
