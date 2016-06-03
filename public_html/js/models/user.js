@@ -27,7 +27,7 @@ define(function(require) {
                     'score': parsed.score
                 });
             }).fail(function (response) {
-                alertify.alert(response.responseText);
+                alertify.alert('Tic tac toe', 'Server error');
             });
         },
 
@@ -104,9 +104,9 @@ define(function(require) {
         validate: function(data) {
             var errors = [];
 
-            var emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
-                loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
+            var emailRegexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/,
+                passwRegexp = /^[0-9a-zA-Z]{5,20}$/,
+                loginRegexp = /^[0-9a-zA-Z]{5,20}$/;
 
             if(data.email !== undefined) {
                 if (data.email === '') {

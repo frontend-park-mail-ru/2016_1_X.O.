@@ -128,7 +128,7 @@ define(function (require) {
                     'isFinished': true
                 });
                 this.renderGame();
-                alertify.alert('Tic tac toe', 'You win bro!\nYour total score is: ' + user.get('score'), function () {
+                alertify.alert('Tic tac toe', 'You win bro!', function () {
                     Backbone.history.navigate('#menu', true);
                 });
 
@@ -138,7 +138,7 @@ define(function (require) {
                     'isFinished': true
                 });
                 this.renderGame();
-                alertify.alert('Tic tac toe', 'You lose bro!\nYour total score is: ' + user.get('score'), function () {
+                alertify.alert('Tic tac toe', 'You lose bro!', function () {
                     Backbone.history.navigate('#menu', true);
                 });
             }
@@ -158,7 +158,7 @@ define(function (require) {
                 'isFinished': true
             });
             this.renderGame();
-            alertify.alert('Tic tac toe', 'It`s a draw!\nYour total score is: ' + user.get('score'), function () {
+            alertify.alert('Tic tac toe', 'It`s a draw!', function () {
                 Backbone.history.navigate('#menu', true);
             });
         },
