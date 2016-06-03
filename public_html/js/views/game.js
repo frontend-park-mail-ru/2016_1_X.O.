@@ -53,7 +53,7 @@ define(function (require) {
             this.closeSocket();
         },
 
-        closeSocket: function() {
+        closeSocket: function () {
             if (this.websocket) {
                 this.websocket.close();
                 this.websocket.onmessage = null;
@@ -63,18 +63,19 @@ define(function (require) {
 
         handleMessage: function (msg) {
             var resp = JSON.parse(msg.data);
-            console.log(resp);
             switch (resp.status) {
                 case 4: //START GAME
                     this.preloaderOut();
-                    alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName, function(){});
+                    alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName, function () {
+                    });
                     this.yourColorField.text(user.get('login'));
                     this.oppColorField.text(resp.opponentName);
                     this.mainSquareModel = new MainSquareModel(this.STARTX, this.STARTY, this.YOU, this.OPPONENT);
                     this.mainSquareView = new MainSquareView(this.mainSquareModel, this.stage);
                     break;
                 case 6: //OPPONENT DISCONNECT
-                    alertify.alert('Tic tac toe', 'Opponent disconnected', function(){});
+                    alertify.alert('Tic tac toe', 'Opponent disconnected', function () {
+                    });
                     this.closeSocket();
                     Backbone.history.navigate('#menu', true);
                     break;
@@ -92,7 +93,7 @@ define(function (require) {
                         'isClickable': true
                     });
                     alertify.warning('It`s your turn bro!');
-                    if(resp.map[0] === null) {
+                    if (resp.map[0] === null) {
                         this.mainSquareModel.get('blockModels').forEach(function (model) {
                             model.set({
                                 'playerId': this.YOU
@@ -124,13 +125,14 @@ define(function (require) {
                     }
                     break;
                 case 5: //GAME END
+                    user.getScore();
                     if (resp.winner == user.get('id')) {
                         this.mainSquareModel.set({
                             'value': this.YOU,
                             'isFinished': true
                         });
                         this.renderGame();
-                        alertify.alert('Tic tac toe', 'You win bro!', function() {
+                        alertify.alert('Tic tac toe', 'You win bro!\nYour total score is: ' + user.get('score'), function () {
                             Backbone.history.navigate('#menu', true);
                         });
 
@@ -140,18 +142,19 @@ define(function (require) {
                             'isFinished': true
                         });
                         this.renderGame();
-                        alertify.alert('Tic tac toe', 'You lose bro!', function() {
+                        alertify.alert('Tic tac toe', 'You lose bro!\nYour total score is: ' + user.get('score'), function () {
                             Backbone.history.navigate('#menu', true);
                         });
                     }
                     return;
                 case 7: //DRAW
+                    user.getScore();
                     this.mainSquareModel.set({
                         'value': 'draw',
                         'isFinished': true
                     });
                     this.renderGame();
-                    alertify.alert('Tic tac toe', 'It`s a draw', function() {
+                    alertify.alert('Tic tac toe', 'It`s a draw!\nYour total score is: ' + user.get('score'), function () {
                         Backbone.history.navigate('#menu', true);
                     });
                     return;
@@ -159,7 +162,7 @@ define(function (require) {
             this.renderGame();
         },
 
-        gameClick: function(event) {
+        gameClick: function (event) {
             event.preventDefault();
             var square = this.mainSquareModel.onClick(event.offsetX, event.offsetY);
             if (square) {
@@ -174,7 +177,7 @@ define(function (require) {
         },
 
         renderNext: function (index, value) {
-            if(this.mainSquareModel.get('blockModels')[index - 1].get('isFinished')) {
+            if (this.mainSquareModel.get('blockModels')[index - 1].get('isFinished')) {
                 this.mainSquareModel.get('blockModels').forEach(function (model) {
                     if (model.get('isFinished')) {
                         model.set({
@@ -205,24 +208,24 @@ define(function (require) {
             }
         },
 
-        check: function() {
+        check: function () {
             this.mainSquareModel.get('blockModels').forEach(function (model) {
                 model.check();
             }.bind(this));
         },
 
-        renderGame: function() {
+        renderGame: function () {
             this.mainSquareView.render();
             this.stage.update();
         },
 
-        mainClick: function(event) {
+        mainClick: function (event) {
             event.preventDefault();
             alertify.confirm('Tic tac toe', 'Do you wanna give up bro ?',
-                function(){
+                function () {
                     Backbone.history.navigate('#menu', true);
                 },
-                function(){
+                function () {
 
                 });
         }

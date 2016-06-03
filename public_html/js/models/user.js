@@ -12,6 +12,24 @@ define(function(require) {
             sessionUrl: "/session",
             userUrl: "/user"
         },
+        
+        getScore: function() {
+            var self = this;
+            $.ajax({
+                url: this.get('userUrl'),
+                method: "GET",
+                data: {
+                    'id': self.get('id')
+                }
+            }).done(function (resp) {
+                var parsed = JSON.parse(resp);
+                self.set({
+                    'score': parsed.score
+                });
+            }).fail(function (response) {
+                alertify.alert(response.responseText);
+            });
+        },
 
         getId: function() {
             var self = this;
