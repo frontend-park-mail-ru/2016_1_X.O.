@@ -166,13 +166,18 @@ define(function (require) {
             event.preventDefault();
             var square = this.mainSquareModel.onClick(event.offsetX, event.offsetY);
             if (square) {
-                this.websocket.send((square.get('parentId') - 1) + '.' + (square.get('id') - 1));
-                this.check();
-                this.renderNext(square.get('id'), this.OPPONENT);
-                this.mainSquareModel.set({
-                    'isClickable': false
-                });
-                this.renderGame();
+                if(this.websocket && this.websocket.readyState == 1) {
+                    this.websocket.send((square.get('parentId') - 1) + '.' + (square.get('id') - 1));
+                    this.check();
+                    this.renderNext(square.get('id'), this.OPPONENT);
+                    this.mainSquareModel.set({
+                        'isClickable': false
+                    });
+                    this.renderGame();
+                }
+                else {
+                    alertify.alert('Tic tac toe', 'Unknown error, sorry bro!');
+                }
             }
         },
 

@@ -97,6 +97,7 @@ define(function(require) {
                 Backbone.history.navigate('', true);
             }).fail(function(response){
                 self.handleServerError(response.responseText);
+                Backbone.history.navigate('', true);
             })
         },
 
