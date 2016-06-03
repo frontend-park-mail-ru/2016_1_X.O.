@@ -75,13 +75,13 @@ define(function (require) {
                     }
                 }
                 //диагональ
-                if (values[0] && (values[0] === values[4]) && (values[0]) === values[8]) {
+                if (values[0] && (values[0] === values[4]) && (values[0] === values[8])) {
                     this.set({'isFinished': true, 'isClickable': false, 'value': values[0]});
                     return;
                 }
 
                 //побочная диагональ
-                if (values[2] && (values[2] === values[4]) && (values[2]) === values[6]) {
+                if (values[2] && (values[2] === values[4]) && (values[2] === values[6])) {
                     this.set({'isFinished': true, 'isClickable': false, 'value': values[2]});
                     return;
                 }

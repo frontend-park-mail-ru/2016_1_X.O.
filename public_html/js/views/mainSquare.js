@@ -32,7 +32,7 @@ define(function (require) {
                 //ничья
                 case 'draw':
                     //TODO DRAW
-                    rect.graphics.beginFill("#ffffff");
+                    rect.graphics.beginFill("#f3e5f5");
                     break;
             }
             rect.graphics.drawRect(

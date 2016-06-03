@@ -26,7 +26,7 @@ define(function (require) {
 
         events: {
             'click #gameCanvas': 'gameClick',
-            'click #main': 'mainClick' //TODO
+            'click #main': 'mainClick'
         },
 
         show: function () {
@@ -40,7 +40,7 @@ define(function (require) {
             }
             this.yourColorField.text('');
             this.oppColorField.text('');
-            this.websocket = new WebSocket("ws://127.0.0.1:8090/game");
+            this.websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/game");
             this.websocket.onmessage = this.handleMessage.bind(this);
             this.YOU = 1;
             this.OPPONENT = -1;
@@ -145,7 +145,7 @@ define(function (require) {
                         });
                     }
                     return;
-                case 7: {
+                case 7: //DRAW
                     this.mainSquareModel.set({
                         'value': 'draw',
                         'isFinished': true
@@ -155,7 +155,6 @@ define(function (require) {
                         Backbone.history.navigate('#menu', true);
                     });
                     return;
-                }
             }
             this.renderGame();
         },
