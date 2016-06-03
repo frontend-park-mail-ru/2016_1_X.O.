@@ -7,7 +7,8 @@ require.config({
         backbone: "lib/backbone",
         materialize: "lib/materialize",
         hammerjs: "lib/hammer.min",
-        easel: "lib/easel"
+        easel: "lib/easel",
+        alertify: "lib/alertify"
     },
     shim: {
         'jquery' : {
@@ -24,11 +25,14 @@ require.config({
             deps: ['jquery', 'hammerjs'],
             exports: 'Materialize'
         },
+        'hammerjs': {
+            exports: 'Hammer'
+        },
         'easel': {
             exports: 'createjs'
         },
-        'hammerjs': {
-            exports: 'Hammer'
+        'alertify': {
+            exports: 'alertify'
         }
     }
 });

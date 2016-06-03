@@ -3,8 +3,7 @@ define(function (require) {
 
     QUnit.test("userModel - экземпляр Backbone.Model", function (assert) {
         var Backbone = require('backbone');
-        var UserModel = require('models/user');
-        var userModel = new UserModel();
+        var userModel = require('models/user');
         assert.ok(userModel instanceof Backbone.Model, "userModel - экземпляр Backbone.Model");
     });
 });

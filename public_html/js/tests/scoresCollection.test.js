@@ -10,8 +10,12 @@ define(function(require) {
 
     QUnit.test('Сортировка', function(assert) {
         var Backbone = require('backbone');
-        var scoreCollection = require('collections/scores');
-        var scoreCollectionJSON = scoreCollection.toJSON();
+        var scores = require('collections/scores');
+        for (var j = 0; j < 10; j++) {
+            scores.add({'name': Math.random().toString(36).substr(2, Math.floor(Math.random() * 10 + 1)),
+                'score': Math.floor(Math.random() * 10000)});
+        }
+        var scoreCollectionJSON = scores.toJSON();
         var crap = true;
         for (var i = 1; i < scoreCollectionJSON.length; i++) {
             if(scoreCollectionJSON[i-1].score < scoreCollectionJSON[i].score) {
