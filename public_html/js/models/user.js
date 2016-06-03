@@ -104,7 +104,7 @@ define(function(require) {
         validate: function(data) {
             var errors = [];
 
-            var emailRegexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/,
+            var emailRegexp = /^[a-z0-9\._%+-]+@[a-z0-9\.-]+\.[a-z]{2,4}$/,
                 passwRegexp = /^[0-9a-zA-Z]{5,20}$/,
                 loginRegexp = /^[0-9a-zA-Z]{5,20}$/;
 
