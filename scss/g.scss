@@ -10,4 +10,41 @@
       float: right !important;
     }
   }
+  &-you {
+    color: black;
+    @extend .g-float-left;
+  }
+  &-opponent {
+    color: black;
+    @extend .g-float-right;
+  }
+  &-names {
+    @extend .g-center;
+    width: 620px;
+    height: 50px;
+  }
+  &-yourSquare {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #ffff00;
+    @extend .g-float-left;
+    left: 10px;
+    top:3px;
+  }
+  &-oppSquare {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #d50000;
+    @extend .g-float-right;
+    right: 10px;
+    top:3px;
+  }
+  &-red {
+    color: #d50000;
+  }
+  &-yellow {
+    color: #ffff00
+  }
 }

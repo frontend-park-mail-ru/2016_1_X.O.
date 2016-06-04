@@ -6,8 +6,11 @@ module.exports = function (grunt) {
                 stdout: true,
                 stderr: true
             },
-            server: {
+            js: {
                 command: 'node server'
+            },
+            java: {
+                command: 'java -jar tictactoe-1.0.1-jar-with-dependencies.jar 8090'
             }
         },
         fest: {
@@ -91,9 +94,14 @@ module.exports = function (grunt) {
             }
         },
         concurrent: {
-            target: ['watch', 'shell'],
             options: {
                 logConcurrentOutput: true
+            },
+            js: {
+                tasks: ['watch', 'shell:js']
+            },
+            java: {
+                tasks: ['watch', 'shell:java']
             }
         },
         qunit: {
@@ -113,6 +121,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('compile', ['requirejs', 'concat', 'cssmin']);
     grunt.registerTask('test', ['qunit:all']);
-    grunt.registerTask('default', ['concurrent']);
+    grunt.registerTask('default', ['compile', 'concurrent:js']);
+    grunt.registerTask('java', ['concurrent:java'])
 
 };

@@ -1,73 +1,153 @@
 define(function(require) {
     var Backbone = require('backbone'),
-        _ = require('underscore');
+        $ = require('jquery'),
+        alertify = require('alertify');
 
     var UserModel = Backbone.Model.extend({
         defaults: {
-            email: "",
             login: "",
-            responseMap: {
-                1: "BAD_INPUT_DATA",
-                2: "LOGIN_REQUIRED",
-                101: "LOGIN_IN_USE",
-                102: "EMAIL_IN_USE",
-                103: "BAD_LOGIN",
-                104: "BAD_EMAIL",
-                105: "BAD_PASSWORD",
-                106: "BAD_ID",
-                107: "WRONG_CREDENTIALS",
-                108: "NO_USER"
-            }
+            score: 0,
+            id: 0,
+            isAuth: false,
+            sessionUrl: "/session",
+            userUrl: "/user"
         },
 
-        urlRoot: "/user",
-
-        sync: function (method, model, options) {
-            if (method === "create") {
-                method = "update";
+        checkData: function () {
+            var self = this;
+            $.ajax({
+                url: self.get('sessionUrl'),
+                method: "GET"
+            }).done(function (resp) {
+                var parsed = JSON.parse(resp);
+                self.set({
+                    'isAuth': true,
+                    'id': parsed.id
+                });
+                $.ajax({
+                    url: self.get('userUrl'),
+                    method: "GET",
+                    data: {
+                        'id': self.get('id')
+                    }
+                }).done(function (resp) {
+                    var parsed = JSON.parse(resp);
+                    self.set({
+                        'login': parsed.login,
+                        'score': parsed.score
+                    });
+                    self.trigger("checkOk");
+                }).fail(function (response) {
+                    self.trigger("checkFail");
+                });
+            }).fail(function (response) {
+                self.trigger("checkFail");
+            });
+        },
+        
+        getScore: function() {
+            if(this.get('isAuth') === false) {
+                Backbone.history.navigate('', true);
+                return;
             }
-            options || (options = {});
-            options.url = this.urlRoot;
-            return Backbone.sync.apply(this, arguments)
+            var self = this;
+            $.ajax({
+                url: self.get('userUrl'),
+                method: "GET",
+                data: {
+                    'id': self.get('id')
+                }
+            }).done(function (resp) {
+                var parsed = JSON.parse(resp);
+                self.set({
+                    'score': parsed.score
+                });
+                self.trigger("scoreOk");
+            }).fail(function (response) {
+                self.trigger("scoreFail");
+            });
         },
 
-        save : function(key, value, options) {
+        getId: function() {
+            var self = this;
+            $.ajax({
+                url: self.get('sessionUrl'),
+                method: "GET"
+            }).done(function (resp) {
+                var parsed = JSON.parse(resp);
+                self.set({
+                    'isAuth': true,
+                    'id': parsed.id
+                });
+                self.trigger("authDone", alertify.alert('TicTacToe', 'Welcome, ' + self.get('login')));
+            }).fail(function (response) {
+                self.handleServerError(response.responseText);
+            });
+        },
 
-            var attributes={}, opts={};
+        login: function(uLogin, uPassword) {
+            var self = this;
+            $.ajax({
+                url: self.get('sessionUrl'),
+                method: "PUT",
+                data: {
+                    login: uLogin,
+                    password: uPassword
+                }
+            }).done(function () {
+                self.getId();
+                self.set({
+                    'login': uLogin
+                })
+            }).fail(function (response) {
+                self.handleServerError(response.responseText);
+            });
+        },
 
-            //Need to use the same conditional that Backbone is using
-            //in its default save so that attributes and options
-            //are properly passed on to the prototype
-            if (_.isObject(key) || key == null) {
-                attributes = key;
-                opts = value;
-            } else {
-                attributes = {};
-                attributes[key] = value;
-                opts = options;
+        register: function(uEmail, uLogin, uPassword) {
+            var self = this;
+            $.ajax({
+                url: self.get('userUrl'),
+                method: "PUT",
+                data: {
+                    email: uEmail,
+                    login: uLogin,
+                    password: uPassword
+                }
+            }).done(function () {
+                self.login(uLogin, uPassword);
+            }).fail(function (response) {
+                self.handleServerError(response.responseText);
+            });
+        },
+
+        logout: function () {
+            if(this.get('isAuth') === false) {
+                Backbone.history.navigate('', true);
+                return;
             }
-
-            //Since backbone will post all the fields at once, we
-            //need a way to post only the fields we want. So we can do this
-            //by passing in a JSON in the "key" position of the args. This will
-            //be assigned to opts.data. Backbone.sync will evaluate options.data
-            //and if it exists will use it instead of the entire JSON.
-            if (opts && attributes) {
-                opts.data = JSON.stringify(attributes);
-                opts.contentType = "application/json";
-            }
-
-            //Finally, make a call to the default save now that we've
-            //got all the details worked out.
-            return Backbone.Model.prototype.save.call(this, attributes, opts);
+            var self = this;
+            $.ajax({
+                method: "DELETE",
+                url: self.get('sessionUrl')
+            }).done(function(){
+                self.set({
+                    'isAuth': false
+                });
+                alertify.alert('TicTacToe', 'Good bye, ' + self.get('login'));
+                Backbone.history.navigate('', true);
+            }).fail(function(response){
+                self.handleServerError(response.responseText);
+                Backbone.history.navigate('', true);
+            })
         },
 
         validate: function(data) {
             var errors = [];
 
-            var emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                passwRegexp = /^[0-9a-zA-Z]{1,16}$/,
-                loginRegexp = /^[0-9a-zA-Z]{1,16}$/;
+            var emailRegexp = /^[a-z0-9\._%+-]+@[a-z0-9\.-]+\.[a-z]{2,4}$/,
+                passwRegexp = /^[0-9a-zA-Z]{5,20}$/,
+                loginRegexp = /^[0-9a-zA-Z]{5,20}$/;
 
             if(data.email !== undefined) {
                 if (data.email === '') {
@@ -79,7 +159,7 @@ define(function(require) {
                 else if (!emailRegexp.test(data.email)) {
                     errors.push({
                         field: 'email',
-                        error: 'Wrong email bro!'
+                        error: 'Bad email bro!'
                     });
                 }
             }
@@ -93,7 +173,7 @@ define(function(require) {
             else if(!loginRegexp.test(data.login)) {
                 errors.push({
                     field: 'login',
-                    error: 'Wrong login bro!'
+                    error: 'Bad login bro!'
                 });
             }
 
@@ -106,7 +186,7 @@ define(function(require) {
             else if(!passwRegexp.test(data.password)) {
                 errors.push({
                     field: 'password',
-                    error: 'Wrong password bro!'
+                    error: 'Bad password bro!'
                 });
             }
 
@@ -117,16 +197,27 @@ define(function(require) {
 
         handleServerError: function(data) {
             data = JSON.parse(data);
-            if (this.get('responseMap')[data.error]) {
-                //TODO
-                console.log(this.get('responseMap')[data.error])
+            var responseMap = {
+                    1: "Bad input data",
+                    2: "Login required",
+                    101: "Login in use",
+                    102: "Email in use",
+                    103: "Bad login",
+                    104: "Bad email",
+                    105: "Bad password",
+                    106: "Bad id",
+                    107: "Wrong credentials",
+                    108: "No user"
+            };
+            if (responseMap[data.error]) {
+                alertify.alert('Server error', responseMap[data.error] + ' bro!');
             }
             else {
-                //TODO
-                console.log('unknown error');
+                alertify.alert('Server error', 'Unknown error bro!');
             }
         }
+        
     });
 
-    return UserModel;
+    return new UserModel();
 });

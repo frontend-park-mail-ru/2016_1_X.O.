@@ -7,26 +7,23 @@
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Login</p>
-                    <input id="loginInput" type="text" placeholder="1-16 symbols"/>
+                    <input id="loginInput" type="text" placeholder="5-20 symbols"/>
                     <span class="b-form__error" id="loginError"> </span>
                 </div>
             </div>
             <div class="b-row">
                 <div class="input-field b-form__row">
                     <p>Password</p>
-                    <input id="passwordInput" type="password" placeholder="1-16 symbols"/>
+                    <input id="passwordInput" type="password" placeholder="5-20 symbols"/>
                     <span class="b-form__error" id="passwordError"> </span>
                 </div>
             </div>
-            <div class="b-row b-form__button--center">
-                <button class="b-button" type="submit" id="loginSubmit">
+            <div class="b-row">
+                <button class="b-button b-form__button--left" type="submit" id="loginSubmit">
                     Login
                 </button>
+                <a class="b-button b-form__button--right" id="main" href="#">Main menu</a>
             </div>
         </form>
-        <div class="b-row">
-            <a class="b-button b-form__button--left" id="register" href="#register">Register</a>
-            <a class="b-button b-form__button--right" id="main" href="#">Main menu</a>
-        </div>
     </div>
 </fest:template>

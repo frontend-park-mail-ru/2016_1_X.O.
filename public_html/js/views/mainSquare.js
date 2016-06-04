@@ -2,47 +2,53 @@ define(function (require) {
     var Backbone = require('backbone'),
         createjs = require('easel'),
         _ = require('underscore'),
-        SquareView = require('views/square'),
+        alertify = require('alertify'),
         BlockView = require('views/block');
 
-    var MainSquareView = SquareView.extend({
-        addBlocks: function(player) {
-            if (this.model.get('isFinished')) {
-                return;
-            }
-            _.forEach(this.model.get('collection').models, function (block) {
-                var blockView = new BlockView(block, this.stage);
-                blockView.renderBlock(player);
-            }.bind(this));
+    var MainSquareView = Backbone.View.extend({
+
+        initialize: function (model, stage) {
+            this.model = model;
+            this.stage = stage;
         },
 
-        check: function () {
-            this.model.check();
-            if (!this.model.get('isFinished')) {
-                return;
-            }
-            var status = '';
+        render: function () {
+            var rect = new createjs.Shape();
             switch (this.model.get('value')) {
+                //не помеченный квадрат
                 case 0:
-                    status = 'draw';
+                    rect.graphics.beginFill("#ffffff");
                     break;
+                //помечен тобой
                 case 1:
-                    status = 'win 1';
+                    //TODO YOU WIN
+                    rect.graphics.beginFill("#ffff00");
                     break;
+                //помечен противником
                 case -1:
-                    status = 'win -1';
+                    //TODO YOU LOSE
+                    rect.graphics.beginFill("#d50000");
+                    break;
+                //ничья
+                case 'draw':
+                    //TODO DRAW
+                    rect.graphics.beginFill("#f3e5f5");
                     break;
             }
-            alert(status);
-            Backbone.history.navigate('', true);
-            this.model.set({
-                'isFinished': false
-            });
-        },
-        
-        renderMainSquare: function(player) {
-            this.renderSquare("#ffffff");
-            this.addBlocks(player)
+            rect.graphics.drawRect(
+                this.model.get('centerX') - this.model.get('size') / 2,
+                this.model.get('centerY') - this.model.get('size') / 2,
+                this.model.get('size'),
+                this.model.get('size')
+            );
+            this.stage.addChild(rect);
+
+            if (!this.model.get('isFinished')) {
+                _.each(this.model.get('blockModels'), function (model) {
+                    var blockView = new BlockView(model, this.stage);
+                    blockView.render();
+                }.bind(this));
+            }
         }
     });
 

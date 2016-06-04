@@ -4,7 +4,6 @@
             <h2>Tic tac toe</h2>
         </div>
         <div class="b-menu">
-            <a class="b-menu__link" id="game" href="#game">Game</a>
             <a class="b-menu__link" id="login" href="#login">Login</a>
             <a class="b-menu__link" id="register" href="#register">Register</a>
             <a class="b-menu__link" id="scoreboard" href="#scoreboard">Scoreboard</a>

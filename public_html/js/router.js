@@ -5,8 +5,9 @@ define(function (require) {
             registerView = require('views/register'),
             scoreboardView = require('views/scoreboard'),
             gameView = require('views/game'),
+            menuView = require('views/menu'),
             viewManager = require('views/manager'),
-            views = [mainView, loginView, registerView, scoreboardView, gameView];
+            views = [mainView, loginView, registerView, scoreboardView, gameView, menuView];
 
 
 
@@ -16,6 +17,7 @@ define(function (require) {
                 'register': 'registerAction',
                 'scoreboard': 'scoreboardAction',
                 'game': 'gameAction',
+                'menu': 'menuAction',
                 '*default': 'defaultAction'
             },
 
@@ -33,6 +35,9 @@ define(function (require) {
             },
             gameAction: function () {
                 gameView.show();
+            },
+            menuAction: function() {
+                menuView.show();
             },
             defaultAction: function () {
                 mainView.show();

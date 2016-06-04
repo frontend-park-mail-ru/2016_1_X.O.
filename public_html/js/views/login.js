@@ -5,8 +5,7 @@ define(function (require) {
             _ = require('underscore'),
             BaseView = require('views/base'),
             tmpl = require('tmpl/login'),
-            session = require('models/session'),
-            User = require('models/user');
+            user = require('models/user');
 
         var LoginView = BaseView.extend({
             template: tmpl,
@@ -31,20 +30,46 @@ define(function (require) {
             },
 
             show: function() {
-                this.$page.append(this.el);
+                this.$el.appendTo("#page");
+                this.$el.show();
+                this.trigger('show', this);
+                this.listenTo(user, 'checkOk', this.onCheckOk);
+                this.listenTo(user, 'checkFail', this.onCheckFail);
+                if(user.get('isAuth') && user.get('login') !== "") {
+                    Backbone.history.navigate('#menu', true);
+                    return;
+                } else {
+                    user.checkData();
+                }
                 _.each(this.fields, function(field) {
                     field.val('');
                 });
                 _.each(this.errorFields, function (errorField) {
                     errorField.text('');
                 });
-                this.$el.show();
-                this.trigger('show', this);
+                this.listenToOnce(user, 'authDone', this.handleAuth);
+            },
+            
+            onCheckOk: function() {
+                Backbone.history.navigate('#menu', true);
+            },
+            
+            onCheckFail: function () {
+                
+            },
+
+            handleAuth: function() {
+                Backbone.history.navigate('#menu', true);
+            },
+
+            hide: function () {
+                this.$el.hide();
+                this.stopListening(user, 'checkOk', this.onCheckOk);
+                this.stopListening(user, 'checkFail', this.onCheckFail);
             },
 
             submit: function (event) {
                 event.preventDefault();
-                var user = new User();
                 var uData = {
                     login: this.fields.login.val(),
                     password: this.fields.password.val()
@@ -64,31 +89,7 @@ define(function (require) {
                 }
                 else
                 {
-                    $.ajax({
-                        url: "/session",
-                        method: "PUT",
-                        data: {
-                            login: uData.login,
-                            password: uData.password
-                        }
-                    }).done(function(data){
-                        data = JSON.parse(data);
-                        var id = data.id;
-                        $.ajax({
-                            url: "/user",
-                            method: "GET",
-                            data: {
-                                id: id
-                            }
-                        }).done(function(data){
-                            console.log(data);
-                            alert('success');
-                            //TODO
-                            Backbone.history.navigate('', true);
-                        });
-                    }).fail(function(response) {
-                        user.handleServerError(response.responseText);
-                    });
+                    user.login(uData.login, uData.password);
                 }
             }
         });
