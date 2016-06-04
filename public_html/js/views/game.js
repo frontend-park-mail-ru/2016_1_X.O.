@@ -33,13 +33,13 @@ define(function (require) {
         chatClick: function (event) {
             var self = this;
             event.preventDefault();
-            alertify.prompt("Tic tac toe", "Chat", "Your message",
+            alertify.prompt("Tic tac toe", "Chat", "",
                 function(evt, value ){
                     var msg = {'message': value};
                     self.websocket.send(JSON.stringify(msg));
                 },
                 function(){
-                    
+
                 })
             ;
         },
@@ -184,7 +184,7 @@ define(function (require) {
         },
 
         onMessage: function (resp) {
-            alertify.alert('Chat', this.oppName + ' says: ' + resp.message);
+            alertify.alert('Chat', '<strong>' + this.oppName + ' says:</strong> ' + resp.message);
         },
 
         onBusy: function () {
