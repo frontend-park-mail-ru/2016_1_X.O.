@@ -19,10 +19,16 @@ define(function(require) {
                     break;
                 //помечен тобой
                 case 1:
+                    this.model.set({
+                        'isClickable': false
+                    });
                     rect.graphics.beginFill("#ffff00");
                     break;
                 //помечен противником
                 case -1:
+                    this.model.set({
+                        'isClickable': false
+                    });
                     rect.graphics.beginFill("#d50000");
                     break;
             }

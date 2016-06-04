@@ -39,6 +39,8 @@ define(function (require) {
                 this.$el.hide();
                 this.stopListening(user, 'checkOk', this.onCheckOk);
                 this.stopListening(user, 'checkFail', this.onCheckFail);
+                this.stopListening(user, 'scoreOk', this.onScoreOk);
+                this.stopListening(user, 'scoreFail', this.onScoreFail);
             },
             
             handleLogout: function(event) {

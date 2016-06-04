@@ -52,6 +52,7 @@ define(function (require) {
         hide: function () {
             this.$el.hide();
             this.closeSocket();
+            this.preloaderOut();
         },
 
         closeSocket: function () {
@@ -90,7 +91,8 @@ define(function (require) {
                         ('squareModels')[child].get('value') != playerId) {
                         this.mainSquareModel.get('blockModels')[parent].get
                         ('squareModels')[child].set({
-                            'value': playerId
+                            'value': playerId,
+                            'isClickable': false
                         });
                         this.check();
                         this.renderNext(parseInt(child) + 1, this.YOU);
@@ -123,7 +125,6 @@ define(function (require) {
 
         onEnd: function (resp) {
             this.closeSocket();
-            user.getScore();
             if (resp.winner == user.get('id')) {
                 this.mainSquareModel.set({
                     'value': this.YOU,
