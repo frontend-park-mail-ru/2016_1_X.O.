@@ -12,6 +12,9 @@
                 </h4>
             </div>
         </div>
+        <div class="b-menu">
+            <a class="b-menu__link" id="chat">Chat</a>
+        </div>
         <div class="b-game">
             <canvas id="gameCanvas" width="600" height="600"> </canvas>
         </div>

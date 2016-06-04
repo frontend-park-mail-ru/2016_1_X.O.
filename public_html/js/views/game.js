@@ -26,7 +26,22 @@ define(function (require) {
 
         events: {
             'click #gameCanvas': 'gameClick',
-            'click #main': 'mainClick'
+            'click #main': 'mainClick',
+            'click #chat': 'chatClick'
+        },
+
+        chatClick: function (event) {
+            var self = this;
+            event.preventDefault();
+            alertify.prompt("Tic tac toe", "Chat", "Your message",
+                function(evt, value ){
+                    var msg = {'message': value};
+                    self.websocket.send(JSON.stringify(msg));
+                },
+                function(){
+                    
+                })
+            ;
         },
 
         show: function () {
@@ -115,6 +130,7 @@ define(function (require) {
 
         onStartGame: function (resp) {
             this.preloaderOut();
+            this.oppName = resp.opponentName;
             alertify.alert('Tic tac toe', 'Your opponent: ' + resp.opponentName, function () {
             });
             this.yourColorField.text(user.get('login'));
@@ -167,6 +183,10 @@ define(function (require) {
             });
         },
 
+        onMessage: function (resp) {
+            alertify.alert('Chat', this.oppName + ' says: ' + resp.message);
+        },
+
         onBusy: function () {
             //TODO
         },
@@ -190,6 +210,7 @@ define(function (require) {
                 5: this.onEnd,
                 6: this.onDisconnect,
                 7: this.onDraw,
+                8: this.onMessage,
                 101: this.onBusy,
                 102: this.onWrong,
                 103: this.onTurn
