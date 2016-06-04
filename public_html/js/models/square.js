@@ -18,7 +18,7 @@ define(function (require) {
             },
 
             onClick: function (x, y) {
-                if(this.get('isClickable' === false)) {
+                if(this.get('isClickable') === false) {
                     return;
                 }
                 var x0 = this.get('posX'),
